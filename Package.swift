@@ -22,13 +22,18 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "cppImGui",
-            dependencies: ["glad", "GLFW"]),
+            dependencies: ["glad", "GLFW"],
+            sources: ["imgui/imgui_demo.cpp", "imgui/imgui_draw.cpp", "imgui/imgui_widgets.cpp", "imgui/imgui.cpp", "imgui/examples/imgui_impl_glfw.cpp", "imgui/examples/imgui_impl_opengl3.cpp"],
+            cxxSettings: [.headerSearchPath("imgui")]),
         .target(
             name: "cImGui",
             dependencies: ["cppImGui"]),
         .target(
+            name: "cImGuiImpl",
+            dependencies: ["cImGui", "cppImGui"]),
+        .target(
             name: "ImGui",
-            dependencies: ["cImGui"]),
+            dependencies: ["cImGui", "cImGuiImpl"]),
         .testTarget(
             name: "ImGuiTests",
             dependencies: ["ImGui"]),

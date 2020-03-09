@@ -1,0 +1,6 @@
+module cImGui {
+    header "cimgui.h"
+    exclude header "asserts.h"
+    exclude header "conversions.h"
+    link "cImGui"
+}

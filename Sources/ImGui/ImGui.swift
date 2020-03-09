@@ -1,3 +1,3 @@
-struct ImGui {
-    var text = "Hello, World!"
-}
+@_exported import cImGui
+@_exported import cImGuiImpl
+
