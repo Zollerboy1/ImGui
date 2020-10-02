@@ -133,12 +133,28 @@ inline const CImFont * toCIm(const ImFont * im) {
     return im ? reinterpret_cast<const CImFont *>(im) : NULL;
 }
 
+inline CImFont ** toCIm(ImFont ** im) {
+    return im ? reinterpret_cast<CImFont **>(im) : NULL;
+}
+
+inline CImFont * const * toCIm(ImFont * const * im) {
+    return im ? reinterpret_cast<CImFont * const *>(im) : NULL;
+}
+
 inline ImFont * toIm(CImFont * cIm) {
     return cIm ? reinterpret_cast<ImFont *>(cIm) : NULL;
 }
 
 inline const ImFont * toIm(const CImFont * cIm) {
     return cIm ? reinterpret_cast<const ImFont *>(cIm) : NULL;
+}
+
+inline ImFont ** toIm(CImFont ** cIm) {
+    return cIm ? reinterpret_cast<ImFont **>(cIm) : NULL;
+}
+
+inline ImFont * const * toIm(CImFont * const * cIm) {
+    return cIm ? reinterpret_cast<ImFont * const *>(cIm) : NULL;
 }
 
 inline CImFontAtlas * toCIm(ImFontAtlas * im) {
@@ -325,12 +341,28 @@ inline const CImGuiPlatformMonitor * toCIm(const ImGuiPlatformMonitor * im) {
     return im ? reinterpret_cast<const CImGuiPlatformMonitor *>(im) : NULL;
 }
 
+inline CImGuiPlatformMonitor ** toCIm(ImGuiPlatformMonitor ** im) {
+    return im ? reinterpret_cast<CImGuiPlatformMonitor **>(im) : NULL;
+}
+
+inline CImGuiPlatformMonitor * const * toCIm(ImGuiPlatformMonitor * const * im) {
+    return im ? reinterpret_cast<CImGuiPlatformMonitor * const *>(im) : NULL;
+}
+
 inline ImGuiPlatformMonitor * toIm(CImGuiPlatformMonitor * cIm) {
     return cIm ? reinterpret_cast<ImGuiPlatformMonitor *>(cIm) : NULL;
 }
 
 inline const ImGuiPlatformMonitor * toIm(const CImGuiPlatformMonitor * cIm) {
     return cIm ? reinterpret_cast<const ImGuiPlatformMonitor *>(cIm) : NULL;
+}
+
+inline ImGuiPlatformMonitor ** toIm(CImGuiPlatformMonitor ** cIm) {
+    return cIm ? reinterpret_cast<ImGuiPlatformMonitor **>(cIm) : NULL;
+}
+
+inline ImGuiPlatformMonitor * const * toIm(CImGuiPlatformMonitor * const * cIm) {
+    return cIm ? reinterpret_cast<ImGuiPlatformMonitor * const *>(cIm) : NULL;
 }
 
 inline CImGuiSizeCallbackData * toCIm(ImGuiSizeCallbackData * im) {
@@ -421,12 +453,28 @@ inline const CImGuiViewport * toCIm(const ImGuiViewport * im) {
     return im ? reinterpret_cast<const CImGuiViewport *>(im) : NULL;
 }
 
+inline CImGuiViewport ** toCIm(ImGuiViewport ** im) {
+    return im ? reinterpret_cast<CImGuiViewport **>(im) : NULL;
+}
+
+inline CImGuiViewport * const * toCIm(ImGuiViewport * const * im) {
+    return im ? reinterpret_cast<CImGuiViewport * const *>(im) : NULL;
+}
+
 inline ImGuiViewport * toIm(CImGuiViewport * cIm) {
     return cIm ? reinterpret_cast<ImGuiViewport *>(cIm) : NULL;
 }
 
 inline const ImGuiViewport * toIm(const CImGuiViewport * cIm) {
     return cIm ? reinterpret_cast<const ImGuiViewport *>(cIm) : NULL;
+}
+
+inline ImGuiViewport ** toIm(CImGuiViewport ** cIm) {
+    return cIm ? reinterpret_cast<ImGuiViewport **>(cIm) : NULL;
+}
+
+inline ImGuiViewport * const * toIm(CImGuiViewport * const * cIm) {
+    return cIm ? reinterpret_cast<ImGuiViewport * const *>(cIm) : NULL;
 }
 
 inline CImGuiWindowClass * toCIm(ImGuiWindowClass * im) {
@@ -488,14 +536,6 @@ inline ImVec4 toImVal(const CImVec4 * cIm) {
 }
 
 
-inline CImVec2 * toCIm(ImVec2 * im) {
-    return im ? reinterpret_cast<CImVec2 *>(im) : NULL;
-}
-
-inline const CImVec2 * toCIm(const ImVec2 * im) {
-    return im ? reinterpret_cast<const CImVec2 *>(im) : NULL;
-}
-
 inline ImVec2 * toIm(CImVec2 * cIm) {
     return cIm ? reinterpret_cast<ImVec2 *>(cIm) : NULL;
 }
@@ -504,12 +544,12 @@ inline const ImVec2 * toIm(const CImVec2 * cIm) {
     return cIm ? reinterpret_cast<const ImVec2 *>(cIm) : NULL;
 }
 
-inline CImVec4 * toCIm(ImVec4 * im) {
-    return im ? reinterpret_cast<CImVec4 *>(im) : NULL;
+inline CImVec2 * toCIm(ImVec2 * im) {
+    return im ? reinterpret_cast<CImVec2 *>(im) : NULL;
 }
 
-inline const CImVec4 * toCIm(const ImVec4 * im) {
-    return im ? reinterpret_cast<const CImVec4 *>(im) : NULL;
+inline const CImVec2 * toCIm(const ImVec2 * im) {
+    return im ? reinterpret_cast<const CImVec2 *>(im) : NULL;
 }
 
 inline ImVec4 * toIm(CImVec4 * cIm) {
@@ -518,6 +558,14 @@ inline ImVec4 * toIm(CImVec4 * cIm) {
 
 inline const ImVec4 * toIm(const CImVec4 * cIm) {
     return cIm ? reinterpret_cast<const ImVec4 *>(cIm) : NULL;
+}
+
+inline CImVec4 * toCIm(ImVec4 * im) {
+    return im ? reinterpret_cast<CImVec4 *>(im) : NULL;
+}
+
+inline const CImVec4 * toCIm(const ImVec4 * im) {
+    return im ? reinterpret_cast<const CImVec4 *>(im) : NULL;
 }
 
 
@@ -791,6 +839,14 @@ inline ImVector<ImVec4> * toIm(CImVector_CImVec4 * cIm) {
 
 inline const ImVector<ImVec4> * toIm(const CImVector_CImVec4 * cIm) {
     return cIm ? reinterpret_cast<const ImVector<ImVec4> *>(cIm) : NULL;
+}
+
+inline CImVector_CImDrawIdx * toCImIdx(ImVector<ImDrawIdx> * im) {
+    return im ? reinterpret_cast<CImVector_CImDrawIdx *>(im) : NULL;
+}
+
+inline const CImVector_CImDrawIdx * toCImIdx(const ImVector<ImDrawIdx> * im) {
+    return im ? reinterpret_cast<const CImVector_CImDrawIdx *>(im) : NULL;
 }
 
 inline ImVector<ImDrawIdx> * toIm(CImVector_CImDrawIdx * cIm) {

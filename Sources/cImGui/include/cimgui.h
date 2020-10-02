@@ -22,227 +22,8 @@
     #define CIM_FMTLIST(FMT)
 #endif
 
-typedef struct CImDrawChannel CImDrawChannel;
-typedef struct CImDrawCmd CImDrawCmd;
-typedef struct CImDrawData CImDrawData;
-typedef struct CImDrawListSplitter CImDrawListSplitter;
-typedef struct CImDrawList CImDrawList;
-typedef struct CImDrawListSharedData CImDrawListSharedData;
-typedef struct CImDrawVert CImDrawVert;
-typedef struct CImFont CImFont;
-typedef struct CImFontAtlas CImFontAtlas;
-typedef struct CImFontConfig CImFontConfig;
-typedef struct CImFontGlyph CImFontGlyph;
-typedef struct CImFontGlyphRangesBuilder CImFontGlyphRangesBuilder;
-typedef struct CImColor CImColor;
-typedef struct CImGuiIO CImGuiIO;
-typedef struct CImGuiInputTextCallbackData CImGuiInputTextCallbackData;
-typedef struct CImGuiListClipper CImGuiListClipper;
-typedef struct CImGuiOnceUponAFrame CImGuiOnceUponAFrame;
-typedef struct CImGuiPayload CImGuiPayload;
-typedef struct CImGuiPlatformIO CImGuiPlatformIO;
-typedef struct CImGuiPlatformMonitor CImGuiPlatformMonitor;
-typedef struct CImGuiSizeCallbackData CImGuiSizeCallbackData;
-typedef struct CImGuiStorage CImGuiStorage;
-typedef struct CImGuiStyle CImGuiStyle;
-typedef struct CImGuiTextBuffer CImGuiTextBuffer;
-typedef struct CImGuiTextFilter CImGuiTextFilter;
-typedef struct CImGuiViewport CImGuiViewport;
-typedef struct CImGuiWindowClass CImGuiWindowClass;
-typedef struct CImFontAtlasCustomRect CImFontAtlasCustomRect;
-
-//Opaque
-typedef struct ImGuiContext CImGuiContext;
-typedef struct ImGuiStoragePair CImGuiStoragePair;
-typedef struct ImGuiTextRange CImGuiTextRange;
-
-//For callbacks
-typedef struct ImVec2 ImVec2;
-typedef struct ImDrawCmd ImDrawCmd;
-typedef struct ImDrawData ImDrawData;
-typedef struct ImDrawList ImDrawList;
-typedef struct ImGuiInputTextCallbackData ImGuiInputTextCallbackData;
-typedef struct ImGuiSizeCallbackData ImGuiSizeCallbackData;
-typedef struct ImGuiViewport ImGuiViewport;
-
-typedef void * CImTextureID;
-typedef unsigned int CImGuiID;
-typedef unsigned short CImWchar16;
-typedef unsigned int CImWchar32;
-typedef CImWchar16 CImWchar;
-typedef int CImGuiCol;
-typedef int CImGuiCond;
-typedef int CImGuiDataType;
-typedef int CImGuiDir;
-typedef int CImGuiKey;
-typedef int CImGuiNavInput;
-typedef int CImGuiMouseButton;
-typedef int CImGuiMouseCursor;
-typedef int CImGuiStyleVar;
-typedef int CImDrawCornerFlags;
-typedef int CImDrawListFlags;
-typedef int CImFontAtlasFlags;
-typedef int CImGuiBackendFlags;
-typedef int CImGuiColorEditFlags;
-typedef int CImGuiConfigFlags;
-typedef int CImGuiComboFlags;
-typedef int CImGuiDockNodeFlags;
-typedef int CImGuiDragDropFlags;
-typedef int CImGuiFocusedFlags;
-typedef int CImGuiHoveredFlags;
-typedef int CImGuiInputTextFlags;
-typedef int CImGuiSelectableFlags;
-typedef int CImGuiTabBarFlags;
-typedef int CImGuiTabItemFlags;
-typedef int CImGuiTreeNodeFlags;
-typedef int CImGuiViewportFlags;
-typedef int CImGuiWindowFlags;
-typedef int (*CImGuiInputTextCallback)(ImGuiInputTextCallbackData * data);
-typedef void (*CImGuiSizeCallback)(ImGuiSizeCallbackData * data);
-typedef signed char CImS8;
-typedef unsigned char CImU8;
-typedef signed short CImS16;
-typedef unsigned short CImU16;
-typedef signed int CImS32;
-typedef unsigned int CImU32;
-#if defined(_MSC_VER) && !defined(__clang__)
-typedef signed __int64 CImS64;
-typedef unsigned __int64 CImU64;
-#elif (defined(__clang__) || defined(__GNUC__)) && (__cplusplus < 201100)
-typedef int64_t CImS64;
-typedef uint64_t CImU64;
-#else
-typedef signed long long CImS64;
-typedef unsigned long long CImU64;
-#endif
-typedef void (*CImDrawCallback)(const ImDrawList * parent_list, const ImDrawCmd * cmd);
-typedef unsigned short CImDrawIdx;
-
-#define CIM_UNICODE_CODEPOINT_MAX (sizeof(CImWchar) == 2 ? 0xFFFF : 0x10FFFF)
-#define CIM_UNICODE_CODEPOINT_INVALID 0xFFFD
-
-typedef struct CImVec2 {
-    float x, y;
-} CImVec2;
-
-typedef struct CImVec4 {
-    float x, y, z, w;
-} CImVec4;
-
-//template vectors
-typedef struct CImVector_float {
-    int Size;
-    int Capacity;
-    float * Data;
-} CImVector_float;
-
-typedef struct CImVector_CImWchar {
-    int Size;
-    int Capacity;
-    CImWchar * Data;
-} CImVector_CImWchar;
-
-typedef struct CImVector_CImDrawVert {
-    int Size;
-    int Capacity;
-    CImDrawVert * Data;
-} CImVector_CImDrawVert;
-
-typedef struct CImVector_CImFontGlyph {
-    int Size;
-    int Capacity;
-    CImFontGlyph * Data;
-} CImVector_CImFontGlyph;
-
-typedef struct CImVector_CImGuiTextRange {
-    int Size;
-    int Capacity;
-    CImGuiTextRange * Data;
-} CImVector_CImGuiTextRange;
-
-typedef struct CImVector_CImGuiStoragePair {
-    int Size;
-    int Capacity;
-    CImGuiStoragePair * Data;
-} CImVector_CImGuiStoragePair;
-
-typedef struct CImVector_CImDrawChannel {
-    int Size;
-    int Capacity;
-    CImDrawChannel * Data;
-} CImVector_CImDrawChannel;
-
-typedef struct CImVector_char {
-    int Size;
-    int Capacity;
-    char * Data;
-} CImVector_char;
-
-typedef struct CImVector_CImU32 {
-    int Size;
-    int Capacity;
-    CImU32 * Data;
-} CImVector_CImU32;
-
-typedef struct CImVector_CImFontAtlasCustomRect {
-    int Size;
-    int Capacity;
-    CImFontAtlasCustomRect * Data;
-} CImVector_CImFontAtlasCustomRect;
-
-typedef struct CImVector_CImTextureID {
-    int Size;
-    int Capacity;
-    CImTextureID * Data;
-} CImVector_CImTextureID;
-
-typedef struct CImVector_CImFontConfig {
-    int Size;
-    int Capacity;
-    CImFontConfig * Data;
-} CImVector_CImFontConfig;
-
-typedef struct CImVector_CImGuiPlatformMonitor {
-    int Size;
-    int Capacity;
-    CImGuiPlatformMonitor * Data;
-} CImVector_CImGuiPlatformMonitor;
-
-typedef struct CImVector_CImGuiViewportPtr {
-    int Size;
-    int Capacity;
-    CImGuiViewport ** Data;
-} CImVector_CImGuiViewportPtr;
-
-typedef struct CImVector_CImFontPtr {
-    int Size;
-    int Capacity;
-    CImFont ** Data;
-} CImVector_CImFontPtr;
-
-typedef struct CImVector_CImDrawCmd {
-    int Size;
-    int Capacity;
-    CImDrawCmd * Data;
-} CImVector_CImDrawCmd;
-
-typedef struct CImVector_CImVec4 {
-    int Size;
-    int Capacity;
-    CImVec4 * Data;
-} CImVector_CImVec4;
-
-typedef struct CImVector_CImDrawIdx {
-    int Size;
-    int Capacity;
-    CImDrawIdx * Data;
-} CImVector_CImDrawIdx;
-
-typedef struct CImVector_CImVec2 {
-    int Size;
-    int Capacity;
-    CImVec2 * Data;
-} CImVector_CImVec2;
+#include "typedefs.h"
+#include "vectors.h"
 
 
 #ifdef __cplusplus
@@ -392,12 +173,18 @@ CImGuiID igGetIDString(const char * str_id_begin, const char * str_id_end);
 CImGuiID igGetIDPointer(const void * ptr_id);
 
 void igTextUnformatted(const char * text, const char * text_end);
-void igText(const char * fmt, va_list args) CIM_FMTLIST(1);
-void igTextColored(const CImVec4 * col, const char * fmt, va_list args) CIM_FMTLIST(2);
-void igTextDisabled(const char * fmt, va_list args) CIM_FMTLIST(1);
-void igTextWrapped(const char * fmt, va_list args) CIM_FMTLIST(1);
-void igLabelText(const char * label, const char * fmt, va_list args) CIM_FMTLIST(2);
-void igBulletText(const char * fmt, va_list args) CIM_FMTLIST(1);
+void igText(const char * fmt);
+void igTextV(const char * fmt, va_list args) CIM_FMTLIST(1);
+void igTextColored(const CImVec4 * col, const char * fmt);
+void igTextColoredV(const CImVec4 * col, const char * fmt, va_list args) CIM_FMTLIST(2);
+void igTextDisabled(const char * fmt);
+void igTextDisabledV(const char * fmt, va_list args) CIM_FMTLIST(1);
+void igTextWrapped(const char * fmt);
+void igTextWrappedV(const char * fmt, va_list args) CIM_FMTLIST(1);
+void igLabelText(const char * label, const char * fmt);
+void igLabelTextV(const char * label, const char * fmt, va_list args) CIM_FMTLIST(2);
+void igBulletText(const char * fmt);
+void igBulletTextV(const char * fmt, va_list args) CIM_FMTLIST(1);
 
 bool igButton(const char * label, const CImVec2 * size);
 bool igSmallButton(const char * label);
@@ -469,11 +256,15 @@ bool igColorButton(const char * desc_id, const CImVec4 * col, CImGuiColorEditFla
 void igSetColorEditOptions(CImGuiColorEditFlags flags);
 
 bool igTreeNode(const char * label);
-bool igTreeNodeString(const char * str_id, const char * fmt, va_list args) CIM_FMTLIST(2);
-bool igTreeNodePointer(const void * ptr_id, const char * fmt, va_list args) CIM_FMTLIST(2);
+bool igTreeNodeString(const char * str_id, const char * fmt);
+bool igTreeNodeStringV(const char * str_id, const char * fmt, va_list args) CIM_FMTLIST(2);
+bool igTreeNodePointer(const void * ptr_id, const char * fmt);
+bool igTreeNodePointerV(const void * ptr_id, const char * fmt, va_list args) CIM_FMTLIST(2);
 bool igTreeNodeEx(const char * label, CImGuiTreeNodeFlags flags);
-bool igTreeNodeExString(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) CIM_FMTLIST(3);
-bool igTreeNodeExPointer(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) CIM_FMTLIST(3);
+bool igTreeNodeExString(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt);
+bool igTreeNodeExStringV(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) CIM_FMTLIST(3);
+bool igTreeNodeExPointer(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt);
+bool igTreeNodeExPointerV(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) CIM_FMTLIST(3);
 void igTreePushString(const char * str_id);
 void igTreePushPointer(const void * ptr_id);
 void igTreePop();
@@ -512,7 +303,8 @@ bool igMenuItemPointer(const char * label, const char * shortcut, bool * p_selec
 
 void igBeginTooltip();
 void igEndTooltip();
-void igSetTooltip(const char * fmt, va_list args) CIM_FMTLIST(1);
+void igSetTooltip(const char * fmt);
+void igSetTooltipV(const char * fmt, va_list args) CIM_FMTLIST(1);
 
 void igOpenPopup(const char * str_id);
 bool igBeginPopup(const char * str_id, CImGuiWindowFlags flags);
@@ -1133,7 +925,7 @@ struct CImDrawChannel {
 };
 
 CImDrawChannel * ig_CImDrawChannel_init();
-void ig_CImDrawChannel_deinit(CImDrawChannel * ptr);
+void ig_CImDrawChannel_deinit(const CImDrawChannel * ptr);
 
 
 struct CImDrawCmd {
@@ -1147,7 +939,7 @@ struct CImDrawCmd {
 };
 
 CImDrawCmd * ig_CImDrawCmd_init();
-void ig_CImDrawCmd_deinit(CImDrawCmd * ptr);
+void ig_CImDrawCmd_deinit(const CImDrawCmd * ptr);
 
 
 struct CImDrawData {
@@ -1163,7 +955,7 @@ struct CImDrawData {
 };
 
 CImDrawData * ig_CImDrawData_init();
-void ig_CImDrawData_deinit(CImDrawData * ptr);
+void ig_CImDrawData_deinit(const CImDrawData * ptr);
 void ig_CImDrawData_Clear(CImDrawData * ptr);
 void ig_CImDrawData_DeIndexAllBuffers(CImDrawData * ptr);
 void ig_CImDrawData_ScaleClipRects(CImDrawData * ptr, const CImVec2 * fb_scale);
@@ -1176,7 +968,7 @@ struct CImDrawListSplitter {
 };
 
 CImDrawListSplitter * ig_CImDrawListSplitter_init();
-void ig_CImDrawListSplitter_deinit(CImDrawListSplitter * ptr);
+void ig_CImDrawListSplitter_deinit(const CImDrawListSplitter * ptr);
 void ig_CImDrawListSplitter_Clear(CImDrawListSplitter * ptr);
 void ig_CImDrawListSplitter_ClearFreeMemory(CImDrawListSplitter * ptr);
 void ig_CImDrawListSplitter_Split(CImDrawListSplitter * ptr, CImDrawList * draw_list, int count);
@@ -1202,7 +994,7 @@ struct CImDrawList {
 };
 
 CImDrawList * ig_CImDrawList_init(const CImDrawListSharedData * shared_data);
-void ig_CImDrawList_deinit(CImDrawList * ptr);
+void ig_CImDrawList_deinit(const CImDrawList * ptr);
 void ig_CImDrawList_PushClipRectFullScreen(CImDrawList * ptr);
 void ig_CImDrawList_PopClipRect(CImDrawList * ptr);
 void ig_CImDrawList_PushTextureID(CImDrawList * ptr, CImTextureID texture_id);
@@ -1224,8 +1016,8 @@ void ig_CImDrawList_AddNgon(CImDrawList * ptr, const CImVec2 * center, float rad
 void ig_CImDrawList_AddNgonFilled(CImDrawList * ptr, const CImVec2 * center, float radius, CImU32 col, int num_segments);
 void ig_CImDrawList_AddText(CImDrawList * ptr, const CImVec2 * pos, CImU32 col, const char * text_begin, const char * text_end);
 void ig_CImDrawList_AddTextWithFont(CImDrawList * ptr, const CImFont * font, float font_size, const CImVec2 * pos, CImU32 col, const char * text_begin, const char * text_end, float wrap_width, const CImVec4 * cpu_fine_clip_rect);
-void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 ** points, int num_points, CImU32 col, bool closed, float thickness);
-void ig_CImDrawList_AddConvexPolyFilled(CImDrawList * ptr, const CImVec2 ** points, int num_points, CImU32 col);
+void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 * const * points, int num_points, CImU32 col, bool closed, float thickness);
+void ig_CImDrawList_AddConvexPolyFilled(CImDrawList * ptr, const CImVec2 * const * points, int num_points, CImU32 col);
 void ig_CImDrawList_AddBezierCurve(CImDrawList * ptr, const CImVec2 * p1, const CImVec2 * p2, const CImVec2 * p3, const CImVec2 * p4, CImU32 col, float thickness, int num_segments);
 
 void ig_CImDrawList_AddImage(CImDrawList * ptr, CImTextureID user_texture_id, const CImVec2 * p_min, const CImVec2 * p_max, const CImVec2 * uv_min, const CImVec2 * uv_max, CImU32 col);
@@ -1264,7 +1056,7 @@ struct CImDrawListSharedData {
 };
 
 CImDrawListSharedData * ig_CImDrawListSharedData_init();
-void ig_CImDrawListSharedData_deinit(CImDrawListSharedData * ptr);
+void ig_CImDrawListSharedData_deinit(const CImDrawListSharedData * ptr);
 void ig_CImDrawListSharedData_SetCircleSegmentMaxError(CImDrawListSharedData * ptr, float max_error);
 
 
@@ -1275,7 +1067,7 @@ struct CImDrawVert {
 };
 
 CImDrawVert * ig_CImDrawVert_init();
-void ig_CImDrawVert_deinit(CImDrawVert * ptr);
+void ig_CImDrawVert_deinit(const CImDrawVert * ptr);
 
 
 struct CImFont {
@@ -1299,7 +1091,7 @@ struct CImFont {
 };
 
 CImFont * ig_CImFont_init();
-void ig_CImFont_deinit(CImFont * ptr);
+void ig_CImFont_deinit(const CImFont * ptr);
 const CImFontGlyph * ig_CImFont_FindGlyph(const CImFont * ptr, CImWchar c);
 const CImFontGlyph * ig_CImFont_FindGlyphNoFallback(const CImFont * ptr, CImWchar c);
 float ig_CImFont_GetCharAdvance(const CImFont * ptr, CImWchar c);
@@ -1331,7 +1123,7 @@ struct CImFontAtlas {
 };
 
 CImFontAtlas * ig_CImFontAtlas_init();
-void ig_CImFontAtlas_deinit(CImFontAtlas * ptr);
+void ig_CImFontAtlas_deinit(const CImFontAtlas * ptr);
 CImFont * ig_CImFontAtlas_AddFont(CImFontAtlas * ptr, const CImFontConfig * font_cfg);
 CImFont * ig_CImFontAtlas_AddFontDefault(CImFontAtlas * ptr, const CImFontConfig * font_cfg);
 CImFont * ig_CImFontAtlas_AddFontFromFileTTF(CImFontAtlas * ptr, const char * filename, float size_pixels, const CImFontConfig * font_cfg, const CImWchar * glyph_ranges);
@@ -1386,7 +1178,7 @@ struct CImFontConfig {
 };
 
 CImFontConfig * ig_CImFontConfig_init();
-void ig_CImFontConfig_deinit(CImFontConfig * ptr);
+void ig_CImFontConfig_deinit(const CImFontConfig * ptr);
 
 
 struct CImFontGlyph {
@@ -1397,13 +1189,16 @@ struct CImFontGlyph {
     float U0, V0, U1, V1;
 };
 
+CImFontGlyph * ig_CImFontGlyph_init();
+void ig_CImFontGlyph_deinit(const CImFontGlyph * ptr);
+
 
 struct CImFontGlyphRangesBuilder {
     CImVector_CImU32 UsedChars;
 };
 
 CImFontGlyphRangesBuilder * ig_CImFontGlyphRangesBuilder_init();
-void ig_CImFontGlyphRangesBuilder_deinit(CImFontGlyphRangesBuilder * ptr);
+void ig_CImFontGlyphRangesBuilder_deinit(const CImFontGlyphRangesBuilder * ptr);
 void ig_CImFontGlyphRangesBuilder_Clear(CImFontGlyphRangesBuilder * ptr);
 bool ig_CImFontGlyphRangesBuilder_GetBit(const CImFontGlyphRangesBuilder * ptr, size_t n);
 void ig_CImFontGlyphRangesBuilder_SetBit(CImFontGlyphRangesBuilder * ptr, size_t n);
@@ -1423,7 +1218,9 @@ CImColor * ig_CImColor_initRGBA(CImU32 rgba);
 CImColor * ig_CImColor_initFloat(float r, float g, float b, float a);
 CImColor * ig_CImColor_initVec(const CImVec4 * col);
 CImColor * ig_CImColor_initHSV(float h, float s, float v, float a);
-void ig_CImColor_deinit(CImColor * ptr);
+void ig_CImColor_deinit(const CImColor * ptr);
+CImU32 ig_CImColor_GetCImU32(const CImColor * ptr);
+const CImVec4 * ig_CImColor_GetCImVec4(const CImColor * ptr);
 void ig_CImColor_SetHSV(CImColor * ptr, float h, float s, float v, float a);
 
 
@@ -1521,7 +1318,7 @@ struct CImGuiIO {
 };
 
 CImGuiIO * ig_CImGuiIO_init();
-void ig_CImGuiIO_deinit(CImGuiIO * ptr);
+void ig_CImGuiIO_deinit(const CImGuiIO * ptr);
 void ig_CImGuiIO_AddInputCharacter(CImGuiIO * ptr, unsigned int c);
 void ig_CImGuiIO_AddInputCharacterUTF16(CImGuiIO * ptr, CImWchar16 c);
 void ig_CImGuiIO_AddInputCharactersUTF8(CImGuiIO * ptr, const char * str);
@@ -1544,7 +1341,7 @@ struct CImGuiInputTextCallbackData {
 };
 
 CImGuiInputTextCallbackData * ig_CImGuiInputTextCallbackData_init();
-void ig_CImGuiInputTextCallbackData_deinit(CImGuiInputTextCallbackData * ptr);
+void ig_CImGuiInputTextCallbackData_deinit(const CImGuiInputTextCallbackData * ptr);
 void ig_CImGuiInputTextCallbackData_DeleteChars(CImGuiInputTextCallbackData * ptr, int pos, int bytes_count);
 void ig_CImGuiInputTextCallbackData_InsertChars(CImGuiInputTextCallbackData * ptr, int pos, const char * text, const char * text_end);
 bool ig_CImGuiInputTextCallbackData_HasSelection(const CImGuiInputTextCallbackData * ptr);
@@ -1561,7 +1358,7 @@ struct CImGuiListClipper {
 };
 
 CImGuiListClipper * ig_CImGuiListClipper_init(int items_count, float items_height);
-void ig_CImGuiListClipper_deinit(CImGuiListClipper * ptr);
+void ig_CImGuiListClipper_deinit(const CImGuiListClipper * ptr);
 bool ig_CImGuiListClipper_Step(CImGuiListClipper * ptr);
 void ig_CImGuiListClipper_Begin(CImGuiListClipper * ptr, int items_count, float items_height);
 void ig_CImGuiListClipper_End(CImGuiListClipper * ptr);
@@ -1572,7 +1369,7 @@ struct CImGuiOnceUponAFrame {
 };
 
 CImGuiOnceUponAFrame * ig_CImGuiOnceUponAFrame_init();
-void ig_CImGuiOnceUponAFrame_deinit(CImGuiOnceUponAFrame * ptr);
+void ig_CImGuiOnceUponAFrame_deinit(const CImGuiOnceUponAFrame * ptr);
 bool ig_CImGuiOnceUponAFrame_bool(const CImGuiOnceUponAFrame * ptr);
 
 
@@ -1590,7 +1387,7 @@ struct CImGuiPayload {
 };
 
 CImGuiPayload * ig_CImGuiPayload_init();
-void ig_CImGuiPayload_deinit(CImGuiPayload * ptr);
+void ig_CImGuiPayload_deinit(const CImGuiPayload * ptr);
 void ig_CImGuiPayload_Clear(CImGuiPayload * ptr);
 bool ig_CImGuiPayload_IsDataType(const CImGuiPayload * ptr, const char* type);
 bool ig_CImGuiPayload_IsPreview(const CImGuiPayload * ptr);
@@ -1629,7 +1426,7 @@ struct CImGuiPlatformIO {
 };
 
 CImGuiPlatformIO * ig_CImGuiPlatformIO_init();
-void ig_CImGuiPlatformIO_deinit(CImGuiPlatformIO * ptr);
+void ig_CImGuiPlatformIO_deinit(const CImGuiPlatformIO * ptr);
 
 
 struct CImGuiPlatformMonitor {
@@ -1639,7 +1436,7 @@ struct CImGuiPlatformMonitor {
 };
 
 CImGuiPlatformMonitor * ig_CImGuiPlatformMonitor_init();
-void ig_CImGuiPlatformMonitor_deinit(CImGuiPlatformMonitor * ptr);
+void ig_CImGuiPlatformMonitor_deinit(const CImGuiPlatformMonitor * ptr);
 
 
 struct CImGuiSizeCallbackData {
@@ -1650,7 +1447,7 @@ struct CImGuiSizeCallbackData {
 };
 
 CImGuiSizeCallbackData * ig_CImGuiSizeCallbackData_init();
-void ig_CImGuiSizeCallbackData_deinit(CImGuiSizeCallbackData * ptr);
+void ig_CImGuiSizeCallbackData_deinit(const CImGuiSizeCallbackData * ptr);
 
 
 struct CImGuiStorage {
@@ -1658,7 +1455,7 @@ struct CImGuiStorage {
 };
 
 CImGuiStorage * ig_CImGuiStorage_init();
-void ig_CImGuiStorage_deinit(CImGuiStorage * ptr);
+void ig_CImGuiStorage_deinit(const CImGuiStorage * ptr);
 void ig_CImGuiStorage_Clear(CImGuiStorage * ptr);
 int ig_CImGuiStorage_GetInt(const CImGuiStorage * ptr, CImGuiID key, int default_val);
 void ig_CImGuiStorage_SetInt(CImGuiStorage * ptr, CImGuiID key, int val);
@@ -1719,7 +1516,7 @@ struct CImGuiStyle {
 };
 
 CImGuiStyle * ig_CImGuiStyle_init();
-void ig_CImGuiStyle_deinit(CImGuiStyle * ptr);
+void ig_CImGuiStyle_deinit(const CImGuiStyle * ptr);
 void ig_CImGuiStyle_ScaleAllSizes(CImGuiStyle * ptr, float scale_factor);
 
 
@@ -1729,7 +1526,7 @@ struct CImGuiTextBuffer {
 
 char * ig_CImGuiTextBuffer_EmptyString();
 CImGuiTextBuffer * ig_CImGuiTextBuffer_init();
-void ig_CImGuiTextBuffer_deinit(CImGuiTextBuffer * ptr);
+void ig_CImGuiTextBuffer_deinit(const CImGuiTextBuffer * ptr);
 char ig_CImGuiTextBuffer_subscript(const CImGuiTextBuffer * ptr, int i);
 const char * ig_CImGuiTextBuffer_Begin(const CImGuiTextBuffer * ptr);
 const char * ig_CImGuiTextBuffer_End(const CImGuiTextBuffer * ptr);
@@ -1739,7 +1536,8 @@ void ig_CImGuiTextBuffer_Clear(CImGuiTextBuffer * ptr);
 void ig_CImGuiTextBuffer_Reserve(CImGuiTextBuffer * ptr, int capacity);
 const char * ig_CImGuiTextBuffer_CStr(const CImGuiTextBuffer * ptr);
 void ig_CImGuiTextBuffer_Append(CImGuiTextBuffer * ptr, const char * str, const char * str_end);
-void ig_CImGuiTextBuffer_AppendF(CImGuiTextBuffer * ptr, const char * fmt, va_list args) CIM_FMTLIST(2);
+void ig_CImGuiTextBuffer_AppendF(CImGuiTextBuffer * ptr, const char * fmt);
+void ig_CImGuiTextBuffer_AppendFV(CImGuiTextBuffer * ptr, const char * fmt, va_list args) CIM_FMTLIST(2);
 
 
 struct CImGuiTextFilter {
@@ -1749,7 +1547,7 @@ struct CImGuiTextFilter {
 };
 
 CImGuiTextFilter * ig_CImGuiTextFilter_init(const char * default_filter);
-void ig_CImGuiTextFilter_deinit(CImGuiTextFilter * ptr);
+void ig_CImGuiTextFilter_deinit(const CImGuiTextFilter * ptr);
 bool ig_CImGuiTextFilter_Draw(CImGuiTextFilter * ptr, const char * label, float width);
 bool ig_CImGuiTextFilter_PassFilter(const CImGuiTextFilter * ptr, const char * text, const char * text_end);
 void ig_CImGuiTextFilter_Build(CImGuiTextFilter * ptr);
@@ -1777,7 +1575,7 @@ struct CImGuiViewport {
 };
 
 CImGuiViewport * ig_CImGuiViewport_init();
-void ig_CImGuiViewport_deinit(CImGuiViewport * ptr);
+void ig_CImGuiViewport_deinit(const CImGuiViewport * ptr);
 CImVec2 * ig_CImGuiViewport_GetWorkPos(CImGuiViewport * ptr);
 CImVec2 * ig_CImGuiViewport_GetWorkSize(CImGuiViewport * ptr);
 
@@ -1794,7 +1592,7 @@ struct CImGuiWindowClass {
 };
 
 CImGuiWindowClass * ig_CImGuiWindowClass_init();
-void ig_CImGuiWindowClass_deinit(CImGuiWindowClass * ptr);
+void ig_CImGuiWindowClass_deinit(const CImGuiWindowClass * ptr);
 
 
 struct CImFontAtlasCustomRect {
@@ -1807,7 +1605,7 @@ struct CImFontAtlasCustomRect {
 };
 
 CImFontAtlasCustomRect * ig_CImFontAtlasCustomRect_init();
-void ig_CImFontAtlasCustomRect_deinit(CImFontAtlasCustomRect * ptr);
+void ig_CImFontAtlasCustomRect_deinit(const CImFontAtlasCustomRect * ptr);
 bool ig_CImFontAtlasCustomRect_IsPacked(const CImFontAtlasCustomRect * ptr);
 
 #ifdef __cplusplus

@@ -8,6 +8,8 @@
 #ifndef asserts_h
 #define asserts_h
 
+#include "typedefs.h"
+#include "vectors.h"
 #include "cimgui.h"
 
 #include <cppimgui.hpp>

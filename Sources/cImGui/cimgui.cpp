@@ -539,27 +539,51 @@ void igTextUnformatted(const char * text, const char * text_end) {
     ImGui::TextUnformatted(text, text_end);
 }
 
-void igText(const char * fmt, va_list args) {
+void igText(const char * fmt) {
+    ImGui::Text("%s", fmt);
+}
+
+void igTextV(const char * fmt, va_list args) {
     ImGui::TextV(fmt, args);
 }
 
-void igTextColored(const CImVec4 * col, const char * fmt, va_list args) {
+void igTextColored(const CImVec4 * col, const char * fmt) {
+    ImGui::TextColored(toImVal(col), "%s", fmt);
+}
+
+void igTextColoredV(const CImVec4 * col, const char * fmt, va_list args) {
     ImGui::TextColoredV(toImVal(col), fmt, args);
 }
 
-void igTextDisabled(const char* fmt, va_list args) {
+void igTextDisabled(const char* fmt) {
+    ImGui::TextDisabled("%s", fmt);
+}
+
+void igTextDisabledV(const char* fmt, va_list args) {
     ImGui::TextDisabledV(fmt, args);
 }
 
-void igTextWrapped(const char * fmt, va_list args) {
+void igTextWrapped(const char * fmt) {
+    ImGui::TextWrapped("%s", fmt);
+}
+
+void igTextWrappedV(const char * fmt, va_list args) {
     ImGui::TextWrappedV(fmt, args);
 }
 
-void igLabelText(const char * label, const char * fmt, va_list args) {
+void igLabelText(const char * label, const char * fmt) {
+    ImGui::LabelText(label, "%s", fmt);
+}
+
+void igLabelTextV(const char * label, const char * fmt, va_list args) {
     ImGui::LabelTextV(label, fmt, args);
 }
 
-void igBulletText(const char * fmt, va_list args) {
+void igBulletText(const char * fmt) {
+    ImGui::BulletText("%s", fmt);
+}
+
+void igBulletTextV(const char * fmt, va_list args) {
     ImGui::BulletTextV(fmt, args);
 }
 
@@ -825,11 +849,19 @@ bool igTreeNode(const char * label) {
     return ImGui::TreeNode(label);
 }
 
-bool igTreeNodeString(const char * str_id, const char * fmt, va_list args) {
+bool igTreeNodeString(const char * str_id, const char * fmt) {
+    return ImGui::TreeNode(str_id, "%s", fmt);
+}
+
+bool igTreeNodeStringV(const char * str_id, const char * fmt, va_list args) {
     return ImGui::TreeNodeV(str_id, fmt, args);
 }
 
-bool igTreeNodePointer(const void * ptr_id, const char * fmt, va_list args) {
+bool igTreeNodePointer(const void * ptr_id, const char * fmt) {
+    return ImGui::TreeNode(ptr_id, "%s", fmt);
+}
+
+bool igTreeNodePointerV(const void * ptr_id, const char * fmt, va_list args) {
     return ImGui::TreeNodeV(ptr_id, fmt, args);
 }
 
@@ -837,11 +869,19 @@ bool igTreeNodeEx(const char * label, CImGuiTreeNodeFlags flags) {
     return ImGui::TreeNodeEx(label, flags);
 }
 
-bool igTreeNodeExString(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) {
+bool igTreeNodeExString(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt) {
+    return ImGui::TreeNodeEx(str_id, flags, "%s", fmt);
+}
+
+bool igTreeNodeExStringV(const char * str_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) {
     return ImGui::TreeNodeExV(str_id, flags, fmt, args);
 }
 
-bool igTreeNodeExPointer(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) {
+bool igTreeNodeExPointer(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt) {
+    return ImGui::TreeNodeEx(ptr_id, flags, "%s", fmt);
+}
+
+bool igTreeNodeExPointerV(const void * ptr_id, CImGuiTreeNodeFlags flags, const char * fmt, va_list args) {
     return ImGui::TreeNodeExV(ptr_id, flags, fmt, args);
 }
 
@@ -979,7 +1019,11 @@ void igEndTooltip() {
     ImGui::EndTooltip();
 }
 
-void igSetTooltip(const char * fmt, va_list args) {
+void igSetTooltip(const char * fmt) {
+    ImGui::SetTooltip("%s", fmt);
+}
+
+void igSetTooltipV(const char * fmt, va_list args) {
     ImGui::SetTooltipV(fmt, args);
 }
 
@@ -2277,7 +2321,11 @@ void ig_CImGuiTextBuffer_Append(CImGuiTextBuffer * ptr, const char * str, const 
     toIm(ptr)->append(str, str_end);
 }
 
-void ig_CImGuiTextBuffer_AppendF(CImGuiTextBuffer * ptr, const char * fmt, va_list args) {
+void ig_CImGuiTextBuffer_AppendF(CImGuiTextBuffer * ptr, const char * fmt) {
+    toIm(ptr)->appendf("%s", fmt);
+}
+
+void ig_CImGuiTextBuffer_AppendFV(CImGuiTextBuffer * ptr, const char * fmt, va_list args) {
     toIm(ptr)->appendfv(fmt, args);
 }
 
