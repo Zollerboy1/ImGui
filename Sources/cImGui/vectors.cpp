@@ -1864,11 +1864,11 @@ int ig_CImVector_CImVec4_Capacity(const CImVector_CImVec4 * ptr) {
 }
 
 const CImVec4 * ig_CImVector_CImVec4_subscriptConst(const CImVector_CImVec4 * ptr, int i) {
-    return toCImPtr((*toIm(ptr))[i]);
+    return toCIm(&(*toIm(ptr))[i]);
 }
 
 CImVec4 * ig_CImVector_CImVec4_subscript(CImVector_CImVec4 * ptr, int i) {
-    return toCImPtr((*toIm(ptr))[i]);
+    return toCIm(&(*toIm(ptr))[i]);
 }
 
 

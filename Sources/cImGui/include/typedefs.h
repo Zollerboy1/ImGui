@@ -52,18 +52,18 @@ typedef struct ImGuiTextRange CImGuiTextRange;
 
 //For callbacks
 typedef struct ImVec2 ImVec2;
-typedef struct ImDrawCmd ImDrawCmd;
 typedef struct ImDrawData ImDrawData;
-typedef struct ImDrawList ImDrawList;
-typedef struct ImGuiInputTextCallbackData ImGuiInputTextCallbackData;
-typedef struct ImGuiSizeCallbackData ImGuiSizeCallbackData;
 typedef struct ImGuiViewport ImGuiViewport;
 
 typedef void * CImTextureID;
 typedef unsigned int CImGuiID;
 typedef unsigned short CImWchar16;
 typedef unsigned int CImWchar32;
+#ifdef CIMGUI_USE_WCHAR32
+typedef CImWchar32 CImWchar;
+#else
 typedef CImWchar16 CImWchar;
+#endif
 typedef int CImGuiCol;
 typedef int CImGuiCond;
 typedef int CImGuiDataType;
@@ -77,6 +77,7 @@ typedef int CImDrawCornerFlags;
 typedef int CImDrawListFlags;
 typedef int CImFontAtlasFlags;
 typedef int CImGuiBackendFlags;
+typedef int CImGuiButtonFlags;
 typedef int CImGuiColorEditFlags;
 typedef int CImGuiConfigFlags;
 typedef int CImGuiComboFlags;
@@ -85,14 +86,16 @@ typedef int CImGuiDragDropFlags;
 typedef int CImGuiFocusedFlags;
 typedef int CImGuiHoveredFlags;
 typedef int CImGuiInputTextFlags;
+typedef int CImGuiPopupFlags;
 typedef int CImGuiSelectableFlags;
+typedef int CImGuiSliderFlags;
 typedef int CImGuiTabBarFlags;
 typedef int CImGuiTabItemFlags;
 typedef int CImGuiTreeNodeFlags;
 typedef int CImGuiViewportFlags;
 typedef int CImGuiWindowFlags;
-typedef int (*CImGuiInputTextCallback)(ImGuiInputTextCallbackData * data);
-typedef void (*CImGuiSizeCallback)(ImGuiSizeCallbackData * data);
+typedef int (*CImGuiInputTextCallback)(CImGuiInputTextCallbackData * data);
+typedef void (*CImGuiSizeCallback)(CImGuiSizeCallbackData * data);
 typedef signed char CImS8;
 typedef unsigned char CImU8;
 typedef signed short CImS16;
@@ -109,11 +112,17 @@ typedef uint64_t CImU64;
 typedef signed long long CImS64;
 typedef unsigned long long CImU64;
 #endif
-typedef void (*CImDrawCallback)(const ImDrawList * parent_list, const ImDrawCmd * cmd);
+typedef void (*CImDrawCallback)(const CImDrawList * parent_list, const CImDrawCmd * cmd);
 typedef unsigned short CImDrawIdx;
 
-#define CIM_UNICODE_CODEPOINT_MAX (sizeof(CImWchar) == 2 ? 0xFFFF : 0x10FFFF)
 #define CIM_UNICODE_CODEPOINT_INVALID 0xFFFD
+#ifdef CIMGUI_USE_WCHAR32
+#define CIM_UNICODE_CODEPOINT_MAX     0x10FFFF
+#else
+#define CIM_UNICODE_CODEPOINT_MAX     0xFFFF
+#endif
+
+#define CIM_DRAWLIST_TEX_LINES_WIDTH_MAX (63)
 
 typedef struct CImVec2 CImVec2;
 typedef struct CImVec4 CImVec4;

@@ -30,7 +30,8 @@ let package = Package(
             dependencies: ["cppImGui"]),
         .target(
             name: "cImGuiImpl",
-            dependencies: ["cImGui", "cppImGui"]),
+            dependencies: ["cImGui", "cppImGui"],
+            cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
         .target(
             name: "ImGui",
             dependencies: ["cImGui", "cImGuiImpl"]),

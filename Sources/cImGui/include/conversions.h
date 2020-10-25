@@ -511,28 +511,20 @@ inline const ImFontAtlasCustomRect * toIm(const CImFontAtlasCustomRect * cIm) {
 
 
 
-inline CImVec2 * toCImPtr(const ImVec2 & im) {
-    CImVec2 * cIm = new CImVec2;
-    cIm->x = im.x;
-    cIm->y = im.y;
-    return cIm;
+inline CImVec2 toCIm(const ImVec2 & im) {
+    return {im.x, im.y};
 }
 
-inline ImVec2 toImVal(const CImVec2 * cIm) {
-    return {cIm->x, cIm->y};
+inline ImVec2 toIm(const CImVec2 & cIm) {
+    return {cIm.x, cIm.y};
 }
 
-inline CImVec4 * toCImPtr(const ImVec4 & im) {
-    CImVec4 * cIm = new CImVec4;
-    cIm->x = im.x;
-    cIm->y = im.y;
-    cIm->z = im.z;
-    cIm->w = im.w;
-    return cIm;
+inline CImVec4 toCIm(const ImVec4 & im) {
+    return {im.x, im.y, im.z, im.w};
 }
 
-inline ImVec4 toImVal(const CImVec4 * cIm) {
-    return {cIm->x, cIm->y, cIm->z, cIm->w};
+inline ImVec4 toIm(const CImVec4 & cIm) {
+    return {cIm.x, cIm.y, cIm.z, cIm.w};
 }
 
 

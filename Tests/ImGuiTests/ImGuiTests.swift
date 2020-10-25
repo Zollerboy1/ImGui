@@ -6,9 +6,9 @@ final class ImGuiTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let version = igGetVersion()!
+        let version = ImGui.getVersion()
         
-        XCTAssertEqual(String(cString: version), "1.76 WIP")
+        XCTAssertEqual(version, "1.79")
     }
 
     static var allTests = [
