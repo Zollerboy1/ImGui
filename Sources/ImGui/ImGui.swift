@@ -1,4 +1,4 @@
-import cImGui
+@_exported import cImGui
 @_exported import cImGuiImpl
 
 public enum ImGui {
@@ -142,8 +142,8 @@ public enum ImGui {
     ///    returned true. Begin and BeginChild are the only odd ones out. Will be fixed in a future update.]
     /// - Note that the bottom of window stack always contains a window called "Debug".
     @discardableResult
-    public static func begin(withName name: String, isOpen: inout Bool, withFlags flags: CImGuiWindowFlags = 0) -> Bool {
-        igBegin(name, &isOpen, flags)
+    public static func begin(withName name: String, isOpen: inout Bool, withFlags flags: ImGuiWindowFlags = []) -> Bool {
+        igBegin(name, &isOpen, flags.rawValue)
     }
 
     /// - push window to the stack and start appending to it.
@@ -156,8 +156,8 @@ public enum ImGui {
     ///    returned true. Begin and BeginChild are the only odd ones out. Will be fixed in a future update.]
     /// - Note that the bottom of window stack always contains a window called "Debug".
     @discardableResult
-    public static func begin(withName name: String, flags: CImGuiWindowFlags = 0) -> Bool {
-        igBegin(name, nil, flags)
+    public static func begin(withName name: String, flags: ImGuiWindowFlags = []) -> Bool {
+        igBegin(name, nil, flags.rawValue)
     }
 
     /// - pop window from the stack.
@@ -178,16 +178,16 @@ public enum ImGui {
     /// - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
     ///   Always call a matching EndChild() for each BeginChild() call, regardless of its value [as with Begin: this is due to legacy reason and inconsistent with most BeginXXX functions apart from the regular Begin() which behaves like BeginChild().]
     @discardableResult
-    public static func beginChild(withID id: String, size: CImVec2 = CImVec2(x: 0, y: 0), hasBorder: Bool = false, withFlags flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginChild(id, size, hasBorder, flags)
+    public static func beginChild(withID id: String, size: CImVec2 = CImVec2(x: 0, y: 0), hasBorder: Bool = false, withFlags flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginChild(id, size, hasBorder, flags.rawValue)
     }
 
     /// - Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
     /// - For each independent axis of 'size': ==0: use remaining host window size / >0: fixed size / <0: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. ImVec2(0,400).
     /// - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
     ///   Always call a matching EndChild() for each BeginChild() call, regardless of its value [as with Begin: this is due to legacy reason and inconsistent with most BeginXXX functions apart from the regular Begin() which behaves like BeginChild().]
-    public static func beginChild(withID id: CImGuiID, size: CImVec2 = CImVec2(x: 0, y: 0), hasBorder: Bool = false, withFlags flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginChildWithID(id, size, hasBorder, flags)
+    public static func beginChild(withID id: CImGuiID, size: CImVec2 = CImVec2(x: 0, y: 0), hasBorder: Bool = false, withFlags flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginChildWithID(id, size, hasBorder, flags.rawValue)
     }
 
     /// - Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
@@ -210,13 +210,13 @@ public enum ImGui {
     }
 
     /// is current window focused? or its root/child, depending on flags. see flags for options.
-    public static func isWindowFocused(withFlags flags: CImGuiFocusedFlags = 0) -> Bool {
-        igIsWindowFocused(flags)
+    public static func isWindowFocused(withFlags flags: ImGuiFocusedFlags = []) -> Bool {
+        igIsWindowFocused(flags.rawValue)
     }
 
     /// is current window hovered (and typically: not blocked by a popup/modal)? see flags for options. NB: If you are trying to check whether your mouse should be dispatched to imgui or to your app, you should use the 'io.WantCaptureMouse' boolean for that! Please read the FAQ!
-    public static func isWindowHovered(withFlags flags: CImGuiHoveredFlags = 0) -> Bool {
-        igIsWindowHovered(flags)
+    public static func isWindowHovered(withFlags flags: ImGuiHoveredFlags = []) -> Bool {
+        igIsWindowHovered(flags.rawValue)
     }
 
     /// get draw list associated to the current window, to append your own drawing primitives
@@ -257,31 +257,21 @@ public enum ImGui {
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
     /// set next window position. call before Begin(). use pivot=(0.5f,0.5f) to center on given point, etc.
-    public static func setNextWindowPosition(to position: CImVec2, withCondition condition: CImGuiCond = 0, pivot: CImVec2 = CImVec2(x: 0, y: 0)) {
-        igSetNextWindowPos(position, condition, pivot)
+    public static func setNextWindowPosition(to position: CImVec2, withCondition condition: ImGuiCondition = .none, pivot: CImVec2 = CImVec2(x: 0, y: 0)) {
+        igSetNextWindowPos(position, condition.rawValue, pivot)
     }
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
     /// set next window size. set axis to 0 to force an auto-fit on this axis. call before Begin()
-    public static func setNextWindowSize(to size: CImVec2, withCondition condition: CImGuiCond = 0) {
-        igSetNextWindowSize(size, condition)
+    public static func setNextWindowSize(to size: CImVec2, withCondition condition: ImGuiCondition = .none) {
+        igSetNextWindowSize(size, condition.rawValue)
     }
 
     private class SizeCallbackHolder {
-        let callback: (ImGuiSizeCallbackData) -> ()
+        let callback: (inout ImGuiSizeCallbackData) -> ()
 
-        init(callback:  @escaping (ImGuiSizeCallbackData) -> ()) {
+        init(callback:  @escaping (inout ImGuiSizeCallbackData) -> ()) {
             self.callback = callback
-        }
-    }
-
-    private class CustomSizeCallbackHolder {
-        let callback: (ImGuiCustomSizeCallbackData) -> ()
-        let userData: Any
-
-        init(callback:  @escaping (ImGuiCustomSizeCallbackData) -> (), userData: Any) {
-            self.callback = callback
-            self.userData = userData
         }
     }
 
@@ -291,40 +281,20 @@ public enum ImGui {
         igSetNextWindowSizeConstraints(min, max, nil, nil)
     }
 
-    /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
-    /// set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Sizes will be rounded down. Use callback to apply non-trivial programmatic constraints.
-    public static func setNextWindowSizeConstraints(min: CImVec2, max: CImVec2, withCustomCallback callback: (ImGuiSizeCallbackData) -> ()) {
-        withoutActuallyEscaping(callback) {
-            let callbackHolder = SizeCallbackHolder(callback: $0)
-
-            let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
-
-            igSetNextWindowSizeConstraints(min, max, { (dataPointer: UnsafeMutablePointer<CImGuiSizeCallbackData>!) in
-                let callbackHolder = Unmanaged<SizeCallbackHolder>.fromOpaque(dataPointer[\.UserData].pointee).takeRetainedValue()
-
-                let data = ImGuiSizeCallbackData(position: dataPointer[\.Pos].pointee, currentSize: dataPointer[\.CurrentSize].pointee, _desiredSize: dataPointer[\.DesiredSize])
-
-                callbackHolder.callback(data)
-            }, callbackHolderPointer)
-        }
-    }
+    private static var sizeCallbackHolder: SizeCallbackHolder?
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
     /// set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Sizes will be rounded down. Use callback to apply non-trivial programmatic constraints.
-    public static func setNextWindowSizeConstraints(min: CImVec2, max: CImVec2, withCustomCallback callback: (ImGuiCustomSizeCallbackData) -> (), callbackUserData: Any) {
-        withoutActuallyEscaping(callback) {
-            let callbackHolder = CustomSizeCallbackHolder(callback: $0, userData: callbackUserData)
+    public static func setNextWindowSizeConstraints(min: CImVec2, max: CImVec2, withCustomCallback callback: @escaping (inout ImGuiSizeCallbackData) -> ()) {
+        Self.sizeCallbackHolder = SizeCallbackHolder(callback: callback)
 
-            let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
+        igSetNextWindowSizeConstraints(min, max, { (dataPointer: UnsafeMutablePointer<CImGuiSizeCallbackData>!) in
+            let callbackHolder = Self.sizeCallbackHolder!
 
-            igSetNextWindowSizeConstraints(min, max, { (dataPointer: UnsafeMutablePointer<CImGuiSizeCallbackData>!) in
-                let callbackHolder = Unmanaged<CustomSizeCallbackHolder>.fromOpaque(dataPointer[\.UserData].pointee).takeRetainedValue()
+            var data = ImGuiSizeCallbackData(position: dataPointer[\.Pos].pointee, currentSize: dataPointer[\.CurrentSize].pointee, _desiredSize: dataPointer[\.DesiredSize])
 
-                let data = ImGuiCustomSizeCallbackData(userData: callbackHolder.userData, position: dataPointer[\.Pos].pointee, currentSize: dataPointer[\.CurrentSize].pointee, _desiredSize: dataPointer[\.DesiredSize])
-
-                callbackHolder.callback(data)
-            }, callbackHolderPointer)
-        }
+            callbackHolder.callback(&data)
+        }, nil)
     }
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
@@ -335,8 +305,8 @@ public enum ImGui {
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
     /// set next window collapsed state. call before Begin()
-    public static func setNextWindowCollapsed(_ isCollapsed: Bool, withCondition condition: CImGuiCond = 0) {
-        igSetNextWindowCollapsed(isCollapsed, condition)
+    public static func setNextWindowCollapsed(_ isCollapsed: Bool, withCondition condition: ImGuiCondition = .none) {
+        igSetNextWindowCollapsed(isCollapsed, condition.rawValue)
     }
 
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
@@ -358,18 +328,18 @@ public enum ImGui {
     }
 
     /// (not recommended) set current window position - call within Begin()/End(). prefer using SetNextWindowPos(), as this may incur tearing and side-effects.
-    public static func setWindowPosition(to position: CImVec2, withCondition condition: CImGuiCond = 0) {
-        igSetWindowPos(position, condition)
+    public static func setWindowPosition(to position: CImVec2, withCondition condition: ImGuiCondition = .none) {
+        igSetWindowPos(position, condition.rawValue)
     }
 
     /// (not recommended) set current window size - call within Begin()/End(). set to ImVec2(0, 0) to force an auto-fit. prefer using SetNextWindowSize(), as this may incur tearing and minor side-effects.
-    public static func setWindowSize(to size: CImVec2, withCondition condition: CImGuiCond = 0) {
-        igSetWindowSize(size, condition)
+    public static func setWindowSize(to size: CImVec2, withCondition condition: ImGuiCondition = .none) {
+        igSetWindowSize(size, condition.rawValue)
     }
 
     /// (not recommended) set current window collapsed state. prefer using SetNextWindowCollapsed().
-    public static func setWindowCollapsed(_ isCollapsed: Bool, withCondition condition: CImGuiCond = 0) {
-        igSetWindowCollapsed(isCollapsed, condition)
+    public static func setWindowCollapsed(_ isCollapsed: Bool, withCondition condition: ImGuiCondition = .none) {
+        igSetWindowCollapsed(isCollapsed, condition.rawValue)
     }
 
     /// (not recommended) set current window to be focused / top-most. prefer using SetNextWindowFocus().
@@ -383,18 +353,18 @@ public enum ImGui {
     }
 
     /// set named window position.
-    public static func setWindowPosition(name: String, to position: CImVec2, withCondition condition: CImGuiCond = 0) {
-        igSetNamedWindowPos(name, position, condition)
+    public static func setWindowPosition(name: String, to position: CImVec2, withCondition condition: ImGuiCondition = .none) {
+        igSetNamedWindowPos(name, position, condition.rawValue)
     }
 
     /// set named window size. set axis to 0 to force an auto-fit on this axis.
-    public static func setWindowSize(name: String, to size: CImVec2, withCondition condition: CImGuiCond = 0) {
-        igSetNamedWindowSize(name, size, condition)
+    public static func setWindowSize(name: String, to size: CImVec2, withCondition condition: ImGuiCondition = .none) {
+        igSetNamedWindowSize(name, size, condition.rawValue)
     }
 
     /// set named window collapsed state
-    public static func setWindowCollapsed(name: String, isCollapsed: Bool, withCondition condition: CImGuiCond = 0) {
-        igSetNamedWindowCollapsed(name, isCollapsed, condition)
+    public static func setWindowCollapsed(name: String, isCollapsed: Bool, withCondition condition: ImGuiCondition = .none) {
+        igSetNamedWindowCollapsed(name, isCollapsed, condition.rawValue)
     }
 
     /// set named window to be focused / top-most. use NULL to remove focus.
@@ -491,24 +461,24 @@ public enum ImGui {
         igPopFont()
     }
 
-    public static func pushStyleColor(withIndex index: CImGuiCol, color: CImU32) {
-        igPushStyleColor(index, color)
+    public static func pushStyleColor(withIndex index: ImGuiColor, color: CImU32) {
+        igPushStyleColor(index.rawValue, color)
     }
 
-    public static func pushStyleColor(withIndex index: CImGuiCol, color: CImVec4) {
-        igPushStyleColorVec4(index, color)
+    public static func pushStyleColor(withIndex index: ImGuiColor, color: CImVec4) {
+        igPushStyleColorVec4(index.rawValue, color)
     }
 
     public static func popStyleColor(count: Int = 1) {
         igPopStyleColor(Int32(count))
     }
 
-    public static func pushStyleVar(withIndex index: CImGuiStyleVar, value: Float) {
-        igPushStyleVar(index, value)
+    public static func pushStyleVar(withIndex index: ImGuiStyleVar, value: Float) {
+        igPushStyleVar(index.rawValue, value)
     }
 
-    public static func pushStyleVar(withIndex index: CImGuiStyleVar, value: CImVec2) {
-        igPushStyleVarVec2(index, value)
+    public static func pushStyleVar(withIndex index: ImGuiStyleVar, value: CImVec2) {
+        igPushStyleVarVec2(index.rawValue, value)
     }
 
     public static func popStyleVar(count: Int = 1) {
@@ -516,8 +486,8 @@ public enum ImGui {
     }
 
     /// retrieve style color as stored in ImGuiStyle structure. use to feed back into PushStyleColor(), otherwise use GetColorU32() to get style color with style alpha baked in.
-    public static func getStyleColorVec4(withIndex index: CImGuiCol) -> CImVec4 {
-        igGetStyleColorVec4(index)
+    public static func getStyleColorVec4(withIndex index: ImGuiColor) -> CImVec4 {
+        igGetStyleColorVec4(index.rawValue)
     }
 
     /// get current font
@@ -536,8 +506,8 @@ public enum ImGui {
     }
 
     /// retrieve given style color with style alpha applied and optional extra alpha multiplier
-    public static func getColorU32(withIndex index: CImGuiCol, alphaMul: Float = 1) -> CImU32 {
-        igGetColorWithIndexU32(index, alphaMul)
+    public static func getColorU32(withIndex index: ImGuiColor, alphaMul: Float = 1) -> CImU32 {
+        igGetColorWithIndexU32(index.rawValue, alphaMul)
     }
 
     /// retrieve given color with style alpha applied
@@ -825,21 +795,21 @@ public enum ImGui {
     }
 
     /// flexible button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
-    public static func invisibleButton(withID stringID: String, size: CImVec2, flags: CImGuiButtonFlags = 0) -> Bool {
-        igInvisibleButton(stringID, size, flags)
+    public static func invisibleButton(withID stringID: String, size: CImVec2, flags: ImGuiButtonFlags = []) -> Bool {
+        igInvisibleButton(stringID, size, flags.rawValue)
     }
 
     /// square button with an arrow shape
-    public static func arrowButton(withID stringID: String, direction: CImGuiDir) -> Bool {
-        igArrowButton(stringID, direction)
+    public static func arrowButton(withID stringID: String, direction: ImGuiDirection) -> Bool {
+        igArrowButton(stringID, direction.rawValue)
     }
 
-    public static func image(withTextureID textureID: CImTextureID, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0), uv1: CImVec2 = CImVec2(x: 1, y: 1), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1), borderColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0)) {
+    public static func image(withTextureID textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0), uv1: CImVec2 = CImVec2(x: 1, y: 1), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1), borderColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0)) {
         igImage(textureID, size, uv0, uv1, tintColor, borderColor)
     }
 
     /// <0 frame_padding uses default frame padding settings. 0 for no padding
-    public static func imageButton(withTextureID textureID: CImTextureID, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0),  uv1: CImVec2 = CImVec2(x: 1, y: 1), framePadding: Int = -1, backgroundColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1)) -> Bool {
+    public static func imageButton(withTextureID textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0),  uv1: CImVec2 = CImVec2(x: 1, y: 1), framePadding: Int = -1, backgroundColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1)) -> Bool {
         igImageButton(textureID, size, uv0, uv1, Int32(framePadding), backgroundColor, tintColor)
     }
 
@@ -878,8 +848,9 @@ public enum ImGui {
     // Widgets: Combo Box
     // - The BeginCombo()/EndCombo() api allows you to manage your contents and selection state however you want it, by creating e.g. Selectable() items.
     // - The old Combo() api are helpers over BeginCombo()/EndCombo() which are kept available for convenience purpose.
-    public static func beginCombo(withLabel label: String, previewValue: String, flags: CImGuiComboFlags = 0) -> Bool {
-        igBeginCombo(label, previewValue, flags)
+    @discardableResult
+    public static func beginCombo(withLabel label: String, previewValue: String, flags: ImGuiComboFlags = []) -> Bool {
+        igBeginCombo(label, previewValue, flags.rawValue)
     }
 
     /// only call EndCombo() if BeginCombo() returns true!
@@ -888,6 +859,7 @@ public enum ImGui {
     }
 
     /// maxPopupHeight in items
+    @discardableResult
     public static func combo(withLabel label: String, currentItem: inout Int32, items: [String], maxPopupHeight: Int = -1) -> Bool {
         withArrayOfCStrings(items) { pointers in
             igCombo(label, &currentItem, pointers, Int32(pointers.count), Int32(maxPopupHeight))
@@ -896,6 +868,7 @@ public enum ImGui {
 
     /// Separate items with \0 within a string, end item-list with \0\0. e.g. "One\0Two\0Three\0"
     /// maxPopupHeight in items
+    @discardableResult
     public static func combo(withLabel label: String, currentItem: inout Int32, items: String, maxPopupHeight: Int = -1) -> Bool {
         igComboZeroSeparated(label, &currentItem, items, Int32(maxPopupHeight))
     }
@@ -913,130 +886,102 @@ public enum ImGui {
     // - Legacy: Pre-1.78 there are DragXXX() function signatures that takes a final `float power=1' argument instead of the `ImGuiSliderFlags flags=0' argument.
     //   If you get a warning converting a float to ImGuiSliderFlags, read https://github.com/ocornut/imgui/issues/3361
     /// If v_min >= v_max we have no bound
-    public static func dragFloat(withLabel label: String, value: inout Float, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        igDragFloat(label, &value, speed, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func dragFloat(withLabel label: String, value: inout Float, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool {
+        igDragFloat(label, &value, speed, minValue, maxValue, format, flags.rawValue)
     }
 
-    public static func dragFloat2(withLabel label: String, values: inout [Float], speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 2)
+    @discardableResult
+    public static func dragFloat2<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 2)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragFloat2(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            return igDragFloat2(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragFloat2(withLabel label: String, values: inout (Float, Float), speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igDragFloat2(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func dragFloat3<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 3)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igDragFloat3(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragFloat3(withLabel label: String, values: inout [Float], speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 3)
+    @discardableResult
+    public static func dragFloat4<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 4)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragFloat3(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igDragFloat4(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragFloat3(withLabel label: String, values: inout (Float, Float, Float), speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igDragFloat3(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func dragFloat4(withLabel label: String, values: inout [Float], speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 4)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragFloat4(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func dragFloat4(withLabel label: String, values: inout (Float, Float, Float, Float), speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igDragFloat4(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func dragFloatRange2(withLabel label: String, currentMinValue: inout Float, currentMaxValue: inout Float, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", formatMax: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        igDragFloatRange2(label, &currentMinValue, &currentMaxValue, speed, minValue, maxValue, format, formatMax, flags)
+    @discardableResult
+    public static func dragFloatRange2(withLabel label: String, currentMinValue: inout Float, currentMaxValue: inout Float, speed: Float = 1, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", formatMax: String? = nil, flags: ImGuiSliderFlags = []) -> Bool {
+        igDragFloatRange2(label, &currentMinValue, &currentMaxValue, speed, minValue, maxValue, format, formatMax, flags.rawValue)
     }
 
     /// If v_min >= v_max we have no bound
-    public static func dragInt(withLabel label: String, value: inout Int32, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        igDragInt(label, &value, speed, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func dragInt(withLabel label: String, value: inout Int32, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool {
+        igDragInt(label, &value, speed, minValue, maxValue, format, flags.rawValue)
     }
 
-    public static func dragInt2(withLabel label: String, values: inout [Int32], speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 2)
+    @discardableResult
+    public static func dragInt2<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 2)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragInt2(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igDragInt2(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragInt2(withLabel label: String, values: inout (Int32, Int32), speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igDragInt2(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func dragInt3<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 3)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igDragInt3(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragInt3(withLabel label: String, values: inout [Int32], speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 3)
+    @discardableResult
+    public static func dragInt4<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 4)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragInt3(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igDragInt4(label, pointer, speed, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func dragInt3(withLabel label: String, values: inout (Int32, Int32, Int32), speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igDragInt3(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func dragIntRange2(withLabel label: String, currentMinValue: inout Int32, currentMaxValue: inout Int32, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", formatMax: String? = nil, flags: ImGuiSliderFlags = []) -> Bool {
+        igDragIntRange2(label, &currentMinValue, &currentMaxValue, speed, minValue, maxValue, format, formatMax, flags.rawValue)
+    }
+
+    @discardableResult
+    public static func dragScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, speed: Float, minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: ImGuiSliderFlags = []) -> Bool {
+        withUnsafeBytes(of: minValue) { minBuffer in
+            withUnsafeBytes(of: maxValue) { maxBuffer in
+                igDragScalar(label, T.dataType, &value, speed, UnsafeMutableRawPointer(mutating: minBuffer.baseAddress), UnsafeMutableRawPointer(mutating: maxBuffer.baseAddress), format, flags.rawValue)
+            }
         }
     }
 
-    public static func dragInt4(withLabel label: String, values: inout [Int32], speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 4)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragInt4(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func dragInt4(withLabel label: String, values: inout (Int32, Int32, Int32, Int32), speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igDragInt4(label, buffer.baseAddress, speed, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func dragIntRange2(withLabel label: String, currentMinValue: inout Int32, currentMaxValue: inout Int32, speed: Float = 1, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", formatMax: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        igDragIntRange2(label, &currentMinValue, &currentMaxValue, speed, minValue, maxValue, format, formatMax, flags)
-    }
-
-    public static func dragScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, speed: Float, minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        var minValue = minValue
-        var maxValue = maxValue
-
-        return igDragScalar(label, T.dataType, &value, speed, &minValue, &maxValue, format, flags)
-    }
-
-    public static func dragScalarN<T: ImGuiDataType>(withLabel label: String, values: inout [T], speed: Float, minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        let count = values.count
+    @discardableResult
+    public static func dragScalarN<T: MutablePointerProvider>(withLabel label: String, values: inout T, speed: Float, minValue: T.Value? = nil, maxValue: T.Value? = nil, format: String? = nil, flags: ImGuiSliderFlags = []) -> Bool where T.Value: ImGuiDataType {
+        let count = values.valueCount
 
         precondition(count > 0)
 
-        var minValue = minValue
-        var maxValue = maxValue
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igDragScalarN(label, T.dataType, buffer.baseAddress, Int32(count), speed, &minValue, &maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            withUnsafeBytes(of: minValue) { minBuffer in
+                withUnsafeBytes(of: maxValue) { maxBuffer in
+                    igDragScalarN(label, T.Value.dataType, pointer, Int32(count), speed, UnsafeMutableRawPointer(mutating: minBuffer.baseAddress), UnsafeMutableRawPointer(mutating: maxBuffer.baseAddress), format, flags.rawValue)
+                }
+            }
         }
     }
 
@@ -1048,141 +993,116 @@ public enum ImGui {
     // - Legacy: Pre-1.78 there are SliderXXX() function signatures that takes a final `float power=1' argument instead of the `ImGuiSliderFlags flags=0' argument.
     //   If you get a warning converting a float to ImGuiSliderFlags, read https://github.com/ocornut/imgui/issues/3361
     /// adjust format to decorate the value with a prefix or a suffix for in-slider labels or unit display.
-    public static func sliderFloat(withLabel label: String, value: inout Float, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        igSliderFloat(label, &value, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func sliderFloat(withLabel label: String, value: inout Float, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool {
+        igSliderFloat(label, &value, minValue, maxValue, format, flags.rawValue)
     }
 
-    public static func sliderFloat2(withLabel label: String, values: inout [Float], minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 2)
+    @discardableResult
+    public static func sliderFloat2<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 2)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderFloat2(label, buffer.baseAddress, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderFloat2(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderFloat2(withLabel label: String, values: inout (Float, Float), minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igSliderFloat2(label, buffer.baseAddress, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func sliderFloat3<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 3)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderFloat3(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderFloat3(withLabel label: String, values: inout [Float], minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 3)
+    @discardableResult
+    public static func sliderFloat4<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 4)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderFloat3(label, buffer.baseAddress, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderFloat4(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderFloat3(withLabel label: String, values: inout (Float, Float, Float), minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igSliderFloat3(label, buffer.baseAddress, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func sliderAngle(withLabel label: String, valueInRadians value: inout Float, minValueInDegrees minValue: Float = -360, maxValueInDegrees maxValue: Float = 360, format: String = "%.0f deg", flags: ImGuiSliderFlags = []) -> Bool {
+        igSliderAngle(label, &value, minValue, maxValue, format, flags.rawValue)
+    }
+
+    @discardableResult
+    public static func sliderInt(withLabel label: String, value: inout Int32, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool {
+        igSliderInt(label, &value, minValue, maxValue, format, flags.rawValue)
+    }
+
+    @discardableResult
+    public static func sliderInt2<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 2)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderInt2(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderFloat4(withLabel label: String, values: inout [Float], minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 4)
+    @discardableResult
+    public static func sliderInt3<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 3)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderFloat4(label, buffer.baseAddress, minValue, maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderInt3(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderFloat4(withLabel label: String, values: inout (Float, Float, Float, Float), minValue: Float = 0, maxValue: Float = 0, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igSliderFloat4(label, buffer.baseAddress, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func sliderInt4<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 4)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igSliderInt4(label, pointer, minValue, maxValue, format, flags.rawValue)
         }
     }
 
-    public static func sliderAngle(withLabel label: String, valueInRadians value: inout Float, minValueInDegrees minValue: Float = -360, maxValueInDegrees maxValue: Float = 360, format: String = "%.0f deg", flags: CImGuiSliderFlags = 0) -> Bool {
-        igSliderAngle(label, &value, minValue, maxValue, format, flags)
-    }
-
-    public static func sliderInt(withLabel label: String, value: inout Int32, minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        igSliderInt(label, &value, minValue, maxValue, format, flags)
-    }
-
-    public static func sliderInt2(withLabel label: String, values: inout [Int32], minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 2)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderInt2(label, buffer.baseAddress, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func sliderScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: ImGuiSliderFlags = []) -> Bool {
+        withUnsafeBytes(of: minValue) { minBuffer in
+            withUnsafeBytes(of: maxValue) { maxBuffer in
+                igSliderScalar(label, T.dataType, &value, UnsafeMutableRawPointer(mutating: minBuffer.baseAddress), UnsafeMutableRawPointer(mutating: maxBuffer.baseAddress), format, flags.rawValue)
+            }
         }
     }
 
-    public static func sliderInt2(withLabel label: String, values: inout (Int32, Int32), minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igSliderInt2(label, buffer.baseAddress, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func sliderInt3(withLabel label: String, values: inout [Int32], minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 3)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderInt3(label, buffer.baseAddress, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func sliderInt3(withLabel label: String, values: inout (Int32, Int32, Int32), minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igSliderInt3(label, buffer.baseAddress, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func sliderInt4(withLabel label: String, values: inout [Int32], minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        precondition(values.count >= 4)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderInt4(label, buffer.baseAddress, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func sliderInt4(withLabel label: String, values: inout (Int32, Int32, Int32, Int32), minValue: Int32 = 0, maxValue: Int32 = 0, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igSliderInt4(label, buffer.baseAddress, minValue, maxValue, format, flags)
-        }
-    }
-
-    public static func sliderScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        var minValue = minValue
-        var maxValue = maxValue
-
-        return igSliderScalar(label, T.dataType, &value, &minValue, &maxValue, format, flags)
-    }
-
-    public static func sliderScalarN<T: ImGuiDataType>(withLabel label: String, values: inout [T], minValue: T? = nil, maxValue: T? = nil, format: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        let count = values.count
+    @discardableResult
+    public static func sliderScalarN<T: MutablePointerProvider>(withLabel label: String, values: inout T, minValue: T.Value? = nil, maxValue: T.Value? = nil, format: String? = nil, flags: ImGuiSliderFlags = []) -> Bool where T.Value: ImGuiDataType {
+        let count = values.valueCount
 
         precondition(count > 0)
 
-        var minValue = minValue
-        var maxValue = maxValue
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igSliderScalarN(label, T.dataType, buffer.baseAddress, Int32(count), &minValue, &maxValue, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            withUnsafeBytes(of: minValue) { minBuffer in
+                withUnsafeBytes(of: maxValue) { maxBuffer in
+                    igSliderScalarN(label, T.Value.dataType, pointer, Int32(count), UnsafeMutableRawPointer(mutating: minBuffer.baseAddress), UnsafeMutableRawPointer(mutating: maxBuffer.baseAddress), format, flags.rawValue)
+                }
+            }
         }
     }
 
-    public static func vSliderFloat(withLabel label: String, size: CImVec2, value: inout Float, minValue: Float, maxValue: Float, format: String = "%.3f", flags: CImGuiSliderFlags = 0) -> Bool {
-        igVSliderFloat(label, size, &value, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func vSliderFloat(withLabel label: String, size: CImVec2, value: inout Float, minValue: Float, maxValue: Float, format: String = "%.3f", flags: ImGuiSliderFlags = []) -> Bool {
+        igVSliderFloat(label, size, &value, minValue, maxValue, format, flags.rawValue)
     }
 
-    public static func vSliderInt(withLabel label: String, size: CImVec2, value: inout Int32, minValue: Int32, maxValue: Int32, format: String = "%d", flags: CImGuiSliderFlags = 0) -> Bool {
-        igVSliderInt(label, size, &value, minValue, maxValue, format, flags)
+    @discardableResult
+    public static func vSliderInt(withLabel label: String, size: CImVec2, value: inout Int32, minValue: Int32, maxValue: Int32, format: String = "%d", flags: ImGuiSliderFlags = []) -> Bool {
+        igVSliderInt(label, size, &value, minValue, maxValue, format, flags.rawValue)
     }
 
-    public static func vSliderScalar<T: ImGuiDataType>(withLabel label: String, size: CImVec2, value: inout T, minValue: T, maxValue: T, format: String? = nil, flags: CImGuiSliderFlags = 0) -> Bool {
-        var minValue = minValue
-        var maxValue = maxValue
-
-        return igVSliderScalar(label, size, T.dataType, &value, &minValue, &maxValue, format, flags)
+    @discardableResult
+    public static func vSliderScalar<T: ImGuiDataType>(withLabel label: String, size: CImVec2, value: inout T, minValue: T, maxValue: T, format: String? = nil, flags: ImGuiSliderFlags = []) -> Bool {
+        withUnsafeBytes(of: minValue) { minBuffer in
+            withUnsafeBytes(of: maxValue) { maxBuffer in
+                igVSliderScalar(label, size, T.dataType, &value, UnsafeMutableRawPointer(mutating: minBuffer.baseAddress), UnsafeMutableRawPointer(mutating: maxBuffer.baseAddress), format, flags.rawValue)
+            }
+        }
     }
 }
 
@@ -1198,38 +1118,29 @@ private class InputTextBufferHolder {
 }
 
 private class InputTextCallbackHolder {
-    let callback: (ImGuiInputTextCallbackData) -> Int
+    let callback: (inout ImGuiInputTextCallbackData) -> Int
     let bufferPointer: UnsafeMutablePointer<UnsafeMutableBufferPointer<Int8>>
     let originalBuffer: UnsafeMutableBufferPointer<Int8>
 
-    init(callback: @escaping (ImGuiInputTextCallbackData) -> Int, bufferPointer: UnsafeMutablePointer<UnsafeMutableBufferPointer<Int8>>, originalBuffer: UnsafeMutableBufferPointer<Int8>) {
+    init(callback: @escaping (inout ImGuiInputTextCallbackData) -> Int, bufferPointer: UnsafeMutablePointer<UnsafeMutableBufferPointer<Int8>>, originalBuffer: UnsafeMutableBufferPointer<Int8>) {
         self.callback = callback
         self.bufferPointer = bufferPointer
         self.originalBuffer = originalBuffer
-    }
-}
-
-private class CustomInputTextCallbackHolder {
-    let callback: (ImGuiCustomInputTextCallbackData) -> Int
-    let bufferPointer: UnsafeMutablePointer<UnsafeMutableBufferPointer<Int8>>
-    let originalBuffer: UnsafeMutableBufferPointer<Int8>
-    let userData: Any
-
-    init(callback: @escaping (ImGuiCustomInputTextCallbackData) -> Int, bufferPointer: UnsafeMutablePointer<UnsafeMutableBufferPointer<Int8>>, originalBuffer: UnsafeMutableBufferPointer<Int8>, userData: Any) {
-        self.callback = callback
-        self.bufferPointer = bufferPointer
-        self.originalBuffer = originalBuffer
-        self.userData = userData
     }
 }
 
 
 private func inputTextCallback(dataPointer: UnsafeMutablePointer<CImGuiInputTextCallbackData>!) -> Int32 {
-    let data = ImGuiInputTextCallbackData(eventFlag: dataPointer[\.EventFlag].pointee,
-                                          flags: dataPointer[\.Flags].pointee,
+    let raw = UnsafeMutableRawPointer(dataPointer)!
+    let bufferOffset = MemoryLayout<CImGuiInputTextCallbackData>.offset(of: \CImGuiInputTextCallbackData.Buf)!
+
+    let buffer = raw.advanced(by: bufferOffset).assumingMemoryBound(to: UnsafeMutablePointer<Int8>.self)
+
+    let data = ImGuiInputTextCallbackData(eventFlag: ImGuiInputTextFlags(rawValue: dataPointer[\.EventFlag].pointee),
+                                          flags: ImGuiInputTextFlags(rawValue: dataPointer[\.Flags].pointee),
                                           _eventChar: dataPointer[\.EventChar],
                                           eventKey: dataPointer[\.EventKey].pointee,
-                                          _buf: dataPointer[\.Buf],
+                                          _buf: buffer,
                                           _bufTextLength: dataPointer[\CImGuiInputTextCallbackData.BufTextLen],
                                           _bufSize: dataPointer[\.BufSize].pointee,
                                           _bufDirty: dataPointer[\.BufDirty],
@@ -1237,8 +1148,8 @@ private func inputTextCallback(dataPointer: UnsafeMutablePointer<CImGuiInputText
                                           _selectionStart: dataPointer[\.SelectionStart],
                                           _selectionEnd: dataPointer[\.SelectionEnd])
 
-    if data.eventFlag == CImGuiInputTextFlags_CallbackResize.rawValue {
-        let bufferHolder = Unmanaged<InputTextBufferHolder>.fromOpaque(dataPointer[\.UserData].pointee).takeRetainedValue()
+    if data.eventFlag == .callbackResize {
+        let bufferHolder = Unmanaged<InputTextBufferHolder>.fromOpaque(dataPointer.pointee.UserData).takeUnretainedValue()
 
         let oldBuffer = bufferHolder.bufferPointer.pointee
 
@@ -1267,13 +1178,18 @@ private func inputTextCallback(dataPointer: UnsafeMutablePointer<CImGuiInputText
 }
 
 private func intermediateInputTextCallback(dataPointer: UnsafeMutablePointer<CImGuiInputTextCallbackData>!) -> Int32 {
-    let callbackHolder = Unmanaged<InputTextCallbackHolder>.fromOpaque(dataPointer[\.UserData].pointee).takeRetainedValue()
+    let callbackHolder = Unmanaged<InputTextCallbackHolder>.fromOpaque(dataPointer.pointee.UserData).takeUnretainedValue()
 
-    let data = ImGuiInputTextCallbackData(eventFlag: dataPointer[\.EventFlag].pointee,
-                                          flags: dataPointer[\.Flags].pointee,
+    let raw = UnsafeMutableRawPointer(dataPointer)!
+    let bufferOffset = MemoryLayout<CImGuiInputTextCallbackData>.offset(of: \CImGuiInputTextCallbackData.Buf)!
+
+    let buffer = raw.advanced(by: bufferOffset).assumingMemoryBound(to: UnsafeMutablePointer<Int8>.self)
+
+    var data = ImGuiInputTextCallbackData(eventFlag: ImGuiInputTextFlags(rawValue: dataPointer[\.EventFlag].pointee),
+                                          flags: ImGuiInputTextFlags(rawValue: dataPointer[\.Flags].pointee),
                                           _eventChar: dataPointer[\.EventChar],
                                           eventKey: dataPointer[\.EventKey].pointee,
-                                          _buf: dataPointer[\.Buf],
+                                          _buf: buffer,
                                           _bufTextLength: dataPointer[\CImGuiInputTextCallbackData.BufTextLen],
                                           _bufSize: dataPointer[\.BufSize].pointee,
                                           _bufDirty: dataPointer[\.BufDirty],
@@ -1281,7 +1197,7 @@ private func intermediateInputTextCallback(dataPointer: UnsafeMutablePointer<CIm
                                           _selectionStart: dataPointer[\.SelectionStart],
                                           _selectionEnd: dataPointer[\.SelectionEnd])
 
-    if data.eventFlag == CImGuiInputTextFlags_CallbackResize.rawValue {
+    if data.eventFlag == .callbackResize {
         let oldBuffer = callbackHolder.bufferPointer.pointee
 
         assert(data._buf.pointee == oldBuffer.baseAddress)
@@ -1306,52 +1222,7 @@ private func intermediateInputTextCallback(dataPointer: UnsafeMutablePointer<CIm
 
         return 0
     } else {
-        return Int32(callbackHolder.callback(data))
-    }
-}
-
-private func intermediateCustomInputTextCallback(dataPointer: UnsafeMutablePointer<CImGuiInputTextCallbackData>!) -> Int32 {
-    let callbackHolder = Unmanaged<CustomInputTextCallbackHolder>.fromOpaque(dataPointer[\.UserData].pointee).takeRetainedValue()
-
-    let data = ImGuiCustomInputTextCallbackData(eventFlag: dataPointer[\.EventFlag].pointee,
-                                                flags: dataPointer[\.Flags].pointee,
-                                                userData: callbackHolder.userData,
-                                                _eventChar: dataPointer[\.EventChar],
-                                                eventKey: dataPointer[\.EventKey].pointee,
-                                                _buf: dataPointer[\.Buf],
-                                                _bufTextLength: dataPointer[\CImGuiInputTextCallbackData.BufTextLen],
-                                                _bufSize: dataPointer[\.BufSize].pointee,
-                                                _bufDirty: dataPointer[\.BufDirty],
-                                                _cursorPos: dataPointer[\.CursorPos],
-                                                _selectionStart: dataPointer[\.SelectionStart],
-                                                _selectionEnd: dataPointer[\.SelectionEnd])
-
-    if data.eventFlag == CImGuiInputTextFlags_CallbackResize.rawValue {
-        let oldBuffer = callbackHolder.bufferPointer.pointee
-
-        assert(data._buf.pointee == oldBuffer.baseAddress)
-
-        let oldCount = oldBuffer.count
-        let newCount = Int(data._bufTextLength.pointee) + 1
-
-        if oldCount < newCount {
-            let newBuffer = UnsafeMutablePointer<Int8>.allocate(capacity: newCount)
-            newBuffer.initialize(from: oldBuffer.baseAddress!, count: oldCount)
-            newBuffer.advanced(by: oldCount).initialize(repeating: 0, count: newCount - oldCount)
-
-            if oldBuffer.baseAddress != callbackHolder.originalBuffer.baseAddress {
-                oldBuffer.baseAddress!.deinitialize(count: oldCount)
-                oldBuffer.deallocate()
-            }
-
-            callbackHolder.bufferPointer.pointee = .init(start: newBuffer, count: newCount)
-
-            data._buf.pointee = callbackHolder.bufferPointer.pointee.baseAddress!
-        }
-
-        return 0
-    } else {
-        return Int32(callbackHolder.callback(data))
+        return Int32(callbackHolder.callback(&data))
     }
 }
 
@@ -1359,104 +1230,11 @@ extension ImGui {
     // Widgets: Input with Keyboard
     // - If you want to use InputText() with std::string or any custom dynamic string type, see misc/cpp/imgui_stdlib.h and comments in imgui_demo.cpp.
     // - Most of the ImGuiInputTextFlags flags are only useful for InputText() and not for InputFloatX, InputIntX, InputDouble etc.
-    public static func inputText(withLabel label: String, string: inout String, flags: CImGuiInputTextFlags = 0) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
+    @discardableResult
+    public static func inputText(withLabel label: String, string: inout String, flags: ImGuiInputTextFlags = []) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
-
-        var cString = string.utf8CString
-        let capacity = cString.capacity
-
-        return cString.withUnsafeMutableBufferPointer { buffer in
-            var copiedBuffer = buffer
-
-            let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                let bufferHolder = InputTextBufferHolder(bufferPointer: bufferPointer, originalBuffer: buffer)
-
-                let bufferHolderPointer = Unmanaged.passRetained(bufferHolder).toOpaque()
-
-                return igInputText(label, buffer.baseAddress, capacity, flags, inputTextCallback, bufferHolderPointer)
-            }
-
-            string = String(cString: copiedBuffer.baseAddress!)
-
-            if copiedBuffer.baseAddress != buffer.baseAddress {
-                copiedBuffer.baseAddress!.deinitialize(count: copiedBuffer.count)
-                copiedBuffer.deallocate()
-            }
-
-            return result
-        }
-    }
-
-    public static func inputText(withLabel label: String, string: inout String, flags: CImGuiInputTextFlags = 0, callback: (ImGuiInputTextCallbackData) -> Int) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
-
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
-
-        var cString = string.utf8CString
-        let capacity = cString.capacity
-
-        return cString.withUnsafeMutableBufferPointer { buffer in
-            var copiedBuffer = buffer
-
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = InputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer)
-
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
-
-                    return igInputText(label, buffer.baseAddress, capacity, flags, intermediateInputTextCallback, callbackHolderPointer)
-                }
-            }
-
-            string = String(cString: copiedBuffer.baseAddress!)
-
-            if copiedBuffer.baseAddress != buffer.baseAddress {
-                copiedBuffer.baseAddress!.deinitialize(count: copiedBuffer.count)
-                copiedBuffer.deallocate()
-            }
-
-            return result
-        }
-    }
-
-    public static func inputText(withLabel label: String, string: inout String, flags: CImGuiInputTextFlags = 0, callback: (ImGuiCustomInputTextCallbackData) -> Int, userData: Any) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
-
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
-
-        var cString = string.utf8CString
-        let capacity = cString.capacity
-
-        return cString.withUnsafeMutableBufferPointer { buffer in
-            var copiedBuffer = buffer
-
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = CustomInputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer, userData: userData)
-
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
-
-                    return igInputText(label, buffer.baseAddress, capacity, flags, intermediateCustomInputTextCallback, callbackHolderPointer)
-                }
-            }
-
-            string = String(cString: copiedBuffer.baseAddress!)
-
-            if copiedBuffer.baseAddress != buffer.baseAddress {
-                copiedBuffer.baseAddress!.deinitialize(count: copiedBuffer.count)
-                copiedBuffer.deallocate()
-            }
-
-            return result
-        }
-    }
-
-    public static func inputTextMultiline(withLabel label: String, string: inout String, size: CImVec2 = CImVec2(x: 0, y: 0), flags: CImGuiInputTextFlags = 0) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
-
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
+        let flags = flags.union(.callbackResize)
 
         var cString = string.utf8CString
         let capacity = cString.capacity
@@ -1467,9 +1245,9 @@ extension ImGui {
             let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
                 let bufferHolder = InputTextBufferHolder(bufferPointer: bufferPointer, originalBuffer: buffer)
 
-                let bufferHolderPointer = Unmanaged.passRetained(bufferHolder).toOpaque()
+                let bufferHolderPointer = Unmanaged.passUnretained(bufferHolder).toOpaque()
 
-                return igInputTextMultiline(label, buffer.baseAddress, capacity, size, flags, inputTextCallback, bufferHolderPointer)
+                return igInputText(label, buffer.baseAddress, capacity, flags.rawValue, inputTextCallback, bufferHolderPointer)
             }
 
             string = String(cString: copiedBuffer.baseAddress!)
@@ -1483,10 +1261,11 @@ extension ImGui {
         }
     }
 
-    public static func inputTextMultiline(withLabel label: String, string: inout String, size: CImVec2 = CImVec2(x: 0, y: 0), flags: CImGuiInputTextFlags = 0, callback: (ImGuiInputTextCallbackData) -> Int) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
+    @discardableResult
+    public static func inputText(withLabel label: String, string: inout String, flags: ImGuiInputTextFlags = [], callback: @escaping (inout ImGuiInputTextCallbackData) -> Int) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
+        let flags = flags.union(.callbackResize)
 
         var cString = string.utf8CString
         let capacity = cString.capacity
@@ -1494,14 +1273,12 @@ extension ImGui {
         return cString.withUnsafeMutableBufferPointer { buffer in
             var copiedBuffer = buffer
 
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = InputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer)
+            let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
+                let callbackHolder = InputTextCallbackHolder(callback: callback, bufferPointer: bufferPointer, originalBuffer: buffer)
 
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
+                let callbackHolderPointer = Unmanaged.passUnretained(callbackHolder).toOpaque()
 
-                    return igInputTextMultiline(label, buffer.baseAddress, capacity, size, flags, intermediateInputTextCallback, callbackHolderPointer)
-                }
+                return igInputText(label, buffer.baseAddress, capacity, flags.rawValue, intermediateInputTextCallback, callbackHolderPointer)
             }
 
             string = String(cString: copiedBuffer.baseAddress!)
@@ -1515,42 +1292,11 @@ extension ImGui {
         }
     }
 
-    public static func inputTextMultiline(withLabel label: String, string: inout String, size: CImVec2 = CImVec2(x: 0, y: 0), flags: CImGuiInputTextFlags = 0, callback: (ImGuiCustomInputTextCallbackData) -> Int, userData: Any) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
+    @discardableResult
+    public static func inputTextMultiline(withLabel label: String, string: inout String, size: CImVec2 = CImVec2(x: 0, y: 0), flags: ImGuiInputTextFlags = []) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
-
-        var cString = string.utf8CString
-        let capacity = cString.capacity
-
-        return cString.withUnsafeMutableBufferPointer { buffer in
-            var copiedBuffer = buffer
-
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = CustomInputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer, userData: userData)
-
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
-
-                    return igInputTextMultiline(label, buffer.baseAddress, capacity, size, flags, intermediateCustomInputTextCallback, callbackHolderPointer)
-                }
-            }
-
-            string = String(cString: copiedBuffer.baseAddress!)
-
-            if copiedBuffer.baseAddress != buffer.baseAddress {
-                copiedBuffer.baseAddress!.deinitialize(count: copiedBuffer.count)
-                copiedBuffer.deallocate()
-            }
-
-            return result
-        }
-    }
-
-    public static func inputTextWithHint(withLabel label: String, hint: String, string: inout String, flags: CImGuiInputTextFlags = 0) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
-
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
+        let flags = flags.union(.callbackResize)
 
         var cString = string.utf8CString
         let capacity = cString.capacity
@@ -1561,9 +1307,9 @@ extension ImGui {
             let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
                 let bufferHolder = InputTextBufferHolder(bufferPointer: bufferPointer, originalBuffer: buffer)
 
-                let bufferHolderPointer = Unmanaged.passRetained(bufferHolder).toOpaque()
+                let bufferHolderPointer = Unmanaged.passUnretained(bufferHolder).toOpaque()
 
-                return igInputTextWithHint(label, hint, buffer.baseAddress, capacity, flags, inputTextCallback, bufferHolderPointer)
+                return igInputTextMultiline(label, buffer.baseAddress, capacity, size, flags.rawValue, inputTextCallback, bufferHolderPointer)
             }
 
             string = String(cString: copiedBuffer.baseAddress!)
@@ -1577,10 +1323,11 @@ extension ImGui {
         }
     }
 
-    public static func inputTextWithHint(withLabel label: String, hint: String, string: inout String, flags: CImGuiInputTextFlags = 0, callback: (ImGuiInputTextCallbackData) -> Int) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
+    @discardableResult
+    public static func inputTextMultiline(withLabel label: String, string: inout String, size: CImVec2 = CImVec2(x: 0, y: 0), flags: ImGuiInputTextFlags = [], callback: @escaping (inout ImGuiInputTextCallbackData) -> Int) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
+        let flags = flags.union(.callbackResize)
 
         var cString = string.utf8CString
         let capacity = cString.capacity
@@ -1588,14 +1335,12 @@ extension ImGui {
         return cString.withUnsafeMutableBufferPointer { buffer in
             var copiedBuffer = buffer
 
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = InputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer)
+            let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
+                let callbackHolder = InputTextCallbackHolder(callback: callback, bufferPointer: bufferPointer, originalBuffer: buffer)
 
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
+                let callbackHolderPointer = Unmanaged.passUnretained(callbackHolder).toOpaque()
 
-                    return igInputTextWithHint(label, hint, buffer.baseAddress, capacity, flags, intermediateInputTextCallback, callbackHolderPointer)
-                }
+                return igInputTextMultiline(label, buffer.baseAddress, capacity, size, flags.rawValue, intermediateInputTextCallback, callbackHolderPointer)
             }
 
             string = String(cString: copiedBuffer.baseAddress!)
@@ -1609,10 +1354,11 @@ extension ImGui {
         }
     }
 
-    public static func inputTextWithHint(withLabel label: String, hint: String, string: inout String, flags: CImGuiInputTextFlags = 0, callback: (ImGuiCustomInputTextCallbackData) -> Int, userData: Any) -> Bool {
-        assert(flags & Int32(CImGuiInputTextFlags_CallbackResize.rawValue) == 0)
+    @discardableResult
+    public static func inputTextWithHint(withLabel label: String, hint: String, string: inout String, flags: ImGuiInputTextFlags = []) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-        let flags = flags | Int32(CImGuiInputTextFlags_CallbackResize.rawValue)
+        let flags = flags.union(.callbackResize)
 
         var cString = string.utf8CString
         let capacity = cString.capacity
@@ -1620,14 +1366,12 @@ extension ImGui {
         return cString.withUnsafeMutableBufferPointer { buffer in
             var copiedBuffer = buffer
 
-            let result = withoutActuallyEscaping(callback) { escapingCallback in
-                withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
-                    let callbackHolder = CustomInputTextCallbackHolder(callback: escapingCallback, bufferPointer: bufferPointer, originalBuffer: buffer, userData: userData)
+            let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
+                let bufferHolder = InputTextBufferHolder(bufferPointer: bufferPointer, originalBuffer: buffer)
 
-                    let callbackHolderPointer = Unmanaged.passRetained(callbackHolder).toOpaque()
+                let bufferHolderPointer = Unmanaged.passUnretained(bufferHolder).toOpaque()
 
-                    return igInputTextWithHint(label, hint, buffer.baseAddress, capacity, flags, intermediateCustomInputTextCallback, callbackHolderPointer)
-                }
+                return igInputTextWithHint(label, hint, buffer.baseAddress, capacity, flags.rawValue, inputTextCallback, bufferHolderPointer)
             }
 
             string = String(cString: copiedBuffer.baseAddress!)
@@ -1641,125 +1385,127 @@ extension ImGui {
         }
     }
 
-    public static func inputFloat(withLabel label: String, value: inout Float, step: Float = 0, fastStep: Float = 0, format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        igInputFloat(label, &value, step, fastStep, format, flags)
-    }
+    @discardableResult
+    public static func inputTextWithHint(withLabel label: String, hint: String, string: inout String, flags: ImGuiInputTextFlags = [], callback: @escaping (inout ImGuiInputTextCallbackData) -> Int) -> Bool {
+        assert(flags.isDisjoint(with: .callbackResize))
 
-    public static func inputFloat2(withLabel label: String, values: inout [Float], format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 2)
+        let flags = flags.union(.callbackResize)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputFloat2(label, buffer.baseAddress, format, flags)
+        var cString = string.utf8CString
+        let capacity = cString.capacity
+
+        return cString.withUnsafeMutableBufferPointer { buffer in
+            var copiedBuffer = buffer
+
+            let result = withUnsafeMutablePointer(to: &copiedBuffer) { bufferPointer -> Bool in
+                let callbackHolder = InputTextCallbackHolder(callback: callback, bufferPointer: bufferPointer, originalBuffer: buffer)
+
+                let callbackHolderPointer = Unmanaged.passUnretained(callbackHolder).toOpaque()
+
+                return igInputTextWithHint(label, hint, buffer.baseAddress, capacity, flags.rawValue, intermediateInputTextCallback, callbackHolderPointer)
+            }
+
+            string = String(cString: copiedBuffer.baseAddress!)
+
+            if copiedBuffer.baseAddress != buffer.baseAddress {
+                copiedBuffer.baseAddress!.deinitialize(count: copiedBuffer.count)
+                copiedBuffer.deallocate()
+            }
+
+            return result
         }
     }
 
-    public static func inputFloat2(withLabel label: String, values: inout (Float, Float), format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igInputFloat2(label, buffer.baseAddress, format, flags)
+    @discardableResult
+    public static func inputFloat(withLabel label: String, value: inout Float, step: Float = 0, fastStep: Float = 0, format: String = "%.3f", flags: ImGuiInputTextFlags = []) -> Bool {
+        igInputFloat(label, &value, step, fastStep, format, flags.rawValue)
+    }
+
+    @discardableResult
+    public static func inputFloat2<T: MutablePointerProvider>(withLabel label: String, values: inout T, format: String = "%.3f", flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 2)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igInputFloat2(label, pointer, format, flags.rawValue)
         }
     }
 
-    public static func inputFloat3(withLabel label: String, values: inout [Float], format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 3)
+    @discardableResult
+    public static func inputFloat3<T: MutablePointerProvider>(withLabel label: String, values: inout T, format: String = "%.3f", flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 3)
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputFloat3(label, buffer.baseAddress, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igInputFloat3(label, pointer, format, flags.rawValue)
         }
     }
 
-    public static func inputFloat3(withLabel label: String, values: inout (Float, Float, Float), format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igInputFloat3(label, buffer.baseAddress, format, flags)
+    @discardableResult
+    public static func inputFloat4<T: MutablePointerProvider>(withLabel label: String, values: inout T, format: String = "%.3f", flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Float {
+        precondition(values.valueCount >= 4)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igInputFloat4(label, pointer, format, flags.rawValue)
         }
     }
 
-    public static func inputFloat4(withLabel label: String, values: inout [Float], format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 4)
+    @discardableResult
+    public static func inputInt(withLabel label: String, value: inout Int32, step: Int32 = 1, fastStep: Int32 = 100, flags: ImGuiInputTextFlags = []) -> Bool {
+        igInputInt(label, &value, step, fastStep, flags.rawValue)
+    }
 
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputFloat4(label, buffer.baseAddress, format, flags)
+    @discardableResult
+    public static func inputInt2<T: MutablePointerProvider>(withLabel label: String, values: inout T, flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 2)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igInputInt2(label, pointer, flags.rawValue)
         }
     }
 
-    public static func inputFloat4(withLabel label: String, values: inout (Float, Float, Float, Float), format: String = "%.3f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igInputFloat4(label, buffer.baseAddress, format, flags)
+    @discardableResult
+    public static func inputInt3<T: MutablePointerProvider>(withLabel label: String, values: inout T, flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 3)
+
+        return values.withUnsafeMutablePointer { pointer in
+            igInputInt3(label, pointer, flags.rawValue)
         }
     }
 
-    public static func inputInt(withLabel label: String, value: inout Int32, step: Int32 = 1, fastStep: Int32 = 100, flags: CImGuiInputTextFlags = 0) -> Bool {
-        igInputInt(label, &value, step, fastStep, flags)
-    }
+    @discardableResult
+    public static func inputInt4<T: MutablePointerProvider>(withLabel label: String, values: inout T, flags: ImGuiInputTextFlags = []) -> Bool where T.Value == Int32 {
+        precondition(values.valueCount >= 4)
 
-    public static func inputInt2(withLabel label: String, values: inout [Int32], flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 2)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputInt2(label, buffer.baseAddress, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            igInputInt4(label, pointer, flags.rawValue)
         }
     }
 
-    public static func inputInt2(withLabel label: String, values: inout (Int32, Int32), flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igInputInt2(label, buffer.baseAddress, flags)
+    @discardableResult
+    public static func inputDouble(withLabel label: String, value: inout Double, step: Double = 0, fastStep: Double = 0, format: String = "%.6f", flags: ImGuiInputTextFlags = []) -> Bool {
+        igInputDouble(label, &value, step, fastStep, format, flags.rawValue)
+    }
+
+    @discardableResult
+    public static func inputScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, step: T? = nil, fastStep: T? = nil, format: String? = nil, flags: ImGuiInputTextFlags = []) -> Bool {
+        withUnsafeBytes(of: step) { stepBuffer in
+            withUnsafeBytes(of: fastStep) { fastStepBuffer in
+                igInputScalar(label, T.dataType, &value, UnsafeMutableRawPointer(mutating: stepBuffer.baseAddress), UnsafeMutableRawPointer(mutating: fastStepBuffer.baseAddress), format, flags.rawValue)
+            }
         }
     }
 
-    public static func inputInt3(withLabel label: String, values: inout [Int32], flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 3)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputInt3(label, buffer.baseAddress, flags)
-        }
-    }
-
-    public static func inputInt3(withLabel label: String, values: inout (Int32, Int32, Int32), flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igInputInt3(label, buffer.baseAddress, flags)
-        }
-    }
-
-    public static func inputInt4(withLabel label: String, values: inout [Int32], flags: CImGuiInputTextFlags = 0) -> Bool {
-        precondition(values.count >= 4)
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputInt4(label, buffer.baseAddress, flags)
-        }
-    }
-
-    public static func inputInt4(withLabel label: String, values: inout (Int32, Int32, Int32, Int32), flags: CImGuiInputTextFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &values) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Int32.self)
-            return igInputInt4(label, buffer.baseAddress, flags)
-        }
-    }
-
-    public static func inputDouble(withLabel label: String, value: inout Double, step: Double = 0, fastStep: Double = 0, format: String = "%.6f", flags: CImGuiInputTextFlags = 0) -> Bool {
-        igInputDouble(label, &value, step, fastStep, format, flags)
-    }
-
-    public static func inputScalar<T: ImGuiDataType>(withLabel label: String, value: inout T, step: T? = nil, fastStep: T? = nil, format: String? = nil, flags: CImGuiInputTextFlags = 0) -> Bool {
-        var step = step
-        var fastStep = fastStep
-
-        return igInputScalar(label, T.dataType, &value, &step, &fastStep, format, flags)
-    }
-
-    public static func inputScalarN<T: ImGuiDataType>(withLabel label: String, values: inout [T], step: T? = nil, fastStep: T? = nil, format: String? = nil, flags: CImGuiInputTextFlags = 0) -> Bool {
-        let count = values.count
+    @discardableResult
+    public static func inputScalarN<T: MutablePointerProvider>(withLabel label: String, values: inout T, step: T.Value? = nil, fastStep: T.Value? = nil, format: String? = nil, flags: ImGuiInputTextFlags = []) -> Bool where T.Value: ImGuiDataType {
+        let count = values.valueCount
 
         precondition(count > 0)
 
-        var step = step
-        var fastStep = fastStep
-
-        return values.withUnsafeMutableBufferPointer { buffer in
-            igInputScalarN(label, T.dataType, buffer.baseAddress, Int32(count), &step, &fastStep, format, flags)
+        return values.withUnsafeMutablePointer { pointer in
+            withUnsafeBytes(of: step) { stepBuffer in
+                withUnsafeBytes(of: fastStep) { fastStepBuffer in
+                    igInputScalarN(label, T.Value.dataType, pointer, Int32(count), UnsafeMutableRawPointer(mutating: stepBuffer.baseAddress), UnsafeMutableRawPointer(mutating: fastStepBuffer.baseAddress), format, flags.rawValue)
+                }
+            }
         }
     }
 
@@ -1767,45 +1513,62 @@ extension ImGui {
     // Widgets: Color Editor/Picker (tip: the functions: UnsafeMutablePointer<ColorEdit> have a little colored preview square that can be left-clicked to open a picker, and right-clicked to open an option menu.)
     // - Note that in C++ a 'float v[X]' function argument is the _same_ as 'v: UnsafeMutablePointer<float>', the array syntax is just a way to document the number of elements that are expected to be accessible.
     // - You can pass the address of a first float element out of a contiguous structure, e.g. &myvector.x
-    public static func colorEdit3(withLabel label: String, color: inout (Float, Float, Float), flags: CImGuiColorEditFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &color) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igColorEdit3(label, buffer.baseAddress, flags)
+    @discardableResult
+    public static func colorEdit3<T: MutablePointerProvider>(withLabel label: String, color: inout T, flags: ImGuiColorEditFlags = []) -> Bool where T.Value == Float {
+        precondition(color.valueCount >= 3)
+
+        return color.withUnsafeMutablePointer { pointer in
+            igColorEdit3(label, pointer, flags.rawValue)
         }
     }
 
-    public static func colorEdit4(withLabel label: String, color: inout (Float, Float, Float, Float), flags: CImGuiColorEditFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &color) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igColorEdit4(label, buffer.baseAddress, flags)
+    @discardableResult
+    public static func colorEdit4<T: MutablePointerProvider>(withLabel label: String, color: inout T, flags: ImGuiColorEditFlags = []) -> Bool where T.Value == Float {
+        precondition(color.valueCount >= 4)
+
+        return color.withUnsafeMutablePointer { pointer in
+            igColorEdit4(label, pointer, flags.rawValue)
         }
     }
 
-    public static func colorPicker3(withLabel label: String, color: inout (Float, Float, Float), flags: CImGuiColorEditFlags = 0) -> Bool {
-        withUnsafeMutableBytes(of: &color) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return igColorPicker3(label, buffer.baseAddress, flags)
+    @discardableResult
+    public static func colorPicker3<T: MutablePointerProvider>(withLabel label: String, color: inout T, flags: ImGuiColorEditFlags = []) -> Bool where T.Value == Float {
+        precondition(color.valueCount >= 3)
+
+        return color.withUnsafeMutablePointer { pointer in
+            igColorPicker3(label, pointer, flags.rawValue)
         }
     }
 
-    public static func colorPicker4(withLabel label: String, color: inout (Float, Float, Float, Float), flags: CImGuiColorEditFlags = 0, referenceColor: (Float, Float, Float, Float)) -> Bool {
-        withUnsafeMutableBytes(of: &color) { rawBuffer in
-            let buffer = rawBuffer.bindMemory(to: Float.self)
-            return withUnsafeBytes(of: referenceColor) { referenceRawBuffer in
-                let referenceBuffer = referenceRawBuffer.bindMemory(to: Float.self)
-                return igColorPicker4(label, buffer.baseAddress, flags, referenceBuffer.baseAddress)
+    @discardableResult
+    public static func colorPicker4<T: MutablePointerProvider>(withLabel label: String, color: inout T, flags: ImGuiColorEditFlags = []) -> Bool where T.Value == Float {
+        precondition(color.valueCount >= 4)
+
+        return color.withUnsafeMutablePointer { pointer in
+            igColorPicker4(label, pointer, flags.rawValue, nil)
+        }
+    }
+
+    @discardableResult
+    public static func colorPicker4<T: MutablePointerProvider, U: PointerProvider>(withLabel label: String, color: inout T, flags: ImGuiColorEditFlags = [], referenceColor: U) -> Bool where T.Value == Float, U.Value == Float {
+        precondition(color.valueCount >= 4)
+        precondition(referenceColor.valueCount >= 4)
+
+        return color.withUnsafeMutablePointer { pointer in
+            referenceColor.withUnsafePointer { referencePointer in
+                igColorPicker4(label, pointer, flags.rawValue, referencePointer)
             }
         }
     }
 
     /// display a colored square/button, hover for details, true when pressed.
-    public static func colorButton(withID id: String, color: CImVec4, flags: CImGuiColorEditFlags = 0, size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
-        igColorButton(id, color, flags, size)
+    public static func colorButton(withID id: String, color: CImVec4, flags: ImGuiColorEditFlags = [], size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
+        igColorButton(id, color, flags.rawValue, size)
     }
 
     /// initialize current options (generally on application startup) if you want to select a default format, picker type, etc. User will be able to change many settings, unless you pass the _NoOptions flag to your calls.
-    public static func setColorEditOptions(flags: CImGuiColorEditFlags) {
-        igSetColorEditOptions(flags)
+    public static func setColorEditOptions(flags: ImGuiColorEditFlags) {
+        igSetColorEditOptions(flags.rawValue)
     }
 
 
@@ -1829,19 +1592,19 @@ extension ImGui {
         }
     }
 
-    public static func treeNodeEx(withLabel label: String, flags: CImGuiTreeNodeFlags = 0) -> Bool {
-        igTreeNodeEx(label, flags)
+    public static func treeNodeEx(withLabel label: String, flags: ImGuiTreeNodeFlags = []) -> Bool {
+        igTreeNodeEx(label, flags.rawValue)
     }
 
-    public static func treeNodeEx(withID id: String, flags: CImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
+    public static func treeNodeEx(withID id: String, flags: ImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
         withVaList(values) { pointer in
-            igTreeNodeExStringV(id, flags, format, pointer)
+            igTreeNodeExStringV(id, flags.rawValue, format, pointer)
         }
     }
 
-    public static func treeNodeEx(withID id: UnsafeRawPointer, flags: CImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
+    public static func treeNodeEx(withID id: UnsafeRawPointer, flags: ImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
         withVaList(values) { pointer in
-            igTreeNodeExPointerV(id, flags, format, pointer)
+            igTreeNodeExPointerV(id, flags.rawValue, format, pointer)
         }
     }
 
@@ -1866,18 +1629,19 @@ extension ImGui {
     }
 
     /// if returning 'true' the header is open. doesn't indent nor push on ID stack. user doesn't have to call TreePop().
-    public static func collapsingHeader(withLabel label: String, flags: CImGuiTreeNodeFlags = 0) -> Bool {
-        igCollapsingHeader(label, flags)
+    public static func collapsingHeader(withLabel label: String, flags: ImGuiTreeNodeFlags = []) -> Bool {
+        igCollapsingHeader(label, flags.rawValue)
     }
 
     /// when 'p_open' isn't NULL, display an additional small close button on upper right of the header
-    public static func collapsingHeader(withLabel label: String, isOpen: inout Bool, flags: CImGuiTreeNodeFlags = 0) -> Bool {
-        igCollapsingHeaderCloseButton(label, &isOpen, flags)
+    @discardableResult
+    public static func collapsingHeader(withLabel label: String, isOpen: inout Bool, flags: ImGuiTreeNodeFlags = []) -> Bool {
+        igCollapsingHeaderCloseButton(label, &isOpen, flags.rawValue)
     }
 
     /// set next TreeNode/CollapsingHeader open state.
-    public static func setNextItemOpen(isOpen: Bool, withCondition condition: CImGuiCond = 0) {
-        igSetNextItemOpen(isOpen, condition)
+    public static func setNextItemOpen(isOpen: Bool, withCondition condition: ImGuiCondition = .none) {
+        igSetNextItemOpen(isOpen, condition.rawValue)
     }
 
 
@@ -1885,19 +1649,21 @@ extension ImGui {
     // - A selectable highlights when hovered, and can display another color when selected.
     // - Neighbors selectable extend their highlight bounds in order to leave no gap between them. This is so a series of selected Selectable appear contiguous.
     /// "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
-    public static func selectable(withLabel label: String, isSelected: Bool = false, flags: CImGuiSelectableFlags = 0, size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
-        igSelectable(label, isSelected, flags, size)
+    public static func selectable(withLabel label: String, isSelected: Bool = false, flags: ImGuiSelectableFlags = [], size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
+        igSelectable(label, isSelected, flags.rawValue, size)
     }
 
     /// "p_selected: UnsafeMutablePointer<bool>" point to the selection state (read-write), as a convenient helper.
-    public static func selectable(withLabel label: String, isSelected: inout Bool, flags: CImGuiSelectableFlags = 0, size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
-        igSelectablePointer(label, &isSelected, flags, size)
+    @discardableResult
+    public static func selectable(withLabel label: String, isSelected: inout Bool, flags: ImGuiSelectableFlags = [], size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
+        igSelectablePointer(label, &isSelected, flags.rawValue, size)
     }
 
 
     // Widgets: List Boxes
     // - FIXME: To be consistent with all the newer API, ListBoxHeader/ListBoxFooter should in reality be called BeginListBox/EndListBox. Will rename them.
     /// height in items
+    @discardableResult
     public static func listBox(withLabel label: String, currentItem: inout Int32, items: [String], height: Int = -1) -> Bool {
         withArrayOfCStrings(items) { pointers in
             igListBox(label, &currentItem, pointers, Int32(pointers.count), Int32(height))
@@ -1989,6 +1755,7 @@ extension ImGui {
     }
 
     /// true when activated + toggle (*p_selected) if p_selected != NULL
+    @discardableResult
     public static func menuItem(withLabel label: String, shortcut: String, isSelected: inout Bool, isEnabled: Bool = true) -> Bool {
         igMenuItemPointer(label, shortcut, &isSelected, isEnabled)
     }
@@ -2016,7 +1783,7 @@ extension ImGui {
     // Popups, Modals
     //  - They block normal mouse hovering detection (and therefore most mouse interactions) behind them.
     //  - If not modal: they can be closed by clicking anywhere outside them, or by pressing ESCAPE.
-    //  - Their visibility state (~bool) is held internally instead of being held by the programmer as we are used to with regular UnsafeMutablePointer<Begin>() calls.
+    //  - Their visibility state (~bool) is held internally instead of being held by the programmer as we are used to with regular Begin*() calls.
     //  - The 3 properties above are related: we need to retain popup visibility state in the library because popups may be closed as any time.
     //  - You can bypass the hovering restriction by using ImGuiHoveredFlags_AllowWhenBlockedByPopup when calling IsItemHovered() or IsWindowHovered().
     //  - IMPORTANT: Popup identifiers are relative to the current ID stack, so OpenPopup and BeginPopup generally needs to be at the same level of the stack.
@@ -2025,18 +1792,18 @@ extension ImGui {
     //  - BeginPopup(): query popup state, if open start appending into the window. Call EndPopup() afterwards. ImGuiWindowFlags are forwarded to the window.
     //  - BeginPopupModal(): block every interactions behind the window, cannot be closed by user, add a dimming background, has a title bar.
     /// true if the popup is open, and you can start outputting to it.
-    public static func beginPopup(withID id: String, flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginPopup(id, flags)
+    public static func beginPopup(withID id: String, flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginPopup(id, flags.rawValue)
     }
 
     /// true if the modal is open, and you can start outputting to it.
-    public static func beginPopupModal(withName name: String, flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginPopupModal(name, nil, flags)
+    public static func beginPopupModal(withName name: String, flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginPopupModal(name, nil, flags.rawValue)
     }
 
     /// true if the modal is open, and you can start outputting to it.
-    public static func beginPopupModal(withName name: String, isOpen: inout Bool, flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginPopupModal(name, &isOpen, flags)
+    public static func beginPopupModal(withName name: String, isOpen: inout Bool, flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginPopupModal(name, &isOpen, flags.rawValue)
     }
 
     /// only call EndPopup() if BeginPopupXXX() returns true!
@@ -2051,13 +1818,13 @@ extension ImGui {
     //  - CloseCurrentPopup() is called by default by Selectable()/MenuItem() when activated (FIXME: need some options).
     //  - Use ImGuiPopupFlags_NoOpenOverExistingPopup to avoid opening a popup if there's already one at the same level. This is equivalent to e.g. testing for !IsAnyPopupOpen() prior to OpenPopup().
     /// call to mark popup as open (don't call every frame!).
-    public static func openPopup(withID id: String, flags: CImGuiPopupFlags = 0) {
-        igOpenPopup(id, flags)
+    public static func openPopup(withID id: String, flags: ImGuiPopupFlags = []) {
+        igOpenPopup(id, flags.rawValue)
     }
 
     /// helper to open popup when clicked on last item. true when just opened. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)
-    public static func openPopupOnItemClick(withID id: String? = nil, flags: CImGuiPopupFlags = 1) {
-        igOpenPopupOnItemClick(id, flags)
+    public static func openPopupOnItemClick(withID id: String? = nil, flags: ImGuiPopupFlags = .mouseButtonRight) {
+        igOpenPopupOnItemClick(id, flags.rawValue)
     }
 
     /// manually close the popup we have begin-ed into.
@@ -2071,18 +1838,18 @@ extension ImGui {
     //  - IMPORTANT: Notice that BeginPopupContextXXX takes ImGuiPopupFlags just like OpenPopup() and unlike BeginPopup(). For full consistency, we may add ImGuiWindowFlags to the BeginPopupContextXXX functions in the future.
     //  - IMPORTANT: we exceptionally default their flags to 1 (== ImGuiPopupFlags_MouseButtonRight) for backward compatibility with older API taking 'int mouse_button = 1' parameter, so if you add other flags remember to re-add the ImGuiPopupFlags_MouseButtonRight.
     /// open+begin popup when clicked on last item. if you can pass a NULL str_id only if the previous item had an id. If you want to use that on a non-interactive item such as Text() you need to pass in an explicit ID here. read comments in .cpp!
-    public static func beginPopupContextItem(withID id: String? = nil, flags: CImGuiPopupFlags = 1) -> Bool {
-        igBeginPopupContextItem(id, flags)
+    public static func beginPopupContextItem(withID id: String? = nil, flags: ImGuiPopupFlags = .mouseButtonRight) -> Bool {
+        igBeginPopupContextItem(id, flags.rawValue)
     }
 
     /// open+begin popup when clicked on current window.
-    public static func beginPopupContextWindow(withID id: String? = nil, flags: CImGuiPopupFlags = 1) -> Bool {
-        igBeginPopupContextWindow(id, flags)
+    public static func beginPopupContextWindow(withID id: String? = nil, flags: ImGuiPopupFlags = .mouseButtonRight) -> Bool {
+        igBeginPopupContextWindow(id, flags.rawValue)
     }
 
     /// open+begin popup when clicked in void (where there are no windows).
-    public static func beginPopupContextVoid(withID id: String? = nil, flags: CImGuiPopupFlags = 1) -> Bool {
-        igBeginPopupContextVoid(id, flags)
+    public static func beginPopupContextVoid(withID id: String? = nil, flags: ImGuiPopupFlags = .mouseButtonRight) -> Bool {
+        igBeginPopupContextVoid(id, flags.rawValue)
     }
 
     // Popups: test function
@@ -2090,8 +1857,8 @@ extension ImGui {
     //  - IsPopupOpen() with ImGuiPopupFlags_AnyPopupId: true if any popup is open at the current BeginPopup() level of the popup stack.
     //  - IsPopupOpen() with ImGuiPopupFlags_AnyPopupId + ImGuiPopupFlags_AnyPopupLevel: true if any popup is open.
     /// true if the popup is open.
-    public static func isPopupOpen(withID id: String, flags: CImGuiPopupFlags = 0) -> Bool {
-        igIsPopupOpen(id, flags)
+    public static func isPopupOpen(withID id: String, flags: ImGuiPopupFlags = []) -> Bool {
+        igIsPopupOpen(id, flags.rawValue)
     }
 
 
@@ -2142,8 +1909,8 @@ extension ImGui {
     // Tab Bars, Tabs
     // Note: Tabs are automatically created by the docking system. Use this to create tab bars/tabs yourself without docking being involved.
     /// create and append into a TabBar
-    public static func beginTabBar(withID id: String, flags: CImGuiTabBarFlags = 0) -> Bool {
-        igBeginTabBar(id, flags)
+    public static func beginTabBar(withID id: String, flags: ImGuiTabBarFlags = []) -> Bool {
+        igBeginTabBar(id, flags.rawValue)
     }
 
     /// only call EndTabBar() if BeginTabBar() returns true!
@@ -2152,13 +1919,13 @@ extension ImGui {
     }
 
     /// create a Tab. Returns true if the Tab is selected.
-    public static func beginTabItem(withLabel label: String, flags: CImGuiTabBarFlags = 0) -> Bool {
-        igBeginTabItem(label, nil, flags)
+    public static func beginTabItem(withLabel label: String, flags: ImGuiTabBarFlags = []) -> Bool {
+        igBeginTabItem(label, nil, flags.rawValue)
     }
 
     /// create a Tab. Returns true if the Tab is selected.
-    public static func beginTabItem(withLabel label: String, isOpen: inout Bool, flags: CImGuiTabBarFlags = 0) -> Bool {
-        igBeginTabItem(label, &isOpen, flags)
+    public static func beginTabItem(withLabel label: String, isOpen: inout Bool, flags: ImGuiTabBarFlags = []) -> Bool {
+        igBeginTabItem(label, &isOpen, flags.rawValue)
     }
 
     /// only call EndTabItem() if BeginTabItem() returns true!
@@ -2167,8 +1934,8 @@ extension ImGui {
     }
 
     /// create a Tab behaving like a button. true when clicked. cannot be selected in the tab bar.
-    public static func tabItemButton(withLabel label: String, flags: CImGuiTabItemFlags = 0) -> Bool {
-        igTabItemButton(label, flags)
+    public static func tabItemButton(withLabel label: String, flags: ImGuiTabItemFlags = []) -> Bool {
+        igTabItemButton(label, flags.rawValue)
     }
 
     /// notify TabBar or Docking system of a closed tab/window ahead (useful to reduce visual flicker on reorderable tab bars). For tab-bar: call after BeginTabBar() and before Tab submissions. Otherwise call with a window name.
@@ -2185,17 +1952,17 @@ extension ImGui {
     // About DockSpace:
     // - Use DockSpace() to create an explicit dock node _within_ an existing window. See Docking demo for details.
     // - DockSpace() needs to be submitted _before_ any window they can host. If you use a dockspace, submit it early in your app.
-    public static func dockSpace(withID id: CImGuiID, size: CImVec2 = CImVec2(x: 0, y: 0), flags: CImGuiDockNodeFlags = 0, windowClass: UnsafePointer<CImGuiWindowClass>? = nil) {
-        igDockSpace(id, size, flags, windowClass)
+    public static func dockSpace(withID id: CImGuiID, size: CImVec2 = CImVec2(x: 0, y: 0), flags: ImGuiDockNodeFlags = [], windowClass: UnsafePointer<CImGuiWindowClass>? = nil) {
+        igDockSpace(id, size, flags.rawValue, windowClass)
     }
 
-    public static func dockSpaceOverViewport(viewport: UnsafeMutablePointer<CImGuiViewport>? = nil, flags: CImGuiDockNodeFlags = 0, windowClass: UnsafePointer<CImGuiWindowClass>? = nil) -> CImGuiID {
-        igDockSpaceOverViewport(viewport, flags, windowClass)
+    public static func dockSpaceOverViewport(viewport: UnsafeMutablePointer<CImGuiViewport>? = nil, flags: ImGuiDockNodeFlags = [], windowClass: UnsafePointer<CImGuiWindowClass>? = nil) -> CImGuiID {
+        igDockSpaceOverViewport(viewport, flags.rawValue, windowClass)
     }
 
     /// set next window dock id (FIXME-DOCK)
-    public static func setNextWindowDockID(to id: CImGuiID, withCondition condition: CImGuiCond = 0) {
-        igSetNextWindowDockID(id, condition)
+    public static func setNextWindowDockID(to id: CImGuiID, withCondition condition: ImGuiCondition = .none) {
+        igSetNextWindowDockID(id, condition.rawValue)
     }
 
     /// set next window class (rare/advanced uses: provide hints to the platform back-end via altered viewport flags and parent/child info)
@@ -2245,15 +2012,16 @@ extension ImGui {
     // - [BETA API] API may evolve!
     // - If you stop calling BeginDragDropSource() the payload is preserved however it won't have a preview tooltip (we currently display a fallback "..." tooltip as replacement)
     /// call when the current item is active. If this true, you can call SetDragDropPayload() + EndDragDropSource()
-    public static func beginDragDropSource(withFlags flags: CImGuiDragDropFlags = 0) -> Bool {
-        igBeginDragDropSource(flags)
+    public static func beginDragDropSource(withFlags flags: ImGuiDragDropFlags = []) -> Bool {
+        igBeginDragDropSource(flags.rawValue)
     }
 
     /// type is a user defined string of maximum 32 characters. Strings starting with '_' are reserved for dear imgui internal types. Data is copied and held by imgui.
-    public static func setDragDropPayload<T>(withTypeString type: String, value: T, condition: CImGuiCond = 0) -> Bool {
-        var value = value
-
-        return igSetDragDropPayload(type, &value, MemoryLayout<T>.size, condition)
+    @discardableResult
+    public static func setDragDropPayload<T>(withTypeString type: String, value: T, condition: ImGuiCondition = .none) -> Bool {
+        withUnsafeBytes(of: value) { buffer in
+            igSetDragDropPayload(type, UnsafeMutableRawPointer(mutating: buffer.baseAddress), MemoryLayout<T>.size, condition.rawValue)
+        }
     }
 
     /// only call EndDragDropSource() if BeginDragDropSource() returns true!
@@ -2267,8 +2035,8 @@ extension ImGui {
     }
 
     /// accept contents of a given type. If ImGuiDragDropFlags_AcceptBeforeDelivery is set you can peek into the payload before the mouse button is released.
-    public static func acceptDragDropPayload(withTypeString type: String, flags: CImGuiDragDropFlags = 0) -> UnsafePointer<CImGuiPayload>? {
-        igAcceptDragDropPayload(type, flags)
+    public static func acceptDragDropPayload(withTypeString type: String, flags: ImGuiDragDropFlags = []) -> UnsafePointer<CImGuiPayload>? {
+        igAcceptDragDropPayload(type, flags.rawValue)
     }
 
     /// only call EndDragDropTarget() if BeginDragDropTarget() returns true!
@@ -2309,8 +2077,8 @@ extension ImGui {
     // - Most of the functions are referring to the last/previous item we submitted.
     // - See Demo Window under "Widgets->Querying Status" for an interactive visualization of most of those functions.
     /// is the last item hovered? (and usable, aka not blocked by a popup, etc.). See ImGuiHoveredFlags for more options.
-    public static func isItemHovered(withFlags flags: CImGuiHoveredFlags = 0) -> Bool {
-        igIsItemHovered(flags)
+    public static func isItemHovered(withFlags flags: ImGuiHoveredFlags = []) -> Bool {
+        igIsItemHovered(flags.rawValue)
     }
 
     /// is the last item active? (e.g. button being held, text field being edited. This will continuously true while holding mouse button on an item. Items that don't interact will always false)
@@ -2324,8 +2092,8 @@ extension ImGui {
     }
 
     /// is the last item clicked? (e.g. button/node just clicked on) == IsMouseClicked(mouse_button) && IsItemHovered()
-    public static func isItemClicked(withMouseButton mouseButton: CImGuiMouseButton = 0) -> Bool {
-        igIsItemClicked(mouseButton)
+    public static func isItemClicked(withMouseButton mouseButton: ImGuiMouseButton = .left) -> Bool {
+        igIsItemClicked(mouseButton.rawValue)
     }
 
     /// is the last item visible? (items may be out of sight because of clipping/scrolling)
@@ -2441,8 +2209,8 @@ extension ImGui {
     }
 
     /// get a string corresponding to the enum value (for display, saving, etc.).
-    public static func getStyleColorName(withIndex index: CImGuiCol) -> String {
-        .init(cString: igGetStyleColorName(index))
+    public static func getStyleColorName(withIndex index: ImGuiColor) -> String {
+        .init(cString: igGetStyleColorName(index.rawValue))
     }
 
     /// replace current window storage with our own (if you want to manipulate it yourself, typically clear subsection of it)
@@ -2464,8 +2232,8 @@ extension ImGui {
     }
 
     /// helper to create a child window / scrolling region that looks like a normal widget frame
-    public static func beginChildFrame(withID id: CImGuiID, size: CImVec2, flags: CImGuiWindowFlags = 0) -> Bool {
-        igBeginChildFrame(id, size, flags)
+    public static func beginChildFrame(withID id: CImGuiID, size: CImVec2, flags: ImGuiWindowFlags = []) -> Bool {
+        igBeginChildFrame(id, size, flags.rawValue)
     }
 
     /// always call EndChildFrame() regardless of BeginChildFrame() values (which indicates a collapsed/clipped window)
@@ -2510,8 +2278,8 @@ extension ImGui {
     // - For 'int user_key_index' you can use your own indices/enums according to how your back-end/engine stored them in io.KeysDown[].
     // - We don't know the meaning of those value. You can use GetKeyIndex() to map a ImGuiKey_ value into the user index.
     /// map ImGuiKey_* values into user's key index. == io.KeyMap[key]
-    public static func getKeyIndex(forImGuiKey imGuiKey: CImGuiKey) -> Int {
-        Int(igGetKeyIndex(imGuiKey))
+    public static func getKeyIndex(forImGuiKey imGuiKey: ImGuiKey) -> Int {
+        Int(igGetKeyIndex(imGuiKey.rawValue))
     }
 
     /// is key being held. == io.KeysDown[user_key_index].
@@ -2545,23 +2313,23 @@ extension ImGui {
     // - You can also use regular integer: it is forever guaranteed that 0=Left, 1=Right, 2=Middle.
     // - Dragging operations are only reported after mouse has moved a certain distance away from the initial clicking position (see 'lock_threshold' and 'io.MouseDraggingThreshold')
     /// is mouse button held?
-    public static func isMouseDown(withButton button: CImGuiMouseButton) -> Bool {
-        igIsMouseDown(button)
+    public static func isMouseDown(withButton button: ImGuiMouseButton) -> Bool {
+        igIsMouseDown(button.rawValue)
     }
 
     /// did mouse button clicked? (went from !Down to Down)
-    public static func isMouseClicked(withButton button: CImGuiMouseButton, repeat: Bool = false) -> Bool {
-        igIsMouseClicked(button, `repeat`)
+    public static func isMouseClicked(withButton button: ImGuiMouseButton, repeat: Bool = false) -> Bool {
+        igIsMouseClicked(button.rawValue, `repeat`)
     }
 
     /// did mouse button released? (went from Down to !Down)
-    public static func isMouseReleased(withButton button: CImGuiMouseButton) -> Bool {
-        igIsMouseReleased(button)
+    public static func isMouseReleased(withButton button: ImGuiMouseButton) -> Bool {
+        igIsMouseReleased(button.rawValue)
     }
 
     /// did mouse button double-clicked? (note that a double-click will also report IsMouseClicked() == true)
-    public static func isMouseDoubleClicked(withButton button: CImGuiMouseButton) -> Bool {
-        igIsMouseDoubleClicked(button)
+    public static func isMouseDoubleClicked(withButton button: ImGuiMouseButton) -> Bool {
+        igIsMouseDoubleClicked(button.rawValue)
     }
 
     /// is mouse hovering given bounding rect (in screen space). clipped by current clipping settings, but disregarding of other consideration of focus/window ordering/popup-block.
@@ -2590,27 +2358,27 @@ extension ImGui {
     }
 
     /// is mouse dragging? (if lock_threshold < -1, uses io.MouseDraggingThreshold)
-    public static func isMouseDragging(withButton button: CImGuiMouseButton, lockThreshold: Float = -1) -> Bool {
-        igIsMouseDragging(button, lockThreshold)
+    public static func isMouseDragging(withButton button: ImGuiMouseButton, lockThreshold: Float = -1) -> Bool {
+        igIsMouseDragging(button.rawValue, lockThreshold)
     }
 
     /// the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and 0 until the mouse moves past a distance threshold at least once (if lock_threshold < -1, uses io.MouseDraggingThreshold)
-    public static func getMouseDragDelta(withButton button: CImGuiMouseButton = 0, lockThreshold: Float = -1) -> CImVec2 {
-        igGetMouseDragDelta(button, lockThreshold)
+    public static func getMouseDragDelta(withButton button: ImGuiMouseButton = .left, lockThreshold: Float = -1) -> CImVec2 {
+        igGetMouseDragDelta(button.rawValue, lockThreshold)
     }
 
-    public static func resetMouseDragDelta(withButton button: CImGuiMouseButton = 0) {
-        igResetMouseDragDelta(button)
+    public static func resetMouseDragDelta(withButton button: ImGuiMouseButton = .left) {
+        igResetMouseDragDelta(button.rawValue)
     }
                    //
     /// get desired cursor type, reset in ImGui::NewFrame(), this is updated during the frame. valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you
-    public static func getMouseCursor() -> CImGuiMouseCursor {
-        igGetMouseCursor()
+    public static func getMouseCursor() -> ImGuiMouseCursor {
+        ImGuiMouseCursor(rawValue: igGetMouseCursor()) ?? .none
     }
 
     /// set desired cursor type
-    public static func setMouseCursor(to cursorType: CImGuiMouseCursor) {
-        igSetMouseCursor(cursorType)
+    public static func setMouseCursor(to cursorType: ImGuiMouseCursor) {
+        igSetMouseCursor(cursorType.rawValue)
     }
 
     /// attention: misleading name! manually override io.WantCaptureMouse flag next frame (said flag is entirely left for your application to handle). This is equivalent to setting "io.WantCaptureMouse = want_capture_mouse_value;" after the next NewFrame() call.
@@ -2673,7 +2441,7 @@ extension ImGui {
     }
 
     /// call in main loop. will call RenderWindow/SwapBuffers platform functions for each secondary viewport which doesn't have the ImGuiViewportFlags_Minimized flag set. May be reimplemented by user for custom rendering needs.
-    public static func renderPlatformWindowsDefault<PlatformArg, RendererArg>(platformRenderArg: PlatformArg? = nil, rendererRenderArg: RendererArg? = nil) {
+    public static func renderPlatformWindowsDefault(platformRenderArg: Any? = nil, rendererRenderArg: Any? = nil) {
         var platformRenderArg = platformRenderArg
         var rendererRenderArg = rendererRenderArg
 

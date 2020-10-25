@@ -75,3 +75,32 @@ public func withArrayOfMutableCStrings<R>(_ args: [String], _ body: ([UnsafeMuta
         return  try body(cStrings)
     }
 }
+
+
+public protocol PointerProvider {
+    associatedtype Value
+
+    var valueCount: Int { get }
+
+    func withUnsafePointer<R>(_ body: (UnsafePointer<Value>) throws -> R) rethrows -> R
+}
+
+public protocol MutablePointerProvider: PointerProvider {
+    mutating func withUnsafeMutablePointer<R>(_ body: (UnsafeMutablePointer<Value>) throws -> R) rethrows -> R
+}
+
+extension Array: MutablePointerProvider {
+    public var valueCount: Int { self.count }
+
+    public func withUnsafePointer<R>(_ body: (UnsafePointer<Element>) throws -> R) rethrows -> R {
+        try self.withUnsafeBufferPointer {
+            try body($0.baseAddress!)
+        }
+    }
+
+    public mutating func withUnsafeMutablePointer<R>(_ body: (UnsafeMutablePointer<Element>) throws -> R) rethrows -> R {
+        try self.withUnsafeMutableBufferPointer {
+            try body($0.baseAddress!)
+        }
+    }
+}
