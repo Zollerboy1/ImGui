@@ -335,7 +335,7 @@ void igPushStyleVarVec2(CImGuiStyleVar idx, CImVec2 val) {
 }
 
 void igPopStyleVar(int count) {
-    ImGui::PopStyleVar();
+    ImGui::PopStyleVar(count);
 }
 
 CImVec4 igGetStyleColorVec4(CImGuiCol idx) {
