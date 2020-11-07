@@ -1586,23 +1586,26 @@ extension ImGui {
     }
 
     /// "
-    public static func treeNode(withID id: UnsafeRawPointer, format: String, _ values: CVarArg...) -> Bool {
+    public static func treeNode(withID id: UnsafeRawPointer?, format: String, _ values: CVarArg...) -> Bool {
         withVaList(values) { pointer in
             igTreeNodePointerV(id, format, pointer)
         }
     }
 
+    @discardableResult
     public static func treeNodeEx(withLabel label: String, flags: ImGuiTreeNodeFlags = []) -> Bool {
         igTreeNodeEx(label, flags.rawValue)
     }
 
+    @discardableResult
     public static func treeNodeEx(withID id: String, flags: ImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
         withVaList(values) { pointer in
             igTreeNodeExStringV(id, flags.rawValue, format, pointer)
         }
     }
 
-    public static func treeNodeEx(withID id: UnsafeRawPointer, flags: ImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
+    @discardableResult
+    public static func treeNodeEx(withID id: UnsafeRawPointer?, flags: ImGuiTreeNodeFlags, format: String, _ values: CVarArg...) -> Bool {
         withVaList(values) { pointer in
             igTreeNodeExPointerV(id, flags.rawValue, format, pointer)
         }
