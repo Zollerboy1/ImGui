@@ -306,7 +306,6 @@ const CImGuiTextRange * ig_CImVector_CImGuiTextRange_BeginConst(const CImVector_
 void ig_CImVector_CImGuiTextRange_Swap(CImVector_CImGuiTextRange * ptr, CImVector_CImGuiTextRange * other);
 
 void ig_CImVector_CImGuiTextRange_Shrink(CImVector_CImGuiTextRange * ptr, int new_size);
-
 void ig_CImVector_CImGuiTextRange_PopBack(CImVector_CImGuiTextRange * ptr);
 
 

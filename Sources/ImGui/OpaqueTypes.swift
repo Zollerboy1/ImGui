@@ -6,13 +6,31 @@
 //
 
 public struct ImGuiContext {
+    @usableFromInline
     internal let pointer: OpaquePointer
+
+    @usableFromInline
+    internal init(pointer: OpaquePointer) {
+        self.pointer = pointer
+    }
 }
 
 public struct ImGuiStoragePair {
+    @usableFromInline
     internal let pointer: OpaquePointer
+
+    @usableFromInline
+    internal init(pointer: OpaquePointer) {
+        self.pointer = pointer
+    }
 }
 
 public struct ImGuiTextRange {
+    @usableFromInline
     internal let pointer: OpaquePointer
+
+    @usableFromInline
+    internal init(pointer: OpaquePointer) {
+        self.pointer = pointer
+    }
 }

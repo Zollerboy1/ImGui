@@ -833,6 +833,14 @@ enum CImGuiInputTextFlags_ {
     CImGuiInputTextFlags_NoMarkEdited = 1 << 21
 };
 
+enum CImGuiKeyModFlags_ {
+    CImGuiKeyModFlags_None = 0,
+    CImGuiKeyModFlags_Ctrl = 1 << 0,
+    CImGuiKeyModFlags_Shift = 1 << 1,
+    CImGuiKeyModFlags_Alt = 1 << 2,
+    CImGuiKeyModFlags_Super = 1 << 3
+};
+
 enum CImGuiPopupFlags_ {
     CImGuiPopupFlags_None = 0,
     CImGuiPopupFlags_MouseButtonLeft = 0,

@@ -87,6 +87,7 @@ typedef int CImGuiFocusedFlags;
 typedef int CImGuiHoveredFlags;
 typedef int CImGuiInputTextFlags;
 typedef int CImGuiPopupFlags;
+typedef int CImGuiKeyModFlags;
 typedef int CImGuiSelectableFlags;
 typedef int CImGuiSliderFlags;
 typedef int CImGuiTabBarFlags;

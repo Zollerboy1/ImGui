@@ -247,6 +247,19 @@ public struct ImGuiInputTextFlags: OptionSet {
     public static let callbackEdit = ImGuiInputTextFlags(rawValue: 1 << 19)
 }
 
+public struct ImGuiKeyModFlags: OptionSet {
+    public let rawValue: Int32
+
+    public init(rawValue: Int32) {
+        self.rawValue = rawValue
+    }
+
+    public static let ctrl = ImGuiKeyModFlags(rawValue: 1 << 0)
+    public static let shift = ImGuiKeyModFlags(rawValue: 1 << 1)
+    public static let alt = ImGuiKeyModFlags(rawValue: 1 << 2)
+    public static let `super` = ImGuiKeyModFlags(rawValue: 1 << 3)
+};
+
 public struct ImGuiPopupFlags: OptionSet {
     public let rawValue: Int32
 

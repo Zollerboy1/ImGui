@@ -1,12 +1,12 @@
 //
 //  PointerConversionHelpers.swift
-//  Falcon
+//  ImGui
 //
 //  Created by Josef Zoller on 20.02.20.
 //
 
 extension UnsafePointer {
-    subscript<T>(_ keyPath: KeyPath<Pointee, T>) -> UnsafePointer<T> {
+    public subscript<T>(_ keyPath: KeyPath<Pointee, T>) -> UnsafePointer<T> {
         let raw = UnsafeRawPointer(self)
         // If a key path is not directly-addressable I consider it programmer error
         let offset = MemoryLayout<Pointee>.offset(of: keyPath)!
@@ -15,7 +15,7 @@ extension UnsafePointer {
 }
 
 extension UnsafeMutablePointer {
-    subscript<T>(_ keyPath: KeyPath<Pointee, T>) -> UnsafeMutablePointer<T> {
+    public subscript<T>(_ keyPath: KeyPath<Pointee, T>) -> UnsafeMutablePointer<T> {
         let raw = UnsafeMutableRawPointer(self)
         // If a key path is not directly-addressable I consider it programmer error
         let offset = MemoryLayout<Pointee>.offset(of: keyPath)!
