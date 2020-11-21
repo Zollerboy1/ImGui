@@ -39,6 +39,9 @@ struct CImRect {
 };
 
 
+CImGuiConcreteContext * igiGetCurrentContext();
+
+
 CImGuiWindow * igiGetCurrentWindowRead();
 CImGuiWindow * igiGetCurrentWindow();
 CImGuiWindow * igiFindWindowByID(CImGuiID id);

@@ -14,6 +14,11 @@
 #include "conversions.h"
 #include "conversions_internal.h"
 
+CImGuiConcreteContext * igiGetCurrentContext() {
+    return toCIm(GImGui);
+}
+
+
 CImGuiWindow * igiGetCurrentWindowRead() {
     return toCIm(ImGui::GetCurrentWindowRead());
 }

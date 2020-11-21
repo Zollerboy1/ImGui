@@ -5,6 +5,11 @@ import ImGui
 extension ImGui {
     public enum Internal {
         @inlinable
+        public static func getCurrentContext() -> UnsafeMutablePointer<CImGuiConcreteContext> {
+            igiGetCurrentContext()
+        }
+
+        @inlinable
         public static func getCurrentWindowRead() -> UnsafeMutablePointer<CImGuiWindow> {
             igiGetCurrentWindowRead()
         }
