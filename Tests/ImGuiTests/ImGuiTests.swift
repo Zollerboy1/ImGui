@@ -1,5 +1,6 @@
 import XCTest
 @testable import ImGui
+@testable import ImGuiInternal
 
 final class ImGuiTests: XCTestCase {
     func testExample() {

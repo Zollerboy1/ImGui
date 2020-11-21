@@ -10,6 +10,9 @@ let package = Package(
         .library(
             name: "ImGui",
             targets: ["ImGui"]),
+        .library(
+            name: "ImGuiInternal",
+            targets: ["ImGuiInternal"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -33,11 +36,18 @@ let package = Package(
             dependencies: ["cImGui", "cppImGui"],
             cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
         .target(
+            name: "cImGuiInternal",
+            dependencies: ["cImGui", "cppImGui"],
+            cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
+        .target(
             name: "ImGui",
             dependencies: ["cImGui", "cImGuiImpl"]),
+        .target(
+            name: "ImGuiInternal",
+            dependencies: ["cImGuiInternal", "ImGui"]),
         .testTarget(
             name: "ImGuiTests",
-            dependencies: ["ImGui"]),
+            dependencies: ["ImGui", "ImGuiInternal"]),
     ],
     cLanguageStandard: .c11,
     cxxLanguageStandard: .cxx11

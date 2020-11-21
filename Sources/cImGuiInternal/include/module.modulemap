@@ -1,0 +1,6 @@
+module cImGuiInternal {
+    header "cimgui_internal.h"
+    exclude header "asserts_internal.h"
+    exclude header "conversions_internal.h"
+    link "cImGuiInternal"
+}
