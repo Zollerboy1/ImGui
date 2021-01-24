@@ -182,9 +182,13 @@ void igSetNextWindowSize(CImVec2 size, CImGuiCond cond) {
 void igSetNextWindowSizeConstraints(CImVec2 size_min, CImVec2 size_max, CImGuiSizeCallback custom_callback, void * custom_callback_data) {
     static CImGuiSizeCallback staticCallback = custom_callback;
 
-    ImGui::SetNextWindowSizeConstraints(toIm(size_min), toIm(size_max), [](ImGuiSizeCallbackData * data) {
-        staticCallback(toCIm(data));
-    }, custom_callback_data);
+    if (staticCallback) {
+        ImGui::SetNextWindowSizeConstraints(toIm(size_min), toIm(size_max), [](ImGuiSizeCallbackData * data) {
+            staticCallback(toCIm(data));
+        }, custom_callback_data);
+    } else {
+        ImGui::SetNextWindowSizeConstraints(toIm(size_min), toIm(size_max));
+    }
 }
 
 void igSetNextWindowContentSize(CImVec2 size) {
@@ -766,25 +770,37 @@ bool igVSliderScalar(const char * label, CImVec2 size, CImGuiDataType data_type,
 bool igInputText(const char * label, char * buf, size_t buf_size, CImGuiInputTextFlags flags, CImGuiInputTextCallback callback, void * user_data) {
     static CImGuiInputTextCallback staticCallback = callback;
 
-    return ImGui::InputText(label, buf, buf_size, flags, [](ImGuiInputTextCallbackData * data) {
-        return staticCallback(toCIm(data));
-    }, user_data);
+    if (staticCallback) {
+        return ImGui::InputText(label, buf, buf_size, flags, [](ImGuiInputTextCallbackData * data) {
+            return staticCallback(toCIm(data));
+        }, user_data);
+    } else {
+        return ImGui::InputText(label, buf, buf_size, flags);
+    }
 }
 
 bool igInputTextMultiline(const char * label, char * buf, size_t buf_size, CImVec2 size, CImGuiInputTextFlags flags, CImGuiInputTextCallback callback, void * user_data) {
     static CImGuiInputTextCallback staticCallback = callback;
 
-    return ImGui::InputTextMultiline(label, buf, buf_size, toIm(size), flags, [](ImGuiInputTextCallbackData * data) {
-        return staticCallback(toCIm(data));
-    }, user_data);
+    if (staticCallback) {
+        return ImGui::InputTextMultiline(label, buf, buf_size, toIm(size), flags, [](ImGuiInputTextCallbackData * data) {
+            return staticCallback(toCIm(data));
+        }, user_data);
+    } else {
+        return ImGui::InputTextMultiline(label, buf, buf_size, toIm(size), flags);
+    }
 }
 
 bool igInputTextWithHint(const char * label, const char * hint, char * buf, size_t buf_size, CImGuiInputTextFlags flags, CImGuiInputTextCallback callback, void * user_data) {
     static CImGuiInputTextCallback staticCallback = callback;
 
-    return ImGui::InputTextWithHint(label, hint, buf, buf_size, flags, [](ImGuiInputTextCallbackData * data) {
-        return staticCallback(toCIm(data));
-    }, user_data);
+    if (staticCallback) {
+        return ImGui::InputTextWithHint(label, hint, buf, buf_size, flags, [](ImGuiInputTextCallbackData * data) {
+            return staticCallback(toCIm(data));
+        }, user_data);
+    } else {
+        return ImGui::InputTextWithHint(label, hint, buf, buf_size, flags);
+    }
 }
 
 bool igInputFloat(const char * label, float * v, float step, float step_fast, const char * format, CImGuiInputTextFlags flags) {

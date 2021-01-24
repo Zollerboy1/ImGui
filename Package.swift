@@ -8,6 +8,12 @@ let package = Package(
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
+            name: "cppImGui",
+            targets: ["cppImGui"]),
+        .library(
+            name: "cImGui",
+            targets: ["cImGui"]),
+        .library(
             name: "ImGui",
             targets: ["ImGui"]),
         .library(
