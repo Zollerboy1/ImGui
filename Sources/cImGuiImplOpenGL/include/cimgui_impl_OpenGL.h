@@ -1,12 +1,12 @@
 //
-//  cimgui_impl.h
+//  cimgui_impl_OpenGL.h
 //  
 //
 //  Created by Josef Zoller on 06.03.20.
 //
 
-#ifndef cimgui_impl_h
-#define cimgui_impl_h
+#ifndef cimgui_impl_OpenGL_h
+#define cimgui_impl_OpenGL_h
 
 
 #ifndef __cplusplus
@@ -34,4 +34,4 @@ void igImplOpenGL_RenderDrawData(CImDrawData * draw_data);
 }
 #endif
 
-#endif //cimgui_impl_h
+#endif //cimgui_impl_OpenGL_h

@@ -19,6 +19,12 @@ let package = Package(
         .library(
             name: "ImGuiInternal",
             targets: ["ImGuiInternal"]),
+        .library(
+            name: "ImGuiImplOpenGL",
+            targets: ["ImGuiImplOpenGL"]),
+        .library(
+            name: "ImGuiImplMetal",
+            targets: ["ImGuiImplMetal"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -32,13 +38,17 @@ let package = Package(
         .target(
             name: "cppImGui",
             dependencies: ["glad", "GLFW"],
-            sources: ["imgui/imgui_demo.cpp", "imgui/imgui_draw.cpp", "imgui/imgui_widgets.cpp", "imgui/imgui.cpp", "imgui/examples/imgui_impl_glfw.cpp", "imgui/examples/imgui_impl_opengl3.cpp"],
+            sources: ["imgui/imgui_demo.cpp", "imgui/imgui_draw.cpp", "imgui/imgui_widgets.cpp", "imgui/imgui.cpp", "imgui/examples/imgui_impl_glfw.cpp", "imgui/examples/imgui_impl_opengl3.cpp", "imgui/examples/imgui_impl_metal.mm"],
             cxxSettings: [.headerSearchPath("imgui")]),
         .target(
             name: "cImGui",
             dependencies: ["cppImGui"]),
         .target(
-            name: "cImGuiImpl",
+            name: "cImGuiImplOpenGL",
+            dependencies: ["cImGui", "cppImGui"],
+            cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
+        .target(
+            name: "cImGuiImplMetal",
             dependencies: ["cImGui", "cppImGui"],
             cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
         .target(
@@ -47,10 +57,16 @@ let package = Package(
             cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
         .target(
             name: "ImGui",
-            dependencies: ["cImGui", "cImGuiImpl"]),
+            dependencies: ["cImGui"]),
         .target(
             name: "ImGuiInternal",
             dependencies: ["cImGuiInternal", "ImGui"]),
+        .target(
+            name: "ImGuiImplOpenGL",
+            dependencies: ["cImGuiImplOpenGL", "ImGui"]),
+        .target(
+            name: "ImGuiImplMetal",
+            dependencies: ["cImGuiImplMetal", "ImGui"]),
         .testTarget(
             name: "ImGuiTests",
             dependencies: ["ImGui", "ImGuiInternal"]),

@@ -1,5 +1,4 @@
 @_exported import cImGui
-@_exported import cImGuiImpl
 
 public enum ImGui {
     @discardableResult

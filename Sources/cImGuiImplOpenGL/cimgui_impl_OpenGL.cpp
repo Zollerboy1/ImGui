@@ -1,15 +1,15 @@
 //
-//  cimgui_impl.c
+//  cimgui_impl_OpenGL.cpp
 //  
 //
 //  Created by Josef Zoller on 06.03.20.
 //
 
-#include "cimgui_impl.h"
+#include "cimgui_impl_OpenGL.h"
 
 #include <cimgui.h>
 #include <conversions.h>
-#include <cppimgui_impl.hpp>
+#include <cppimgui_impl_OpenGL.hpp>
 
 
 bool igImplGLFW_Init(GLFWwindow * window, bool install_callbacks) {
