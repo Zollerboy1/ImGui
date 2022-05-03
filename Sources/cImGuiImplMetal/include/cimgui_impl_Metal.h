@@ -34,6 +34,9 @@ void igImplMetal_RenderDrawData(CImDrawData* draw_data,
                                 id<MTLCommandBuffer> commandBuffer,
                                 id<MTLRenderCommandEncoder> commandEncoder);
 
+bool igImplMetal_CreateFontsTexture(id<MTLDevice> device);
+void igImplMetal_DestroyFontsTexture();
+
 #ifdef __cplusplus
 }
 #endif

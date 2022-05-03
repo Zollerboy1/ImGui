@@ -45,3 +45,11 @@ void igImplMetal_RenderDrawData(CImDrawData* draw_data,
     ImGui_ImplMetal_RenderDrawData(toIm(draw_data), commandBuffer, commandEncoder);
 }
 
+
+bool igImplMetal_CreateFontsTexture(id<MTLDevice> device) {
+    return ImGui_ImplMetal_CreateFontsTexture(device);
+}
+
+void igImplMetal_DestroyFontsTexture() {
+    ImGui_ImplMetal_DestroyFontsTexture();
+}

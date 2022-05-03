@@ -30,6 +30,9 @@ void igImplOpenGL_Shutdown();
 void igImplOpenGL_NewFrame();
 void igImplOpenGL_RenderDrawData(CImDrawData * draw_data);
 
+bool igImplOpenGL_CreateFontsTexture();
+void igImplOpenGL_DestroyFontsTexture();
+
 #ifdef __cplusplus
 }
 #endif
