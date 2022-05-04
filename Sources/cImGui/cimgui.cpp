@@ -63,12 +63,16 @@ void igShowDemoWindow(bool * p_open) {
     ImGui::ShowDemoWindow(p_open);
 }
 
-void igShowAboutWindow(bool * p_open) {
-    ImGui::ShowAboutWindow(p_open);
-}
-
 void igShowMetricsWindow(bool * p_open) {
     ImGui::ShowMetricsWindow(p_open);
+}
+
+void igShowStackToolWindow(bool * p_open) {
+    ImGui::ShowStackToolWindow(p_open);
+}
+
+void igShowAboutWindow(bool * p_open) {
+    ImGui::ShowAboutWindow(p_open);
 }
 
 void igShowStyleEditor(CImGuiStyle * ref) {
@@ -96,12 +100,12 @@ void igStyleColorsDark(CImGuiStyle * dst) {
     ImGui::StyleColorsDark(toIm(dst));
 }
 
-void igStyleColorsClassic(CImGuiStyle * dst) {
-    ImGui::StyleColorsClassic(toIm(dst));
-}
-
 void igStyleColorsLight(CImGuiStyle * dst) {
     ImGui::StyleColorsLight(toIm(dst));
+}
+
+void igStyleColorsClassic(CImGuiStyle * dst) {
+    ImGui::StyleColorsClassic(toIm(dst));
 }
 
 bool igBegin(const char * name, bool * p_open, CImGuiWindowFlags flags) {
@@ -148,10 +152,6 @@ CImDrawList * igGetWindowDrawList() {
 
 float igGetWindowDpiScale() {
     return ImGui::GetWindowDpiScale();
-}
-
-CImGuiViewport * igGetWindowViewport() {
-    return toCIm(ImGui::GetWindowViewport());
 }
 
 CImVec2 igGetWindowPos() {
@@ -248,12 +248,12 @@ void igSetNamedWindowFocus(const char * name) {
 }
 
 
-CImVec2 igGetContentRegionMax() {
-    return toCIm(ImGui::GetContentRegionMax());
-}
-
 CImVec2 igGetContentRegionAvail() {
     return toCIm(ImGui::GetContentRegionAvail());
+}
+
+CImVec2 igGetContentRegionMax() {
+    return toCIm(ImGui::GetContentRegionMax());
 }
 
 CImVec2 igGetWindowContentRegionMin() {
@@ -262,10 +262,6 @@ CImVec2 igGetWindowContentRegionMin() {
 
 CImVec2 igGetWindowContentRegionMax() {
     return toCIm(ImGui::GetWindowContentRegionMax());
-}
-
-float igGetWindowContentRegionWidth() {
-    return ImGui::GetWindowContentRegionWidth();
 }
 
 
@@ -277,20 +273,20 @@ float igGetScrollY() {
     return ImGui::GetScrollY();
 }
 
-float igGetScrollMaxX() {
-    return ImGui::GetScrollMaxX();
-}
-
-float igGetScrollMaxY() {
-    return ImGui::GetScrollMaxY();
-}
-
 void igSetScrollX(float scroll_x) {
     ImGui::SetScrollX(scroll_x);
 }
 
 void igSetScrollY(float scroll_y) {
     ImGui::SetScrollY(scroll_y);
+}
+
+float igGetScrollMaxX() {
+    return ImGui::GetScrollMaxX();
+}
+
+float igGetScrollMaxY() {
+    return ImGui::GetScrollMaxY();
 }
 
 void igSetScrollHereX(float center_x_ratio) {
@@ -342,33 +338,20 @@ void igPopStyleVar(int count) {
     ImGui::PopStyleVar(count);
 }
 
-CImVec4 igGetStyleColorVec4(CImGuiCol idx) {
-    return toCIm(ImGui::GetStyleColorVec4(idx));
+void igPushAllowKeyboardFocus(bool allow_keyboard_focus) {
+    ImGui::PushAllowKeyboardFocus(allow_keyboard_focus);
 }
 
-
-CImFont * igGetFont() {
-    return toCIm(ImGui::GetFont());
+void igPopAllowKeyboardFocus() {
+    ImGui::PopAllowKeyboardFocus();
 }
 
-float igGetFontSize() {
-    return ImGui::GetFontSize();
+void igPushButtonRepeat(bool repeat) {
+    ImGui::PushButtonRepeat(repeat);
 }
 
-CImVec2 igGetFontTexUvWhitePixel() {
-    return toCIm(ImGui::GetFontTexUvWhitePixel());
-}
-
-CImU32 igGetColorWithIndexU32(CImGuiCol idx, float alpha_mul) {
-    return ImGui::GetColorU32(idx, alpha_mul);
-}
-
-CImU32 igGetColorVec4U32(CImVec4 col) {
-    return ImGui::GetColorU32(toIm(col));
-}
-
-CImU32 igGetColorU32(CImU32 col) {
-    return ImGui::GetColorU32(col);
+void igPopButtonRepeat() {
+    ImGui::PopButtonRepeat();
 }
 
 
@@ -396,20 +379,33 @@ void igPopTextWrapPos() {
     ImGui::PopTextWrapPos();
 }
 
-void igPushAllowKeyboardFocus(bool allow_keyboard_focus) {
-    ImGui::PushAllowKeyboardFocus(allow_keyboard_focus);
+
+CImFont * igGetFont() {
+    return toCIm(ImGui::GetFont());
 }
 
-void igPopAllowKeyboardFocus() {
-    ImGui::PopAllowKeyboardFocus();
+float igGetFontSize() {
+    return ImGui::GetFontSize();
 }
 
-void igPushButtonRepeat(bool repeat) {
-    ImGui::PushButtonRepeat(repeat);
+CImVec2 igGetFontTexUvWhitePixel() {
+    return toCIm(ImGui::GetFontTexUvWhitePixel());
 }
 
-void igPopButtonRepeat() {
-    ImGui::PopButtonRepeat();
+CImU32 igGetColorWithIndexU32(CImGuiCol idx, float alpha_mul) {
+    return ImGui::GetColorU32(idx, alpha_mul);
+}
+
+CImU32 igGetColorVec4U32(CImVec4 col) {
+    return ImGui::GetColorU32(toIm(col));
+}
+
+CImU32 igGetColorU32(CImU32 col) {
+    return ImGui::GetColorU32(col);
+}
+
+CImVec4 igGetStyleColorVec4(CImGuiCol idx) {
+    return toCIm(ImGui::GetStyleColorVec4(idx));
 }
 
 
@@ -619,7 +615,11 @@ bool igCheckbox(const char * label, bool * v) {
     return ImGui::Checkbox(label, v);
 }
 
-bool igCheckboxFlags(const char * label, unsigned int * flags, unsigned int flags_value) {
+bool igCheckboxFlags(const char * label, int * flags, int flags_value) {
+    return ImGui::CheckboxFlags(label, flags, flags_value);
+}
+
+bool igCheckboxFlagsUnsigned(const char * label, unsigned int * flags, unsigned int flags_value) {
     return ImGui::CheckboxFlags(label, flags, flags_value);
 }
 
@@ -933,8 +933,8 @@ bool igCollapsingHeader(const char * label, CImGuiTreeNodeFlags flags) {
     return ImGui::CollapsingHeader(label, flags);
 }
 
-bool igCollapsingHeaderCloseButton(const char * label, bool * p_open, CImGuiTreeNodeFlags flags) {
-    return ImGui::CollapsingHeader(label, p_open, flags);
+bool igCollapsingHeaderCloseButton(const char * label, bool * p_visible, CImGuiTreeNodeFlags flags) {
+    return ImGui::CollapsingHeader(label, p_visible, flags);
 }
 
 void igSetNextItemOpen(bool is_open, CImGuiCond cond) {
@@ -951,24 +951,20 @@ bool igSelectablePointer(const char * label, bool * p_selected, CImGuiSelectable
 }
 
 
+bool igBeginListBox(const char * label, CImVec2 size) {
+    return ImGui::BeginListBox(label, toIm(size));
+}
+
+void igEndListBox() {
+    ImGui::EndListBox();
+}
+
 bool igListBox(const char * label, int * current_item, const char * const items[], int items_count, int height_in_items) {
     return ImGui::ListBox(label, current_item, items, items_count, height_in_items);
 }
 
 bool igListBoxGetter(const char * label, int * current_item, bool (*items_getter)(void * data, int idx, const char ** out_text), void * data, int items_count, int height_in_items) {
     return ImGui::ListBox(label, current_item, items_getter, data, items_count, height_in_items);
-}
-
-bool igListBoxHeader(const char * label, CImVec2 size) {
-    return ImGui::ListBoxHeader(label, toIm(size));
-}
-
-bool igListBoxHeaderCount(const char * label, int items_count, int height_in_items) {
-    return ImGui::ListBoxHeader(label, items_count, height_in_items);
-}
-
-void igListBoxFooter() {
-    ImGui::ListBoxFooter();
 }
 
 
@@ -1072,6 +1068,10 @@ void igOpenPopup(const char * str_id, CImGuiPopupFlags popup_flags) {
     ImGui::OpenPopup(str_id, popup_flags);
 }
 
+void igOpenPopupWithID(CImGuiID id, CImGuiPopupFlags popup_flags) {
+    ImGui::OpenPopup(id, popup_flags);
+}
+
 void igOpenPopupOnItemClick(const char * str_id, CImGuiPopupFlags popup_flags) {
     ImGui::OpenPopupOnItemClick(str_id, popup_flags);
 }
@@ -1094,6 +1094,77 @@ bool igBeginPopupContextVoid(const char * str_id, CImGuiPopupFlags popup_flags) 
 
 bool igIsPopupOpen(const char * str_id, CImGuiPopupFlags popup_flags) {
     return ImGui::IsPopupOpen(str_id, popup_flags);
+}
+
+
+bool igBeginTable(const char * str_id, int column, CImGuiTableFlags flags, CImVec2 outer_size, float inner_width) {
+    return ImGui::BeginTable(str_id, column, flags, toIm(outer_size), inner_width);
+}
+
+void igEndTable() {
+    ImGui::EndTable();
+}
+
+void igTableNextRow(CImGuiTableRowFlags row_flags, float min_row_height) {
+    ImGui::TableNextRow(row_flags, min_row_height);
+}
+
+bool igTableNextColumn() {
+    return ImGui::TableNextColumn();
+}
+
+bool igTableSetColumnIndex(int column_n) {
+    return ImGui::TableSetColumnIndex(column_n);
+}
+
+
+void igTableSetupColumn(const char * label, CImGuiTableColumnFlags flags, float init_width_or_weight, CImGuiID user_id) {
+    ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
+}
+
+void igTableSetupScrollFreeze(int cols, int rows) {
+    ImGui::TableSetupScrollFreeze(cols, rows);
+}
+
+void igTableHeadersRow() {
+    ImGui::TableHeadersRow();
+}
+
+void igTableHeader(const char * label) {
+    ImGui::TableHeader(label);
+}
+
+
+CImGuiTableSortSpecs * igTableGetSortSpecs() {
+    return toCIm(ImGui::TableGetSortSpecs());
+}
+
+int igTableGetColumnCount() {
+    return ImGui::TableGetColumnCount();
+}
+
+int igTableGetColumnIndex() {
+    return ImGui::TableGetColumnIndex();
+}
+
+int igTableGetRowIndex() {
+    return ImGui::TableGetRowIndex();
+}
+
+const char * igTableGetColumnName(int column_n) {
+    return ImGui::TableGetColumnName(column_n);
+}
+
+CImGuiTableColumnFlags igTableGetColumnFlags(int column_n) {
+    return ImGui::TableGetColumnFlags(column_n);
+}
+
+void igTableSetColumnEnabled(int column_n, bool v) {
+    ImGui::TableSetColumnEnabled(column_n, v);
+}
+
+void igTableSetBgColor(CImGuiTableBgTarget target, CImU32 color, int column_n) {
+    ImGui::TableSetBgColor(target, color, column_n);
 }
 
 
@@ -1155,11 +1226,11 @@ void igSetTabItemClosed(const char * tab_or_docked_window_label) {
 }
 
 
-void igDockSpace(CImGuiID id, CImVec2 size, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class) {
-    ImGui::DockSpace(id, toIm(size), flags, toIm(window_class));
+CImGuiID igDockSpace(CImGuiID id, CImVec2 size, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class) {
+    return ImGui::DockSpace(id, toIm(size), flags, toIm(window_class));
 }
 
-CImGuiID igDockSpaceOverViewport(CImGuiViewport * viewport, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class) {
+CImGuiID igDockSpaceOverViewport(const CImGuiViewport * viewport, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class) {
     return ImGui::DockSpaceOverViewport(toIm(viewport), flags, toIm(window_class));
 }
 
@@ -1227,6 +1298,14 @@ void igEndDragDropTarget() {
 
 const CImGuiPayload * igGetDragDropPayload() {
     return toCIm(ImGui::GetDragDropPayload());
+}
+
+void igBeginDisabled(bool disabled) {
+    ImGui::BeginDisabled(disabled);
+}
+
+void igEndDisabled() {
+    ImGui::EndDisabled();
 }
 
 
@@ -1317,20 +1396,8 @@ void igSetItemAllowOverlap() {
 }
 
 
-bool igIsRectWithSizeVisible(CImVec2 size) {
-    return ImGui::IsRectVisible(toIm(size));
-}
-
-bool igIsRectVisible(CImVec2 rect_min, CImVec2 rect_max) {
-    return ImGui::IsRectVisible(toIm(rect_min), toIm(rect_max));
-}
-
-double igGetTime() {
-    return ImGui::GetTime();
-}
-
-int igGetFrameCount() {
-    return ImGui::GetFrameCount();
+CImGuiViewport * igGetMainViewport() {
+    return toCIm(ImGui::GetMainViewport());
 }
 
 CImDrawList * igGetBackgroundDrawList() {
@@ -1349,6 +1416,23 @@ CImDrawList * igGetForegroundDrawListViewport(CImGuiViewport * viewport) {
     return toCIm(ImGui::GetForegroundDrawList(toIm(viewport)));
 }
 
+
+bool igIsRectWithSizeVisible(CImVec2 size) {
+    return ImGui::IsRectVisible(toIm(size));
+}
+
+bool igIsRectVisible(CImVec2 rect_min, CImVec2 rect_max) {
+    return ImGui::IsRectVisible(toIm(rect_min), toIm(rect_max));
+}
+
+double igGetTime() {
+    return ImGui::GetTime();
+}
+
+int igGetFrameCount() {
+    return ImGui::GetFrameCount();
+}
+
 CImDrawListSharedData * igGetDrawListSharedData() {
     return toCIm(ImGui::GetDrawListSharedData());
 }
@@ -1363,10 +1447,6 @@ void igSetStateStorage(CImGuiStorage * storage) {
 
 CImGuiStorage * igGetStateStorage() {
     return toCIm(ImGui::GetStateStorage());
-}
-
-void igCalcListClipping(int items_count, float items_height, int * out_items_display_start, int * out_items_display_end) {
-    ImGui::CalcListClipping(items_count, items_height, out_items_display_start, out_items_display_end);
 }
 
 bool igBeginChildFrame(CImGuiID id, CImVec2 size, CImGuiWindowFlags flags) {
@@ -1400,24 +1480,24 @@ void igColorConvertHSVtoRGB(float h, float s, float v, float * out_r, float * ou
 }
 
 
-int igGetKeyIndex(CImGuiKey imgui_key) {
-    return ImGui::GetKeyIndex(imgui_key);
+bool igIsKeyDown(CImGuiKey key) {
+    return ImGui::IsKeyDown(key);
 }
 
-bool igIsKeyDown(int user_key_index) {
-    return ImGui::IsKeyDown(user_key_index);
+bool igIsKeyPressed(CImGuiKey key, bool repeat) {
+    return ImGui::IsKeyPressed(key, repeat);
 }
 
-bool igIsKeyPressed(int user_key_index, bool repeat) {
-    return ImGui::IsKeyPressed(user_key_index, repeat);
+bool igIsKeyReleased(CImGuiKey key) {
+    return ImGui::IsKeyReleased(key);
 }
 
-bool igIsKeyReleased(int user_key_index) {
-    return ImGui::IsKeyReleased(user_key_index);
+int igGetKeyPressedAmount(CImGuiKey key, float repeat_delay, float rate) {
+    return ImGui::GetKeyPressedAmount(key, repeat_delay, rate);
 }
 
-int igGetKeyPressedAmount(int key_index, float repeat_delay, float rate) {
-    return ImGui::GetKeyPressedAmount(key_index, repeat_delay, rate);
+const char * igGetKeyName(CImGuiKey key) {
+    return ImGui::GetKeyName(key);
 }
 
 void igCaptureKeyboardFromApp(bool want_capture_keyboard_value) {
@@ -1439,6 +1519,10 @@ bool igIsMouseReleased(CImGuiMouseButton button) {
 
 bool igIsMouseDoubleClicked(CImGuiMouseButton button) {
     return ImGui::IsMouseDoubleClicked(button);
+}
+
+int igGetMouseClickedCount(CImGuiMouseButton button) {
+    return ImGui::GetMouseClickedCount(button);
 }
 
 bool igIsMouseHoveringRect(CImVec2 r_min, CImVec2 r_max, bool clip) {
@@ -1521,8 +1605,12 @@ bool igCheckVersion() {
 }
 
 
-void igSetAllocatorFunctions(void * (*alloc_func)(size_t sz, void * user_data), void (*free_func)(void * ptr, void * user_data), void * user_data) {
+void igSetAllocatorFunctions(CImGuiMemAllocFunc alloc_func, CImGuiMemFreeFunc free_func, void * user_data) {
     ImGui::SetAllocatorFunctions(alloc_func, free_func, user_data);
+}
+
+void igGetAllocatorFunctions(CImGuiMemAllocFunc * p_alloc_func, CImGuiMemFreeFunc * p_free_func, void ** p_user_data) {
+    ImGui::GetAllocatorFunctions(p_alloc_func, p_free_func, p_user_data);
 }
 
 void * igMemAlloc(size_t size) {
@@ -1536,10 +1624,6 @@ void igMemFree(void * ptr) {
 
 CImGuiPlatformIO * igGetPlatformIO() {
     return toCIm(&ImGui::GetPlatformIO());
-}
-
-CImGuiViewport * igGetMainViewport() {
-    return toCIm(ImGui::GetMainViewport());
 }
 
 void igUpdatePlatformWindows() {
@@ -1582,6 +1666,10 @@ CImDrawCmd * ig_CImDrawCmd_init() {
 
 void ig_CImDrawCmd_deinit(CImDrawCmd * ptr) {
     delete toIm(ptr);
+}
+
+CImTextureID ig_CImDrawCmd_GetTexID(const CImDrawCmd * ptr) {
+    return toIm(ptr)->GetTexID();
 }
 
 
@@ -1676,12 +1764,12 @@ void ig_CImDrawList_AddLine(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImU32 co
     toIm(ptr)->AddLine(toIm(p1), toIm(p2), col, thickness);
 }
 
-void ig_CImDrawList_AddRect(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners, float thickness) {
-    toIm(ptr)->AddRect(toIm(p_min), toIm(p_max), col, rounding, rounding_corners, thickness);
+void ig_CImDrawList_AddRect(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawFlags flags, float thickness) {
+    toIm(ptr)->AddRect(toIm(p_min), toIm(p_max), col, rounding, flags, thickness);
 }
 
-void ig_CImDrawList_AddRectFilled(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners) {
-    toIm(ptr)->AddRectFilled(toIm(p_min), toIm(p_max), col, rounding, rounding_corners);
+void ig_CImDrawList_AddRectFilled(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawFlags flags) {
+    toIm(ptr)->AddRectFilled(toIm(p_min), toIm(p_max), col, rounding, flags);
 }
 
 void ig_CImDrawList_AddRectFilledMultiColor(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col_upr_left, CImU32 col_upr_right, CImU32 col_bot_right, CImU32 col_bot_left) {
@@ -1728,16 +1816,20 @@ void ig_CImDrawList_AddTextWithFont(CImDrawList * ptr, const CImFont * font, flo
     toIm(ptr)->AddText(toIm(font), font_size, toIm(pos), col, text_begin, text_end, wrap_width, toIm(cpu_fine_clip_rect));
 }
 
-void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col, bool closed, float thickness) {
-    toIm(ptr)->AddPolyline(toIm(points), num_points, col, closed, thickness);
+void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col, CImDrawFlags flags, float thickness) {
+    toIm(ptr)->AddPolyline(toIm(points), num_points, col, flags, thickness);
 }
 
 void ig_CImDrawList_AddConvexPolyFilled(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col) {
     toIm(ptr)->AddConvexPolyFilled(toIm(points), num_points, col);
 }
 
-void ig_CImDrawList_AddBezierCurve(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col, float thickness, int num_segments) {
-    toIm(ptr)->AddBezierCurve(toIm(p1), toIm(p2), toIm(p3), toIm(p4), col, thickness, num_segments);
+void ig_CImDrawList_AddBezierCubic(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col, float thickness, int num_segments) {
+    toIm(ptr)->AddBezierCubic(toIm(p1), toIm(p2), toIm(p3), toIm(p4), col, thickness, num_segments);
+}
+
+void ig_CImDrawList_AddBezierQuadratic(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImU32 col, float thickness, int num_segments) {
+    toIm(ptr)->AddBezierQuadratic(toIm(p1), toIm(p2), toIm(p3), col, thickness, num_segments);
 }
 
 
@@ -1749,8 +1841,8 @@ void ig_CImDrawList_AddImageQuad(CImDrawList * ptr, CImTextureID user_texture_id
     toIm(ptr)->AddImageQuad(user_texture_id, toIm(p1), toIm(p2), toIm(p3), toIm(p4), toIm(uv1), toIm(uv2), toIm(uv3), toIm(uv4), col);
 }
 
-void ig_CImDrawList_AddImageRounded(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p_min, CImVec2 p_max, CImVec2 uv_min, CImVec2 uv_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners) {
-    toIm(ptr)->AddImageRounded(user_texture_id, toIm(p_min), toIm(p_max), toIm(uv_min), toIm(uv_max), col, rounding, rounding_corners);
+void ig_CImDrawList_AddImageRounded(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p_min, CImVec2 p_max, CImVec2 uv_min, CImVec2 uv_max, CImU32 col, float rounding, CImDrawFlags flags) {
+    toIm(ptr)->AddImageRounded(user_texture_id, toIm(p_min), toIm(p_max), toIm(uv_min), toIm(uv_max), col, rounding, flags);
 }
 
 
@@ -1770,8 +1862,8 @@ void ig_CImDrawList_PathFillConvex(CImDrawList * ptr, CImU32 col) {
     toIm(ptr)->PathFillConvex(col);
 }
 
-void ig_CImDrawList_PathStroke(CImDrawList * ptr, CImU32 col, bool closed, float thickness) {
-    toIm(ptr)->PathStroke(col, closed, thickness);
+void ig_CImDrawList_PathStroke(CImDrawList * ptr, CImU32 col, CImDrawFlags flags, float thickness) {
+    toIm(ptr)->PathStroke(col, flags, thickness);
 }
 
 void ig_CImDrawList_PathArcTo(CImDrawList * ptr, CImVec2 center, float radius, float a_min, float a_max, int num_segments) {
@@ -1782,12 +1874,16 @@ void ig_CImDrawList_PathArcToFast(CImDrawList * ptr, CImVec2 center, float radiu
     toIm(ptr)->PathArcToFast(toIm(center), radius, a_min_of_12, a_max_of_12);
 }
 
-void ig_CImDrawList_PathBezierCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, CImVec2 p4, int num_segments) {
-    toIm(ptr)->PathBezierCurveTo(toIm(p2), toIm(p3), toIm(p4), num_segments);
+void ig_CImDrawList_PathBezierCubicCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, CImVec2 p4, int num_segments) {
+    toIm(ptr)->PathBezierCubicCurveTo(toIm(p2), toIm(p3), toIm(p4), num_segments);
 }
 
-void ig_CImDrawList_PathRect(CImDrawList * ptr, CImVec2 rect_min, CImVec2 rect_max, float rounding, CImDrawCornerFlags rounding_corners) {
-    toIm(ptr)->PathRect(toIm(rect_min), toIm(rect_max), rounding, rounding_corners);
+void ig_CImDrawList_PathBezierQuadraticCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, int num_segments) {
+    toIm(ptr)->PathBezierQuadraticCurveTo(toIm(p2), toIm(p3), num_segments);
+}
+
+void ig_CImDrawList_PathRect(CImDrawList * ptr, CImVec2 rect_min, CImVec2 rect_max, float rounding, CImDrawFlags flags) {
+    toIm(ptr)->PathRect(toIm(rect_min), toIm(rect_max), rounding, flags);
 }
 
 
@@ -1821,6 +1917,40 @@ void ig_CImDrawList_ChannelsSetCurrent(CImDrawList * ptr, int n) {
 }
 
 
+void ig_CImDrawList_PrimReserve(CImDrawList * ptr, int idx_count, int vtx_count) {
+    toIm(ptr)->PrimReserve(idx_count, vtx_count);
+}
+
+void ig_CImDrawList_PrimUnreserve(CImDrawList * ptr, int idx_count, int vtx_count) {
+    toIm(ptr)->PrimUnreserve(idx_count, vtx_count);
+}
+
+void ig_CImDrawList_PrimRect(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImU32 col) {
+    toIm(ptr)->PrimRect(toIm(a), toIm(b), col);
+}
+
+void ig_CImDrawList_PrimRectUV(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImVec2 uv_a, CImVec2 uv_b, CImU32 col) {
+    toIm(ptr)->PrimRectUV(toIm(a), toIm(b), toIm(uv_a), toIm(uv_b), col);
+}
+
+void ig_CImDrawList_PrimQuadUV(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImVec2 c, CImVec2 d, CImVec2 uv_a, CImVec2 uv_b, CImVec2 uv_c, CImVec2 uv_d, CImU32 col) {
+    toIm(ptr)->PrimQuadUV(toIm(a), toIm(b), toIm(c), toIm(d), toIm(uv_a), toIm(uv_b), toIm(uv_c), toIm(uv_d), col);
+}
+
+void ig_CImDrawList_PrimWriteVtx(CImDrawList * ptr, CImVec2 pos, CImVec2 uv, CImU32 col) {
+    toIm(ptr)->PrimWriteVtx(toIm(pos), toIm(uv), col);
+}
+
+void ig_CImDrawList_PrimWriteIdx(CImDrawList * ptr, CImDrawIdx idx) {
+    toIm(ptr)->PrimWriteIdx(idx);
+}
+
+void ig_CImDrawList_PrimVtx(CImDrawList * ptr, CImVec2 pos, CImVec2 uv, CImU32 col) {
+    toIm(ptr)->PrimVtx(toIm(pos), toIm(uv), col);
+}
+
+
+
 
 CImDrawListSharedData * ig_CImDrawListSharedData_init() {
     return toCIm(new ImDrawListSharedData);
@@ -1830,8 +1960,8 @@ void ig_CImDrawListSharedData_deinit(CImDrawListSharedData * ptr) {
     delete toIm(ptr);
 }
 
-void ig_CImDrawListSharedData_SetCircleSegmentMaxError(CImDrawListSharedData * ptr, float max_error) {
-    toIm(ptr)->SetCircleSegmentMaxError(max_error);
+void ig_CImDrawListSharedData_SetCircleTessellationMaxError(CImDrawListSharedData * ptr, float max_error) {
+    toIm(ptr)->SetCircleTessellationMaxError(max_error);
 }
 
 
@@ -2062,20 +2192,20 @@ CImColor * ig_CImColor_init() {
     return toCIm(new ImColor);
 }
 
-CImColor * ig_CImColor_initInt(int r, int g, int b, int a) {
-    return toCIm(new ImColor(r, g, b, a));
-}
-
-CImColor * ig_CImColor_initRGBA(CImU32 rgba) {
-    return toCIm(new ImColor(rgba));
-}
-
 CImColor * ig_CImColor_initFloat(float r, float g, float b, float a) {
     return toCIm(new ImColor(r, g, b, a));
 }
 
 CImColor * ig_CImColor_initVec(CImVec4 col) {
     return toCIm(new ImColor(toIm(col)));
+}
+
+CImColor * ig_CImColor_initInt(int r, int g, int b, int a) {
+    return toCIm(new ImColor(r, g, b, a));
+}
+
+CImColor * ig_CImColor_initRGBA(CImU32 rgba) {
+    return toCIm(new ImColor(rgba));
 }
 
 CImColor * ig_CImColor_initHSV(float h, float s, float v, float a) {
@@ -2108,6 +2238,35 @@ CImGuiIO * ig_CImGuiIO_init() {
 
 void ig_CImGuiIO_deinit(CImGuiIO * ptr) {
     delete toIm(ptr);
+}
+
+
+void ig_CImGuiIO_AddKeyEvent(CImGuiIO * ptr, CImGuiKey key, bool down) {
+    toIm(ptr)->AddKeyEvent(key, down);
+}
+
+void ig_CImGuiIO_AddKeyAnalogEvent(CImGuiIO * ptr, CImGuiKey key, bool down, float v) {
+    toIm(ptr)->AddKeyAnalogEvent(key, down, v);
+}
+
+void ig_CImGuiIO_AddMousePosEvent(CImGuiIO * ptr, float x, float y) {
+    toIm(ptr)->AddMousePosEvent(x, y);
+}
+
+void ig_CImGuiIO_AddMouseButtonEvent(CImGuiIO * ptr, int button, bool down) {
+    toIm(ptr)->AddMouseButtonEvent(button, down);
+}
+
+void ig_CImGuiIO_AddMouseWheelEvent(CImGuiIO * ptr, float wh_x, float wh_y) {
+    toIm(ptr)->AddMouseWheelEvent(wh_x, wh_y);
+}
+
+void ig_CImGuiIO_AddMouseViewportEvent(CImGuiIO * ptr, CImGuiID id) {
+    toIm(ptr)->AddMouseViewportEvent(id);
+}
+
+void ig_CImGuiIO_AddFocusEvent(CImGuiIO * ptr, bool focused) {
+    toIm(ptr)->AddFocusEvent(focused);
 }
 
 void ig_CImGuiIO_AddInputCharacter(CImGuiIO * ptr, unsigned int c) {
@@ -2170,6 +2329,10 @@ void ig_CImGuiListClipper_End(CImGuiListClipper * ptr) {
     return toIm(ptr)->End();
 }
 
+void ig_CImGuiListClipper_ForceDisplayRangeByIndices(CImGuiListClipper * ptr, int item_min, int item_max) {
+    toIm(ptr)->ForceDisplayRangeByIndices(item_min, item_max);
+}
+
 
 
 CImGuiOnceUponAFrame * ig_CImGuiOnceUponAFrame_init() {
@@ -2208,6 +2371,16 @@ bool ig_CImGuiPayload_IsPreview(const CImGuiPayload * ptr) {
 
 bool ig_CImGuiPayload_IsDelivery(const CImGuiPayload * ptr) {
     return toIm(ptr)->IsDelivery();
+}
+
+
+
+CImGuiPlatformImeData * ig_CImGuiPlatformImeData_init() {
+    return toCIm(new ImGuiPlatformImeData);
+}
+
+void ig_CImGuiPlatformImeData_deinit(const CImGuiPlatformImeData * ptr) {
+    delete toIm(ptr);
 }
 
 
@@ -2329,6 +2502,26 @@ void ig_CImGuiStyle_ScaleAllSizes(CImGuiStyle * ptr, float scale_factor) {
 
 
 
+CImGuiTableColumnSortSpecs * ig_CImGuiTableColumnSortSpecs_init() {
+    return toCIm(new ImGuiTableColumnSortSpecs);
+}
+
+void ig_CImGuiTableColumnSortSpecs_deinit(const CImGuiTableColumnSortSpecs * ptr) {
+    delete toIm(ptr);
+}
+
+
+
+CImGuiTableSortSpecs * ig_CImGuiTableSortSpecs_init() {
+    return toCIm(new ImGuiTableSortSpecs);
+}
+
+void ig_CImGuiTableSortSpecs_deinit(const CImGuiTableSortSpecs * ptr) {
+    delete toIm(ptr);
+}
+
+
+
 char * ig_CImGuiTextBuffer_EmptyString() {
     return ImGuiTextBuffer::EmptyString;
 }
@@ -2425,12 +2618,12 @@ void ig_CImGuiViewport_deinit(CImGuiViewport * ptr) {
     delete toIm(ptr);
 }
 
-CImVec2 ig_CImGuiViewport_GetWorkPos(CImGuiViewport * ptr) {
-    return toCIm(toIm(ptr)->GetWorkPos());
+CImVec2 ig_CImGuiViewport_GetCenter(CImGuiViewport * ptr) {
+    return toCIm(toIm(ptr)->GetCenter());
 }
 
-CImVec2 ig_CImGuiViewport_GetWorkSize(CImGuiViewport * ptr) {
-    return toCIm(toIm(ptr)->GetWorkSize());
+CImVec2 ig_CImGuiViewport_GetWorkCenter(CImGuiViewport * ptr) {
+    return toCIm(toIm(ptr)->GetWorkCenter());
 }
 
 

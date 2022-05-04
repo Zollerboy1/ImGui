@@ -44,8 +44,9 @@ void igRender();
 CImDrawData * igGetDrawData();
 
 void igShowDemoWindow(bool * p_open);
-void igShowAboutWindow(bool * p_open);
 void igShowMetricsWindow(bool * p_open);
+void igShowStackToolWindow(bool * p_open);
+void igShowAboutWindow(bool * p_open);
 void igShowStyleEditor(CImGuiStyle * ref);
 bool igShowStyleSelector(const char * label);
 void igShowFontSelector(const char * label);
@@ -53,8 +54,8 @@ void igShowUserGuide();
 const char * igGetVersion();
 
 void igStyleColorsDark(CImGuiStyle * dst);
-void igStyleColorsClassic(CImGuiStyle * dst);
 void igStyleColorsLight(CImGuiStyle * dst);
+void igStyleColorsClassic(CImGuiStyle * dst);
 
 bool igBegin(const char * name, bool * p_open, CImGuiWindowFlags flags);
 void igEnd();
@@ -69,7 +70,6 @@ bool igIsWindowFocused(CImGuiFocusedFlags flags);
 bool igIsWindowHovered(CImGuiHoveredFlags flags);
 CImDrawList * igGetWindowDrawList();
 float igGetWindowDpiScale();
-CImGuiViewport * igGetWindowViewport();
 CImVec2 igGetWindowPos();
 CImVec2 igGetWindowSize();
 float igGetWindowWidth();
@@ -93,18 +93,17 @@ void igSetNamedWindowSize(const char * name, CImVec2 size, CImGuiCond cond);
 void igSetNamedWindowCollapsed(const char * name, bool collapsed, CImGuiCond cond);
 void igSetNamedWindowFocus(const char * name);
 
-CImVec2 igGetContentRegionMax();
 CImVec2 igGetContentRegionAvail();
+CImVec2 igGetContentRegionMax();
 CImVec2 igGetWindowContentRegionMin();
 CImVec2 igGetWindowContentRegionMax();
-float igGetWindowContentRegionWidth();
 
 float igGetScrollX();
 float igGetScrollY();
-float igGetScrollMaxX();
-float igGetScrollMaxY();
 void igSetScrollX(float scroll_x);
 void igSetScrollY(float scroll_y);
+float igGetScrollMaxX();
+float igGetScrollMaxY();
 void igSetScrollHereX(float center_x_ratio);
 void igSetScrollHereY(float center_y_ratio);
 void igSetScrollFromPosX(float local_x, float center_x_ratio);
@@ -118,14 +117,10 @@ void igPopStyleColor(int count);
 void igPushStyleVar(CImGuiStyleVar idx, float val);
 void igPushStyleVarVec2(CImGuiStyleVar idx, CImVec2 val);
 void igPopStyleVar(int count);
-CImVec4 igGetStyleColorVec4(CImGuiCol idx);
-
-CImFont * igGetFont();
-float igGetFontSize();
-CImVec2 igGetFontTexUvWhitePixel();
-CImU32 igGetColorWithIndexU32(CImGuiCol idx, float alpha_mul);
-CImU32 igGetColorVec4U32(CImVec4 col);
-CImU32 igGetColorU32(CImU32 col);
+void igPushAllowKeyboardFocus(bool allow_keyboard_focus);
+void igPopAllowKeyboardFocus();
+void igPushButtonRepeat(bool repeat);
+void igPopButtonRepeat();
 
 void igPushItemWidth(float item_width);
 void igPopItemWidth();
@@ -133,10 +128,14 @@ void igSetNextItemWidth(float item_width);
 float igCalcItemWidth();
 void igPushTextWrapPos(float wrap_local_pos_x);
 void igPopTextWrapPos();
-void igPushAllowKeyboardFocus(bool allow_keyboard_focus);
-void igPopAllowKeyboardFocus();
-void igPushButtonRepeat(bool repeat);
-void igPopButtonRepeat();
+
+CImFont * igGetFont();
+float igGetFontSize();
+CImVec2 igGetFontTexUvWhitePixel();
+CImU32 igGetColorWithIndexU32(CImGuiCol idx, float alpha_mul);
+CImU32 igGetColorVec4U32(CImVec4 col);
+CImU32 igGetColorU32(CImU32 col);
+CImVec4 igGetStyleColorVec4(CImGuiCol idx);
 
 void igSeparator();
 void igSameLine(float offset_from_start_x, float spacing);
@@ -192,7 +191,8 @@ bool igArrowButton(const char * str_id, CImGuiDir dir);
 void igImage(CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, CImVec4 tint_col, CImVec4 border_col);
 bool igImageButton(CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, int frame_padding, CImVec4 bg_col, CImVec4 tint_col);
 bool igCheckbox(const char * label, bool * v);
-bool igCheckboxFlags(const char * label, unsigned int * flags, unsigned int flags_value);
+bool igCheckboxFlags(const char * label, int * flags, int flags_value);
+bool igCheckboxFlagsUnsigned(const char * label, unsigned int * flags, unsigned int flags_value);
 bool igRadioButton(const char * label, bool active);
 bool igRadioButtonInt(const char * label, int * v, int v_button);
 void igProgressBar(float fraction, CImVec2 size_arg, const char * overlay);
@@ -269,17 +269,16 @@ void igTreePushPointer(const void * ptr_id);
 void igTreePop();
 float igGetTreeNodeToLabelSpacing();
 bool igCollapsingHeader(const char * label, CImGuiTreeNodeFlags flags);
-bool igCollapsingHeaderCloseButton(const char * label, bool * p_open, CImGuiTreeNodeFlags flags);
+bool igCollapsingHeaderCloseButton(const char * label, bool * p_visible, CImGuiTreeNodeFlags flags);
 void igSetNextItemOpen(bool is_open, CImGuiCond cond);
 
 bool igSelectable(const char * label, bool selected, CImGuiSelectableFlags flags, CImVec2 size);
 bool igSelectablePointer(const char * label, bool * p_selected, CImGuiSelectableFlags flags, CImVec2 size);
 
+bool igBeginListBox(const char * label, CImVec2 size);
+void igEndListBox();
 bool igListBox(const char * label, int * current_item, const char * const items[], int items_count, int height_in_items);
 bool igListBoxGetter(const char * label, int * current_item, bool (*items_getter)(void * data, int idx, const char ** out_text), void * data, int items_count, int height_in_items);
-bool igListBoxHeader(const char * label, CImVec2 size);
-bool igListBoxHeaderCount(const char * label, int items_count, int height_in_items);
-void igListBoxFooter();
 
 void igPlotLines(const char * label, const float * values, int values_count, int values_offset, const char * overlay_text, float scale_min, float scale_max, CImVec2 graph_size, int stride);
 void igPlotLinesGetter(const char * label, float(*values_getter)(void * data, int idx), void * data, int values_count, int values_offset, const char * overlay_text, float scale_min, float scale_max, CImVec2 graph_size);
@@ -309,12 +308,33 @@ bool igBeginPopup(const char * str_id, CImGuiWindowFlags flags);
 bool igBeginPopupModal(const char * name, bool * p_open, CImGuiWindowFlags flags);
 void igEndPopup();
 void igOpenPopup(const char * str_id, CImGuiPopupFlags popup_flags);
+void igOpenPopupWithID(CImGuiID id, CImGuiPopupFlags popup_flags);
 void igOpenPopupOnItemClick(const char * str_id, CImGuiPopupFlags popup_flags);
 void igCloseCurrentPopup();
 bool igBeginPopupContextItem(const char * str_id, CImGuiPopupFlags popup_flags);
 bool igBeginPopupContextWindow(const char * str_id, CImGuiPopupFlags popup_flags);
 bool igBeginPopupContextVoid(const char * str_id, CImGuiPopupFlags popup_flags);
 bool igIsPopupOpen(const char * str_id, CImGuiPopupFlags popup_flags);
+
+bool igBeginTable(const char * str_id, int column, CImGuiTableFlags flags, CImVec2 outer_size, float inner_width);
+void igEndTable();
+void igTableNextRow(CImGuiTableRowFlags row_flags, float min_row_height);
+bool igTableNextColumn();
+bool igTableSetColumnIndex(int column_n);
+
+void igTableSetupColumn(const char * label, CImGuiTableColumnFlags flags, float init_width_or_weight, CImGuiID user_id);
+void igTableSetupScrollFreeze(int cols, int rows);
+void igTableHeadersRow();
+void igTableHeader(const char * label);
+
+CImGuiTableSortSpecs * igTableGetSortSpecs();
+int igTableGetColumnCount();
+int igTableGetColumnIndex();
+int igTableGetRowIndex();
+const char * igTableGetColumnName(int column_n);
+CImGuiTableColumnFlags igTableGetColumnFlags(int column_n);
+void igTableSetColumnEnabled(int column_n, bool v);
+void igTableSetBgColor(CImGuiTableBgTarget target, CImU32 color, int column_n);
 
 void igColumns(int count, const char * id, bool border);
 void igNextColumn();
@@ -332,8 +352,8 @@ void igEndTabItem();
 bool igTabItemButton(const char * label, CImGuiTabItemFlags flags);
 void igSetTabItemClosed(const char * tab_or_docked_window_label);
 
-void igDockSpace(CImGuiID id, CImVec2 size, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class);
-CImGuiID igDockSpaceOverViewport(CImGuiViewport * viewport, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class);
+CImGuiID igDockSpace(CImGuiID id, CImVec2 size, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class);
+CImGuiID igDockSpaceOverViewport(const CImGuiViewport * viewport, CImGuiDockNodeFlags flags, const CImGuiWindowClass * window_class);
 void igSetNextWindowDockID(CImGuiID dock_id, CImGuiCond cond);
 void igSetNextWindowClass(const CImGuiWindowClass * window_class);
 CImGuiID igGetWindowDockID();
@@ -352,6 +372,9 @@ bool igBeginDragDropTarget();
 const CImGuiPayload * igAcceptDragDropPayload(const char * type, CImGuiDragDropFlags flags);
 void igEndDragDropTarget();
 const CImGuiPayload * igGetDragDropPayload();
+
+void igBeginDisabled(bool disabled);
+void igEndDisabled();
 
 void igPushClipRect(CImVec2 clip_rect_min, CImVec2 clip_rect_max, bool intersect_with_current_clip_rect);
 void igPopClipRect();
@@ -377,19 +400,20 @@ CImVec2 igGetItemRectMax();
 CImVec2 igGetItemRectSize();
 void igSetItemAllowOverlap();
 
-bool igIsRectWithSizeVisible(CImVec2 size);
-bool igIsRectVisible(CImVec2 rect_min, CImVec2 rect_max);
-double igGetTime();
-int igGetFrameCount();
+CImGuiViewport * igGetMainViewport();
 CImDrawList * igGetBackgroundDrawList();
 CImDrawList * igGetForegroundDrawList();
 CImDrawList * igGetBackgroundDrawListViewport(CImGuiViewport * viewport);
 CImDrawList * igGetForegroundDrawListViewport(CImGuiViewport * viewport);
+
+bool igIsRectWithSizeVisible(CImVec2 size);
+bool igIsRectVisible(CImVec2 rect_min, CImVec2 rect_max);
+double igGetTime();
+int igGetFrameCount();
 CImDrawListSharedData * igGetDrawListSharedData();
 const char * igGetStyleColorName(CImGuiCol idx);
 void igSetStateStorage(CImGuiStorage * storage);
 CImGuiStorage * igGetStateStorage();
-void igCalcListClipping(int items_count, float items_height, int * out_items_display_start, int * out_items_display_end);
 bool igBeginChildFrame(CImGuiID id, CImVec2 size, CImGuiWindowFlags flags);
 void igEndChildFrame();
 
@@ -400,17 +424,18 @@ CImU32 igColorConvertFloat4ToU32(CImVec4 in);
 void igColorConvertRGBtoHSV(float r, float g, float b, float * out_h, float * out_s, float * out_v);
 void igColorConvertHSVtoRGB(float h, float s, float v, float * out_r, float * out_g, float * out_b);
 
-int igGetKeyIndex(CImGuiKey imgui_key);
-bool igIsKeyDown(int user_key_index);
-bool igIsKeyPressed(int user_key_index, bool repeat);
-bool igIsKeyReleased(int user_key_index);
-int igGetKeyPressedAmount(int key_index, float repeat_delay, float rate);
+bool igIsKeyDown(CImGuiKey key);
+bool igIsKeyPressed(CImGuiKey key, bool repeat);
+bool igIsKeyReleased(CImGuiKey key);
+int igGetKeyPressedAmount(CImGuiKey key, float repeat_delay, float rate);
+const char * igGetKeyName(CImGuiKey key);
 void igCaptureKeyboardFromApp(bool want_capture_keyboard_value);
 
 bool igIsMouseDown(CImGuiMouseButton button);
 bool igIsMouseClicked(CImGuiMouseButton button, bool repeat);
 bool igIsMouseReleased(CImGuiMouseButton button);
 bool igIsMouseDoubleClicked(CImGuiMouseButton button);
+int igGetMouseClickedCount(CImGuiMouseButton button);
 bool igIsMouseHoveringRect(CImVec2 r_min, CImVec2 r_max, bool clip);
 bool igIsMousePosValid(const CImVec2 * mouse_pos);
 bool igIsAnyMouseDown();
@@ -434,12 +459,12 @@ const char * igSaveIniSettingsToMemory(size_t * out_ini_size);
 bool igDebugCheckVersionAndDataLayout(const char * version_str, size_t sz_io, size_t sz_style, size_t sz_vec2, size_t sz_vec4, size_t sz_drawvert, size_t sz_drawidx);
 bool igCheckVersion();
 
-void igSetAllocatorFunctions(void * (*alloc_func)(size_t sz, void * user_data), void (*free_func)(void * ptr, void * user_data), void * user_data);
+void igSetAllocatorFunctions(CImGuiMemAllocFunc alloc_func, CImGuiMemFreeFunc free_func, void * user_data);
+void igGetAllocatorFunctions(CImGuiMemAllocFunc * p_alloc_func, CImGuiMemFreeFunc * p_free_func, void ** p_user_data);
 void * igMemAlloc(size_t size);
 void igMemFree(void * ptr);
 
 CImGuiPlatformIO * igGetPlatformIO();
-CImGuiViewport * igGetMainViewport();
 void igUpdatePlatformWindows();
 void igRenderPlatformWindowsDefault(void * platform_render_arg, void * renderer_render_arg);
 void igDestroyPlatformWindows();
@@ -493,6 +518,11 @@ enum CImGuiCol_ {
     CImGuiCol_PlotLinesHovered,
     CImGuiCol_PlotHistogram,
     CImGuiCol_PlotHistogramHovered,
+    CImGuiCol_TableHeaderBg,
+    CImGuiCol_TableBorderStrong,
+    CImGuiCol_TableBorderLight,
+    CImGuiCol_TableRowBg,
+    CImGuiCol_TableRowBgAlt,
     CImGuiCol_TextSelectedBg,
     CImGuiCol_DragDropTarget,
     CImGuiCol_NavHighlight,
@@ -500,9 +530,6 @@ enum CImGuiCol_ {
     CImGuiCol_NavWindowingDimBg,
     CImGuiCol_ModalWindowDimBg,
     CImGuiCol_COUNT
-#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    , CImGuiCol_ModalWindowDarkening = CImGuiCol_ModalWindowDimBg
-#endif
 };
 
 enum CImGuiCond_ {
@@ -537,7 +564,8 @@ enum CImGuiDir_ {
 };
 
 enum CImGuiKey_ {
-    CImGuiKey_Tab,
+    CImGuiKey_None = 0,
+    CImGuiKey_Tab = 512,
     CImGuiKey_LeftArrow,
     CImGuiKey_RightArrow,
     CImGuiKey_UpArrow,
@@ -552,14 +580,82 @@ enum CImGuiKey_ {
     CImGuiKey_Space,
     CImGuiKey_Enter,
     CImGuiKey_Escape,
-    CImGuiKey_KeyPadEnter,
-    CImGuiKey_A,
-    CImGuiKey_C,
-    CImGuiKey_V,
-    CImGuiKey_X,
-    CImGuiKey_Y,
-    CImGuiKey_Z,
-    CImGuiKey_COUNT
+    CImGuiKey_LeftCtrl, CImGuiKey_LeftShift, CImGuiKey_LeftAlt, CImGuiKey_LeftSuper,
+    CImGuiKey_RightCtrl, CImGuiKey_RightShift, CImGuiKey_RightAlt, CImGuiKey_RightSuper,
+    CImGuiKey_Menu,
+    CImGuiKey_0, CImGuiKey_1, CImGuiKey_2, CImGuiKey_3, CImGuiKey_4, CImGuiKey_5, CImGuiKey_6, CImGuiKey_7, CImGuiKey_8, CImGuiKey_9,
+    CImGuiKey_A, CImGuiKey_B, CImGuiKey_C, CImGuiKey_D, CImGuiKey_E, CImGuiKey_F, CImGuiKey_G, CImGuiKey_H, CImGuiKey_I, CImGuiKey_J,
+    CImGuiKey_K, CImGuiKey_L, CImGuiKey_M, CImGuiKey_N, CImGuiKey_O, CImGuiKey_P, CImGuiKey_Q, CImGuiKey_R, CImGuiKey_S, CImGuiKey_T,
+    CImGuiKey_U, CImGuiKey_V, CImGuiKey_W, CImGuiKey_X, CImGuiKey_Y, CImGuiKey_Z,
+    CImGuiKey_F1, CImGuiKey_F2, CImGuiKey_F3, CImGuiKey_F4, CImGuiKey_F5, CImGuiKey_F6,
+    CImGuiKey_F7, CImGuiKey_F8, CImGuiKey_F9, CImGuiKey_F10, CImGuiKey_F11, CImGuiKey_F12,
+    CImGuiKey_Apostrophe,
+    CImGuiKey_Comma,
+    CImGuiKey_Minus,
+    CImGuiKey_Period,
+    CImGuiKey_Slash,
+    CImGuiKey_Semicolon,
+    CImGuiKey_Equal,
+    CImGuiKey_LeftBracket,
+    CImGuiKey_Backslash,
+    CImGuiKey_RightBracket,
+    CImGuiKey_GraveAccent,
+    CImGuiKey_CapsLock,
+    CImGuiKey_ScrollLock,
+    CImGuiKey_NumLock,
+    CImGuiKey_PrintScreen,
+    CImGuiKey_Pause,
+    CImGuiKey_Keypad0, CImGuiKey_Keypad1, CImGuiKey_Keypad2, CImGuiKey_Keypad3, CImGuiKey_Keypad4,
+    CImGuiKey_Keypad5, CImGuiKey_Keypad6, CImGuiKey_Keypad7, CImGuiKey_Keypad8, CImGuiKey_Keypad9,
+    CImGuiKey_KeypadDecimal,
+    CImGuiKey_KeypadDivide,
+    CImGuiKey_KeypadMultiply,
+    CImGuiKey_KeypadSubtract,
+    CImGuiKey_KeypadAdd,
+    CImGuiKey_KeypadEnter,
+    CImGuiKey_KeypadEqual,
+    CImGuiKey_GamepadStart,
+    CImGuiKey_GamepadBack,
+    CImGuiKey_GamepadFaceUp,
+    CImGuiKey_GamepadFaceDown,
+    CImGuiKey_GamepadFaceLeft,
+    CImGuiKey_GamepadFaceRight,
+    CImGuiKey_GamepadDpadUp,
+    CImGuiKey_GamepadDpadDown,
+    CImGuiKey_GamepadDpadLeft,
+    CImGuiKey_GamepadDpadRight,
+    CImGuiKey_GamepadL1,
+    CImGuiKey_GamepadR1,
+    CImGuiKey_GamepadL2,
+    CImGuiKey_GamepadR2,
+    CImGuiKey_GamepadL3,
+    CImGuiKey_GamepadR3,
+    CImGuiKey_GamepadLStickUp,
+    CImGuiKey_GamepadLStickDown,
+    CImGuiKey_GamepadLStickLeft,
+    CImGuiKey_GamepadLStickRight,
+    CImGuiKey_GamepadRStickUp,
+    CImGuiKey_GamepadRStickDown,
+    CImGuiKey_GamepadRStickLeft,
+    CImGuiKey_GamepadRStickRight,
+    CImGuiKey_ModCtrl, CImGuiKey_ModShift, CImGuiKey_ModAlt, CImGuiKey_ModSuper,
+    CImGuiKey_COUNT,
+
+    //Internal
+    CImGuiKey_NamedKey_BEGIN = 512,
+    CImGuiKey_NamedKey_END = CImGuiKey_COUNT,
+    CImGuiKey_NamedKey_COUNT = CImGuiKey_NamedKey_END - CImGuiKey_NamedKey_BEGIN,
+#ifdef IMGUI_DISABLE_OBSOLETE_KEYIO
+    CImGuiKey_KeysData_SIZE = CImGuiKey_NamedKey_COUNT,
+    CImGuiKey_KeysData_OFFSET = CImGuiKey_NamedKey_BEGIN
+#else
+    CImGuiKey_KeysData_SIZE = CImGuiKey_COUNT,
+    CImGuiKey_KeysData_OFFSET = 0
+#endif
+
+#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
+    , CImGuiKey_KeyPadEnter = CImGuiKey_KeypadEnter   // Renamed in 1.87
+#endif
 };
 
 enum CImGuiNavInput_ {
@@ -581,13 +677,11 @@ enum CImGuiNavInput_ {
     CImGuiNavInput_TweakFast,
     
     //Internal
-    CImGuiNavInput_KeyMenu_,
     CImGuiNavInput_KeyLeft_,
     CImGuiNavInput_KeyRight_,
     CImGuiNavInput_KeyUp_,
     CImGuiNavInput_KeyDown_,
-    CImGuiNavInput_COUNT,
-    CImGuiNavInput_InternalStart_ = CImGuiNavInput_KeyMenu_
+    CImGuiNavInput_COUNT
 };
 
 enum CImGuiMouseButton_ {
@@ -609,13 +703,17 @@ enum CImGuiMouseCursor_ {
     CImGuiMouseCursor_Hand,
     CImGuiMouseCursor_NotAllowed,
     CImGuiMouseCursor_COUNT
-#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    , CImGuiMouseCursor_Count_ = CImGuiMouseCursor_COUNT
-#endif
+};
+
+enum CImGuiSortDirection_ {
+    CImGuiSortDirection_None = 0,
+    CImGuiSortDirection_Ascending = 1,
+    CImGuiSortDirection_Descending = 2
 };
 
 enum CImGuiStyleVar_ {
     CImGuiStyleVar_Alpha,
+    CImGuiStyleVar_DisabledAlpha,
     CImGuiStyleVar_WindowPadding,
     CImGuiStyleVar_WindowRounding,
     CImGuiStyleVar_WindowBorderSize,
@@ -631,6 +729,7 @@ enum CImGuiStyleVar_ {
     CImGuiStyleVar_ItemSpacing,
     CImGuiStyleVar_ItemInnerSpacing,
     CImGuiStyleVar_IndentSpacing,
+    CImGuiStyleVar_CellPadding,
     CImGuiStyleVar_ScrollbarSize,
     CImGuiStyleVar_ScrollbarRounding,
     CImGuiStyleVar_GrabMinSize,
@@ -639,22 +738,30 @@ enum CImGuiStyleVar_ {
     CImGuiStyleVar_ButtonTextAlign,
     CImGuiStyleVar_SelectableTextAlign,
     CImGuiStyleVar_COUNT
-#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    , CImGuiStyleVar_Count_ = CImGuiStyleVar_COUNT
-#endif
 };
 
-enum CImDrawCornerFlags_ {
-    CImDrawCornerFlags_None = 0,
-    CImDrawCornerFlags_TopLeft = 1 << 0,
-    CImDrawCornerFlags_TopRight = 1 << 1,
-    CImDrawCornerFlags_BotLeft = 1 << 2,
-    CImDrawCornerFlags_BotRight = 1 << 3,
-    CImDrawCornerFlags_Top = CImDrawCornerFlags_TopLeft | CImDrawCornerFlags_TopRight,
-    CImDrawCornerFlags_Bot = CImDrawCornerFlags_BotLeft | CImDrawCornerFlags_BotRight,
-    CImDrawCornerFlags_Left = CImDrawCornerFlags_TopLeft | CImDrawCornerFlags_BotLeft,
-    CImDrawCornerFlags_Right = CImDrawCornerFlags_TopRight | CImDrawCornerFlags_BotRight,
-    CImDrawCornerFlags_All = 0xF
+enum CImGuiTableBgTarget_ {
+    CImGuiTableBgTarget_None = 0,
+    CImGuiTableBgTarget_RowBg0 = 1,
+    CImGuiTableBgTarget_RowBg1 = 2,
+    CImGuiTableBgTarget_CellBg = 3
+};
+
+enum CImDrawFlags_ {
+    CImDrawFlags_None = 0,
+    CImDrawFlags_Closed = 1 << 0,
+    CImDrawFlags_RoundCornersTopLeft = 1 << 4,
+    CImDrawFlags_RoundCornersTopRight = 1 << 5,
+    CImDrawFlags_RoundCornersBottomLeft = 1 << 6,
+    CImDrawFlags_RoundCornersBottomRight = 1 << 7,
+    CImDrawFlags_RoundCornersNone = 1 << 8,
+    CImDrawFlags_RoundCornersTop = CImDrawFlags_RoundCornersTopLeft | CImDrawFlags_RoundCornersTopRight,
+    CImDrawFlags_RoundCornersBottom = CImDrawFlags_RoundCornersBottomLeft | CImDrawFlags_RoundCornersBottomRight,
+    CImDrawFlags_RoundCornersLeft = CImDrawFlags_RoundCornersBottomLeft | CImDrawFlags_RoundCornersTopLeft,
+    CImDrawFlags_RoundCornersRight = CImDrawFlags_RoundCornersBottomRight | CImDrawFlags_RoundCornersTopRight,
+    CImDrawFlags_RoundCornersAll = CImDrawFlags_RoundCornersTopLeft | CImDrawFlags_RoundCornersTopRight | CImDrawFlags_RoundCornersBottomLeft | CImDrawFlags_RoundCornersBottomRight,
+    CImDrawFlags_RoundCornersDefault_ = CImDrawFlags_RoundCornersAll,
+    CImDrawFlags_RoundCornersMask_ = CImDrawFlags_RoundCornersAll | CImDrawFlags_RoundCornersNone
 };
 
 enum CImDrawListFlags_ {
@@ -719,16 +826,13 @@ enum CImGuiColorEditFlags_ {
     CImGuiColorEditFlags_PickerHueWheel = 1 << 26,
     CImGuiColorEditFlags_InputRGB = 1 << 27,
     CImGuiColorEditFlags_InputHSV = 1 << 28,
-    CImGuiColorEditFlags__OptionsDefault = CImGuiColorEditFlags_Uint8 | CImGuiColorEditFlags_DisplayRGB | CImGuiColorEditFlags_InputRGB | CImGuiColorEditFlags_PickerHueBar,
+    CImGuiColorEditFlags_DefaultOptions_ = CImGuiColorEditFlags_Uint8 | CImGuiColorEditFlags_DisplayRGB | CImGuiColorEditFlags_InputRGB | CImGuiColorEditFlags_PickerHueBar,
 
     //Internal
-    CImGuiColorEditFlags__DisplayMask    = CImGuiColorEditFlags_DisplayRGB | CImGuiColorEditFlags_DisplayHSV | CImGuiColorEditFlags_DisplayHex,
-    CImGuiColorEditFlags__DataTypeMask   = CImGuiColorEditFlags_Uint8 | CImGuiColorEditFlags_Float,
-    CImGuiColorEditFlags__PickerMask     = CImGuiColorEditFlags_PickerHueWheel | CImGuiColorEditFlags_PickerHueBar,
-    CImGuiColorEditFlags__InputMask      = CImGuiColorEditFlags_InputRGB | CImGuiColorEditFlags_InputHSV
-#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    , CImGuiColorEditFlags_RGB = CImGuiColorEditFlags_DisplayRGB, CImGuiColorEditFlags_HSV = CImGuiColorEditFlags_DisplayHSV, CImGuiColorEditFlags_HEX = CImGuiColorEditFlags_DisplayHex
-#endif
+    CImGuiColorEditFlags_DisplayMask_    = CImGuiColorEditFlags_DisplayRGB | CImGuiColorEditFlags_DisplayHSV | CImGuiColorEditFlags_DisplayHex,
+    CImGuiColorEditFlags_DataTypeMask_   = CImGuiColorEditFlags_Uint8 | CImGuiColorEditFlags_Float,
+    CImGuiColorEditFlags_PickerMask_     = CImGuiColorEditFlags_PickerHueWheel | CImGuiColorEditFlags_PickerHueBar,
+    CImGuiColorEditFlags_InputMask_      = CImGuiColorEditFlags_InputRGB | CImGuiColorEditFlags_InputHSV
 };
 
 enum CImGuiConfigFlags_ {
@@ -788,6 +892,8 @@ enum CImGuiFocusedFlags_ {
     CImGuiFocusedFlags_ChildWindows = 1 << 0,
     CImGuiFocusedFlags_RootWindow = 1 << 1,
     CImGuiFocusedFlags_AnyWindow = 1 << 2,
+    CImGuiFocusedFlags_NoPopupHierarchy = 1 << 3,
+    CImGuiFocusedFlags_DockHierarchy  = 1 << 4,
     CImGuiFocusedFlags_RootAndChildWindows = CImGuiFocusedFlags_RootWindow | CImGuiFocusedFlags_ChildWindows
 };
 
@@ -796,11 +902,14 @@ enum CImGuiHoveredFlags_ {
     CImGuiHoveredFlags_ChildWindows = 1 << 0,
     CImGuiHoveredFlags_RootWindow = 1 << 1,
     CImGuiHoveredFlags_AnyWindow = 1 << 2,
-    CImGuiHoveredFlags_AllowWhenBlockedByPopup = 1 << 3,
-    //CImGuiHoveredFlags_AllowWhenBlockedByModal = 1 << 4,
-    CImGuiHoveredFlags_AllowWhenBlockedByActiveItem = 1 << 5,
-    CImGuiHoveredFlags_AllowWhenOverlapped = 1 << 6,
-    CImGuiHoveredFlags_AllowWhenDisabled = 1 << 7,
+    CImGuiHoveredFlags_NoPopupHierarchy = 1 << 3,
+    CImGuiHoveredFlags_DockHierarchy = 1 << 4,
+    CImGuiHoveredFlags_AllowWhenBlockedByPopup = 1 << 5,
+    //CImGuiHoveredFlags_AllowWhenBlockedByModal = 1 << 6,
+    CImGuiHoveredFlags_AllowWhenBlockedByActiveItem = 1 << 7,
+    CImGuiHoveredFlags_AllowWhenOverlapped = 1 << 8,
+    CImGuiHoveredFlags_AllowWhenDisabled = 1 << 9,
+    CImGuiHoveredFlags_NoNavOverride = 1 << 10,
     CImGuiHoveredFlags_RectOnly = CImGuiHoveredFlags_AllowWhenBlockedByPopup | CImGuiHoveredFlags_AllowWhenBlockedByActiveItem | CImGuiHoveredFlags_AllowWhenOverlapped,
     CImGuiHoveredFlags_RootAndChildWindows = CImGuiHoveredFlags_RootWindow | CImGuiHoveredFlags_ChildWindows
 };
@@ -820,25 +929,24 @@ enum CImGuiInputTextFlags_ {
     CImGuiInputTextFlags_AllowTabInput = 1 << 10,
     CImGuiInputTextFlags_CtrlEnterForNewLine = 1 << 11,
     CImGuiInputTextFlags_NoHorizontalScroll = 1 << 12,
-    CImGuiInputTextFlags_AlwaysInsertMode = 1 << 13,
+    CImGuiInputTextFlags_AlwaysOverwrite = 1 << 13,
     CImGuiInputTextFlags_ReadOnly = 1 << 14,
     CImGuiInputTextFlags_Password = 1 << 15,
     CImGuiInputTextFlags_NoUndoRedo = 1 << 16,
     CImGuiInputTextFlags_CharsScientific = 1 << 17,
     CImGuiInputTextFlags_CallbackResize = 1 << 18,
-    CImGuiInputTextFlags_CallbackEdit = 1 << 19,
-    
-    //Internal
-    CImGuiInputTextFlags_Multiline = 1 << 20,
-    CImGuiInputTextFlags_NoMarkEdited = 1 << 21
+    CImGuiInputTextFlags_CallbackEdit = 1 << 19
+#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
+    , CImGuiInputTextFlags_AlwaysInsertMode = CImGuiInputTextFlags_AlwaysOverwrite
+#endif
 };
 
-enum CImGuiKeyModFlags_ {
-    CImGuiKeyModFlags_None = 0,
-    CImGuiKeyModFlags_Ctrl = 1 << 0,
-    CImGuiKeyModFlags_Shift = 1 << 1,
-    CImGuiKeyModFlags_Alt = 1 << 2,
-    CImGuiKeyModFlags_Super = 1 << 3
+enum CImGuiModFlags_ {
+    CImGuiModFlags_None = 0,
+    CImGuiModFlags_Ctrl = 1 << 0,
+    CImGuiModFlags_Shift = 1 << 1,
+    CImGuiModFlags_Alt = 1 << 2,
+    CImGuiModFlags_Super = 1 << 3
 };
 
 enum CImGuiPopupFlags_ {
@@ -903,6 +1011,83 @@ enum CImGuiTabItemFlags_ {
     CImGuiTabItemFlags_Trailing = 1 << 7
 };
 
+enum CImGuiTableFlags_ {
+    CImGuiTableFlags_None = 0,
+    CImGuiTableFlags_Resizable = 1 << 0,
+    CImGuiTableFlags_Reorderable = 1 << 1,
+    CImGuiTableFlags_Hideable = 1 << 2,
+    CImGuiTableFlags_Sortable = 1 << 3,
+    CImGuiTableFlags_NoSavedSettings = 1 << 4,
+    CImGuiTableFlags_ContextMenuInBody = 1 << 5,
+    CImGuiTableFlags_RowBg = 1 << 6,
+    CImGuiTableFlags_BordersInnerH = 1 << 7,
+    CImGuiTableFlags_BordersOuterH = 1 << 8,
+    CImGuiTableFlags_BordersInnerV = 1 << 9,
+    CImGuiTableFlags_BordersOuterV = 1 << 10,
+    CImGuiTableFlags_BordersH = CImGuiTableFlags_BordersInnerH | CImGuiTableFlags_BordersOuterH,
+    CImGuiTableFlags_BordersV = CImGuiTableFlags_BordersInnerV | CImGuiTableFlags_BordersOuterV,
+    CImGuiTableFlags_BordersInner = CImGuiTableFlags_BordersInnerV | CImGuiTableFlags_BordersInnerH,
+    CImGuiTableFlags_BordersOuter = CImGuiTableFlags_BordersOuterV | CImGuiTableFlags_BordersOuterH,
+    CImGuiTableFlags_Borders = CImGuiTableFlags_BordersInner | CImGuiTableFlags_BordersOuter,
+    CImGuiTableFlags_NoBordersInBody = 1 << 11,
+    CImGuiTableFlags_NoBordersInBodyUntilResize = 1 << 12,
+    CImGuiTableFlags_SizingFixedFit = 1 << 13,
+    CImGuiTableFlags_SizingFixedSame = 2 << 13,
+    CImGuiTableFlags_SizingStretchProp = 3 << 13,
+    CImGuiTableFlags_SizingStretchSame = 4 << 13,
+    CImGuiTableFlags_NoHostExtendX = 1 << 16,
+    CImGuiTableFlags_NoHostExtendY = 1 << 17,
+    CImGuiTableFlags_NoKeepColumnsVisible = 1 << 18,
+    CImGuiTableFlags_PreciseWidths = 1 << 19,
+    CImGuiTableFlags_NoClip = 1 << 20,
+    CImGuiTableFlags_PadOuterX = 1 << 21,
+    CImGuiTableFlags_NoPadOuterX = 1 << 22,
+    CImGuiTableFlags_NoPadInnerX = 1 << 23,
+    CImGuiTableFlags_ScrollX = 1 << 24,
+    CImGuiTableFlags_ScrollY = 1 << 25,
+    CImGuiTableFlags_SortMulti = 1 << 26,
+    CImGuiTableFlags_SortTristate = 1 << 27,
+
+    //Internal
+    CImGuiTableFlags_SizingMask_ = CImGuiTableFlags_SizingFixedFit | CImGuiTableFlags_SizingFixedSame | CImGuiTableFlags_SizingStretchProp | CImGuiTableFlags_SizingStretchSame
+};
+
+enum CImGuiTableColumnFlags_ {
+    CImGuiTableColumnFlags_None = 0,
+    CImGuiTableColumnFlags_Disabled = 1 << 0,
+    CImGuiTableColumnFlags_DefaultHide = 1 << 1,
+    CImGuiTableColumnFlags_DefaultSort = 1 << 2,
+    CImGuiTableColumnFlags_WidthStretch = 1 << 3,
+    CImGuiTableColumnFlags_WidthFixed = 1 << 4,
+    CImGuiTableColumnFlags_NoResize = 1 << 5,
+    CImGuiTableColumnFlags_NoReorder = 1 << 6,
+    CImGuiTableColumnFlags_NoHide = 1 << 7,
+    CImGuiTableColumnFlags_NoClip = 1 << 8,
+    CImGuiTableColumnFlags_NoSort = 1 << 9,
+    CImGuiTableColumnFlags_NoSortAscending = 1 << 10,
+    CImGuiTableColumnFlags_NoSortDescending = 1 << 11,
+    CImGuiTableColumnFlags_NoHeaderLabel = 1 << 12,
+    CImGuiTableColumnFlags_NoHeaderWidth = 1 << 13,
+    CImGuiTableColumnFlags_PreferSortAscending = 1 << 14,
+    CImGuiTableColumnFlags_PreferSortDescending = 1 << 15,
+    CImGuiTableColumnFlags_IndentEnable = 1 << 16,
+    CImGuiTableColumnFlags_IndentDisable = 1 << 17,
+    CImGuiTableColumnFlags_IsEnabled = 1 << 24,
+    CImGuiTableColumnFlags_IsVisible = 1 << 25,
+    CImGuiTableColumnFlags_IsSorted = 1 << 26,
+    CImGuiTableColumnFlags_IsHovered = 1 << 27,
+    //Internal
+    CImGuiTableColumnFlags_WidthMask_ = CImGuiTableColumnFlags_WidthStretch | CImGuiTableColumnFlags_WidthFixed,
+    CImGuiTableColumnFlags_IndentMask_ = CImGuiTableColumnFlags_IndentEnable | CImGuiTableColumnFlags_IndentDisable,
+    CImGuiTableColumnFlags_StatusMask_ = CImGuiTableColumnFlags_IsEnabled | CImGuiTableColumnFlags_IsVisible | CImGuiTableColumnFlags_IsSorted | CImGuiTableColumnFlags_IsHovered,
+    CImGuiTableColumnFlags_NoDirectResize_ = 1 << 30
+};
+
+enum CImGuiTableRowFlags_ {
+    CImGuiTableRowFlags_None = 0,
+    CImGuiTableRowFlags_Headers = 1 << 0
+};
+
 enum CImGuiTreeNodeFlags_ {
     CImGuiTreeNodeFlags_None = 0,
     CImGuiTreeNodeFlags_Selected = 1 << 0,
@@ -925,16 +1110,19 @@ enum CImGuiTreeNodeFlags_ {
 
 enum CImGuiViewportFlags_ {
     CImGuiViewportFlags_None = 0,
-    CImGuiViewportFlags_NoDecoration = 1 << 0,
-    CImGuiViewportFlags_NoTaskBarIcon = 1 << 1,
-    CImGuiViewportFlags_NoFocusOnAppearing = 1 << 2,
-    CImGuiViewportFlags_NoFocusOnClick = 1 << 3,
-    CImGuiViewportFlags_NoInputs = 1 << 4,
-    CImGuiViewportFlags_NoRendererClear = 1 << 5,
-    CImGuiViewportFlags_TopMost = 1 << 6,
-    CImGuiViewportFlags_Minimized = 1 << 7,
-    CImGuiViewportFlags_NoAutoMerge = 1 << 8,
-    CImGuiViewportFlags_CanHostOtherWindows = 1 << 9
+    CImGuiViewportFlags_IsPlatformWindow = 1 << 0,
+    CImGuiViewportFlags_IsPlatformMonitor = 1 << 1,
+    CImGuiViewportFlags_OwnedByApp = 1 << 2,
+    CImGuiViewportFlags_NoDecoration = 1 << 3,
+    CImGuiViewportFlags_NoTaskBarIcon = 1 << 4,
+    CImGuiViewportFlags_NoFocusOnAppearing = 1 << 5,
+    CImGuiViewportFlags_NoFocusOnClick = 1 << 6,
+    CImGuiViewportFlags_NoInputs = 1 << 7,
+    CImGuiViewportFlags_NoRendererClear = 1 << 8,
+    CImGuiViewportFlags_TopMost = 1 << 9,
+    CImGuiViewportFlags_Minimized = 1 << 10,
+    CImGuiViewportFlags_NoAutoMerge = 1 << 11,
+    CImGuiViewportFlags_CanHostOtherWindows = 1 << 12
 };
 
 enum CImGuiWindowFlags_ {
@@ -997,14 +1185,22 @@ struct CImDrawCmd {
 
 CImDrawCmd * ig_CImDrawCmd_init();
 void ig_CImDrawCmd_deinit(const CImDrawCmd * ptr);
+CImTextureID ig_CImDrawCmd_GetTexID(const CImDrawCmd * ptr);
+
+
+struct CImDrawCmdHeader {
+    CImVec4 ClipRect;
+    CImTextureID TextureId;
+    unsigned int VtxOffset;
+};
 
 
 struct CImDrawData {
     bool Valid;
-    CImDrawList ** CmdLists;
     int CmdListsCount;
     int TotalIdxCount;
     int TotalVtxCount;
+    CImDrawList ** CmdLists;
     CImVec2 DisplayPos;
     CImVec2 DisplaySize;
     CImVec2 FramebufferScale;
@@ -1038,16 +1234,17 @@ struct CImDrawList {
     CImVector_CImDrawIdx IdxBuffer;
     CImVector_CImDrawVert VtxBuffer;
     CImDrawListFlags Flags;
+    unsigned int _VtxCurrentIdx;
     const CImDrawListSharedData * _Data;
     const char * _OwnerName;
-    unsigned int _VtxCurrentIdx;
     CImDrawVert * _VtxWritePtr;
     CImDrawIdx * _IdxWritePtr;
     CImVector_CImVec4 _ClipRectStack;
     CImVector_CImTextureID _TextureIdStack;
     CImVector_CImVec2 _Path;
-    CImDrawCmd _CmdHeader;
+    CImDrawCmdHeader _CmdHeader;
     CImDrawListSplitter _Splitter;
+    float _FringeScale;
 };
 
 CImDrawList * ig_CImDrawList_init(const CImDrawListSharedData * shared_data);
@@ -1060,8 +1257,8 @@ CImVec2 ig_CImDrawList_GetClipRectMin(const CImDrawList * ptr);
 CImVec2 ig_CImDrawList_GetClipRectMax(const CImDrawList * ptr);
 
 void ig_CImDrawList_AddLine(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImU32 col, float thickness);
-void ig_CImDrawList_AddRect(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners, float thickness);
-void ig_CImDrawList_AddRectFilled(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners);
+void ig_CImDrawList_AddRect(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawFlags flags, float thickness);
+void ig_CImDrawList_AddRectFilled(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col, float rounding, CImDrawFlags flags);
 void ig_CImDrawList_AddRectFilledMultiColor(CImDrawList * ptr, CImVec2 p_min, CImVec2 p_max, CImU32 col_upr_left, CImU32 col_upr_right, CImU32 col_bot_right, CImU32 col_bot_left);
 void ig_CImDrawList_AddQuad(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col, float thickness);
 void ig_CImDrawList_AddQuadFilled(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col);
@@ -1073,23 +1270,25 @@ void ig_CImDrawList_AddNgon(CImDrawList * ptr, CImVec2 center, float radius, CIm
 void ig_CImDrawList_AddNgonFilled(CImDrawList * ptr, CImVec2 center, float radius, CImU32 col, int num_segments);
 void ig_CImDrawList_AddText(CImDrawList * ptr, CImVec2 pos, CImU32 col, const char * text_begin, const char * text_end);
 void ig_CImDrawList_AddTextWithFont(CImDrawList * ptr, const CImFont * font, float font_size, CImVec2 pos, CImU32 col, const char * text_begin, const char * text_end, float wrap_width, const CImVec4 * cpu_fine_clip_rect);
-void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col, bool closed, float thickness);
+void ig_CImDrawList_AddPolyline(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col, CImDrawFlags flags, float thickness);
 void ig_CImDrawList_AddConvexPolyFilled(CImDrawList * ptr, const CImVec2 * points, int num_points, CImU32 col);
-void ig_CImDrawList_AddBezierCurve(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col, float thickness, int num_segments);
+void ig_CImDrawList_AddBezierCubic(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImU32 col, float thickness, int num_segments);
+void ig_CImDrawList_AddBezierQuadratic(CImDrawList * ptr, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImU32 col, float thickness, int num_segments);
 
 void ig_CImDrawList_AddImage(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p_min, CImVec2 p_max, CImVec2 uv_min, CImVec2 uv_max, CImU32 col);
 void ig_CImDrawList_AddImageQuad(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p1, CImVec2 p2, CImVec2 p3, CImVec2 p4, CImVec2 uv1, CImVec2 uv2, CImVec2 uv3, CImVec2 uv4, CImU32 col);
-void ig_CImDrawList_AddImageRounded(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p_min, CImVec2 p_max, CImVec2 uv_min, CImVec2 uv_max, CImU32 col, float rounding, CImDrawCornerFlags rounding_corners);
+void ig_CImDrawList_AddImageRounded(CImDrawList * ptr, CImTextureID user_texture_id, CImVec2 p_min, CImVec2 p_max, CImVec2 uv_min, CImVec2 uv_max, CImU32 col, float rounding, CImDrawFlags flags);
 
 void ig_CImDrawList_PathClear(CImDrawList * ptr);
 void ig_CImDrawList_PathLineTo(CImDrawList * ptr, CImVec2 pos);
 void ig_CImDrawList_PathLineToMergeDuplicate(CImDrawList * ptr, CImVec2 pos);
 void ig_CImDrawList_PathFillConvex(CImDrawList * ptr, CImU32 col);
-void ig_CImDrawList_PathStroke(CImDrawList * ptr, CImU32 col, bool closed, float thickness);
-void ig_CImDrawList_PathArcTo(CImDrawList * ptr, CImVec2 center, float radius, float a_min, float a_max, int num_segments);
+void ig_CImDrawList_PathStroke(CImDrawList * ptr, CImU32 col, CImDrawFlags flags, float thickness);
+void ig_CImDrawList_PathArcTo(CImDrawList * ptr, CImVec2 center, float radius, float a_min, float a_max, int num_segments);//
 void ig_CImDrawList_PathArcToFast(CImDrawList * ptr, CImVec2 center, float radius, int a_min_of_12, int a_max_of_12);
-void ig_CImDrawList_PathBezierCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, CImVec2 p4, int num_segments);
-void ig_CImDrawList_PathRect(CImDrawList * ptr, CImVec2 rect_min, CImVec2 rect_max, float rounding, CImDrawCornerFlags rounding_corners);
+void ig_CImDrawList_PathBezierCubicCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, CImVec2 p4, int num_segments);
+void ig_CImDrawList_PathBezierQuadraticCurveTo(CImDrawList * ptr, CImVec2 p2, CImVec2 p3, int num_segments);
+void ig_CImDrawList_PathRect(CImDrawList * ptr, CImVec2 rect_min, CImVec2 rect_max, float rounding, CImDrawFlags flags);
 
 void ig_CImDrawList_AddCallback(CImDrawList * ptr, CImDrawCallback callback, void * callback_data);
 void ig_CImDrawList_AddDrawCmd(CImDrawList * ptr);
@@ -1098,6 +1297,15 @@ CImDrawList * ig_CImDrawList_CloneOutput(const CImDrawList * ptr);
 void ig_CImDrawList_ChannelsSplit(CImDrawList * ptr, int count);
 void ig_CImDrawList_ChannelsMerge(CImDrawList * ptr);
 void ig_CImDrawList_ChannelsSetCurrent(CImDrawList * ptr, int n);
+
+void ig_CImDrawList_PrimReserve(CImDrawList * ptr, int idx_count, int vtx_count);
+void ig_CImDrawList_PrimUnreserve(CImDrawList * ptr, int idx_count, int vtx_count);
+void ig_CImDrawList_PrimRect(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImU32 col);
+void ig_CImDrawList_PrimRectUV(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImVec2 uv_a, CImVec2 uv_b, CImU32 col);
+void ig_CImDrawList_PrimQuadUV(CImDrawList * ptr, CImVec2 a, CImVec2 b, CImVec2 c, CImVec2 d, CImVec2 uv_a, CImVec2 uv_b, CImVec2 uv_c, CImVec2 uv_d, CImU32 col);
+void ig_CImDrawList_PrimWriteVtx(CImDrawList * ptr, CImVec2 pos, CImVec2 uv, CImU32 col);
+void ig_CImDrawList_PrimWriteIdx(CImDrawList * ptr, CImDrawIdx idx);
+void ig_CImDrawList_PrimVtx(CImDrawList * ptr, CImVec2 pos, CImVec2 uv, CImU32 col);
 
 
 struct CImDrawListSharedData {
@@ -1108,14 +1316,15 @@ struct CImDrawListSharedData {
     float CircleSegmentMaxError;
     CImVec4 ClipRectFullscreen;
     CImDrawListFlags InitialFlags;
-    CImVec2 ArcFastVtx[12];
+    CImVec2 ArcFastVtx[48];
+    float ArcFastRadiusCutoff;
     CImU8 CircleSegmentCounts[64];
     const CImVec4 * TexUvLines;
 };
 
 CImDrawListSharedData * ig_CImDrawListSharedData_init();
 void ig_CImDrawListSharedData_deinit(const CImDrawListSharedData * ptr);
-void ig_CImDrawListSharedData_SetCircleSegmentMaxError(CImDrawListSharedData * ptr, float max_error);
+void ig_CImDrawListSharedData_SetCircleTessellationMaxError(CImDrawListSharedData * ptr, float max_error);
 
 
 struct CImDrawVert {
@@ -1140,6 +1349,7 @@ struct CImFont {
     short ConfigDataCount;
     CImWchar FallbackChar;
     CImWchar EllipsisChar;
+    CImWchar DotChar;
     bool DirtyLookupTables;
     float Scale;
     float Ascent, Descent;
@@ -1162,11 +1372,13 @@ void ig_CImFont_RenderText(const CImFont * ptr, CImDrawList * draw_list, float s
 
 
 struct CImFontAtlas {
-    bool Locked;
     CImFontAtlasFlags Flags;
     CImTextureID TexID;
     int TexDesiredWidth;
     int TexGlyphPadding;
+    bool Locked;
+    bool TexReady;
+    bool TexPixelsUseColors;
     unsigned char * TexPixelsAlpha8;
     unsigned int * TexPixelsRGBA32;
     int TexWidth;
@@ -1177,6 +1389,8 @@ struct CImFontAtlas {
     CImVector_CImFontAtlasCustomRect CustomRects;
     CImVector_CImFontConfig ConfigData;
     CImVec4 TexUvLines[CIM_DRAWLIST_TEX_LINES_WIDTH_MAX + 1];
+    const CImFontBuilderIO * FontBuilderIO;
+    unsigned int FontBuilderFlags;
     int PackIdMouseCursors;
     int PackIdLines;
 };
@@ -1214,6 +1428,11 @@ int ig_CImFontAtlas_AddCustomRectFontGlyph(CImFontAtlas * ptr, CImFont * font, C
 CImFontAtlasCustomRect * ig_CImFontAtlas_GetCustomRectByIndex(CImFontAtlas * ptr, int index);
 
 
+struct CImFontBuilderIO {
+    bool (*FontBuilder_Build)(ImFontAtlas* atlas);
+};
+
+
 struct CImFontConfig {
     void * FontData;
     int FontDataSize;
@@ -1241,8 +1460,9 @@ void ig_CImFontConfig_deinit(const CImFontConfig * ptr);
 
 
 struct CImFontGlyph {
-    unsigned int Codepoint : 31;
+    unsigned int Colored : 1;
     unsigned int Visible : 1;
+    unsigned int Codepoint : 30;
     float AdvanceX;
     float X0, Y0, X1, Y1;
     float U0, V0, U1, V1;
@@ -1272,15 +1492,23 @@ struct CImColor {
 };
 
 CImColor * ig_CImColor_init();
-CImColor * ig_CImColor_initInt(int r, int g, int b, int a);
-CImColor * ig_CImColor_initRGBA(CImU32 rgba);
 CImColor * ig_CImColor_initFloat(float r, float g, float b, float a);
 CImColor * ig_CImColor_initVec(CImVec4 col);
+CImColor * ig_CImColor_initInt(int r, int g, int b, int a);
+CImColor * ig_CImColor_initRGBA(CImU32 rgba);
 CImColor * ig_CImColor_initHSV(float h, float s, float v, float a);
 void ig_CImColor_deinit(const CImColor * ptr);
 CImU32 ig_CImColor_GetCImU32(const CImColor * ptr);
 CImVec4 ig_CImColor_GetCImVec4(const CImColor * ptr);
 void ig_CImColor_SetHSV(CImColor * ptr, float h, float s, float v, float a);
+
+
+struct CImGuiKeyData {
+    bool Down;
+    float DownDuration;
+    float DownDurationPrev;
+    float AnalogValue;
+};
 
 
 struct CImGuiIO {
@@ -1294,7 +1522,6 @@ struct CImGuiIO {
     float MouseDoubleClickTime;
     float MouseDoubleClickMaxDist;
     float MouseDragThreshold;
-    int KeyMap[CImGuiKey_COUNT];
     float KeyRepeatDelay;
     float KeyRepeatRate;
     void * UserData;
@@ -1313,7 +1540,9 @@ struct CImGuiIO {
     bool ConfigViewportsNoDefaultParent;
     bool MouseDrawCursor;
     bool ConfigMacOSXBehaviors;
+    bool ConfigInputTrickleEventQueue;
     bool ConfigInputTextCursorBlink;
+    bool ConfigDragClickToInputText;
     bool ConfigWindowsResizeFromEdges;
     bool ConfigWindowsMoveFromTitleBarOnly;
     float ConfigWindowsMemoryCompactTimer;
@@ -1325,22 +1554,12 @@ struct CImGuiIO {
     const char * (*GetClipboardTextFn)(void * user_data);
     void (*SetClipboardTextFn)(void * user_data, const char * text);
     void * ClipboardUserData;
+    void (*SetPlatformImeDataFn)(ImGuiViewport* viewport, ImGuiPlatformImeData* data);
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    void (*RenderDrawListsFn)(ImDrawData * data);
+    void * ImeWindowHandle;
 #else
-    void * RenderDrawListsFnUnused;
+    void * _UnusedPadding;
 #endif
-    CImVec2 MousePos;
-    bool MouseDown[5];
-    float MouseWheel;
-    float MouseWheelH;
-    CImGuiID MouseHoveredViewport;
-    bool KeyCtrl;
-    bool KeyShift;
-    bool KeyAlt;
-    bool KeySuper;
-    bool KeysDown[512];
-    float NavInputs[CImGuiNavInput_COUNT];
     bool WantCaptureMouse;
     bool WantCaptureKeyboard;
     bool WantTextInput;
@@ -1355,29 +1574,58 @@ struct CImGuiIO {
     int MetricsActiveWindows;
     int MetricsActiveAllocations;
     CImVec2 MouseDelta;
+#ifndef IMGUI_DISABLE_OBSOLETE_KEYIO
+    int KeyMap[CImGuiKey_COUNT];
+    bool KeysDown[CImGuiKey_COUNT];
+#endif
 
+    CImVec2 MousePos;
+    bool MouseDown[5];
+    float MouseWheel;
+    float MouseWheelH;
+    CImGuiID MouseHoveredViewport;
+    bool KeyCtrl;
+    bool KeyShift;
+    bool KeyAlt;
+    bool KeySuper;
+    float NavInputs[CImGuiNavInput_COUNT];
+    CImGuiModFlags KeyMods;
+    CImGuiKeyData KeysData[CImGuiKey_KeysData_SIZE];
+    bool WantCaptureMouseUnlessPopupClose;
     CImVec2 MousePosPrev;
     CImVec2 MouseClickedPos[5];
     double MouseClickedTime[5];
     bool MouseClicked[5];
     bool MouseDoubleClicked[5];
+    CImU16 MouseClickedCount[5];
+    CImU16 MouseClickedLastCount[5];
     bool MouseReleased[5];
     bool MouseDownOwned[5];
-    bool MouseDownWasDoubleClick[5];
+    bool MouseDownOwnedUnlessPopupClose[5];
     float MouseDownDuration[5];
     float MouseDownDurationPrev[5];
     CImVec2 MouseDragMaxDistanceAbs[5];
     float MouseDragMaxDistanceSqr[5];
-    float KeysDownDuration[512];
-    float KeysDownDurationPrev[512];
     float NavInputsDownDuration[CImGuiNavInput_COUNT];
     float NavInputsDownDurationPrev[CImGuiNavInput_COUNT];
+    float PenPressure;
+    bool AppFocusLost;
+    CImS8 BackendUsingLegacyKeyArrays;
+    bool BackendUsingLegacyNavInputArray;
     CImWchar16 InputQueueSurrogate;
     CImVector_CImWchar InputQueueCharacters;
 };
 
 CImGuiIO * ig_CImGuiIO_init();
 void ig_CImGuiIO_deinit(const CImGuiIO * ptr);
+
+void ig_CImGuiIO_AddKeyEvent(CImGuiIO * ptr, CImGuiKey key, bool down);
+void ig_CImGuiIO_AddKeyAnalogEvent(CImGuiIO * ptr, CImGuiKey key, bool down, float v);
+void ig_CImGuiIO_AddMousePosEvent(CImGuiIO * ptr, float x, float y);
+void ig_CImGuiIO_AddMouseButtonEvent(CImGuiIO * ptr, int button, bool down);
+void ig_CImGuiIO_AddMouseWheelEvent(CImGuiIO * ptr, float wh_x, float wh_y);
+void ig_CImGuiIO_AddMouseViewportEvent(CImGuiIO * ptr, CImGuiID id);
+void ig_CImGuiIO_AddFocusEvent(CImGuiIO * ptr, bool focused);
 void ig_CImGuiIO_AddInputCharacter(CImGuiIO * ptr, unsigned int c);
 void ig_CImGuiIO_AddInputCharacterUTF16(CImGuiIO * ptr, CImWchar16 c);
 void ig_CImGuiIO_AddInputCharactersUTF8(CImGuiIO * ptr, const char * str);
@@ -1409,11 +1657,9 @@ bool ig_CImGuiInputTextCallbackData_HasSelection(const CImGuiInputTextCallbackDa
 struct CImGuiListClipper {
     int DisplayStart, DisplayEnd;
     int ItemsCount;
-
-    //Internal
-    int StepNo;
     float ItemsHeight;
     float StartPosY;
+    void * TempData;
 };
 
 CImGuiListClipper * ig_CImGuiListClipper_init(int items_count, float items_height);
@@ -1421,6 +1667,7 @@ void ig_CImGuiListClipper_deinit(const CImGuiListClipper * ptr);
 bool ig_CImGuiListClipper_Step(CImGuiListClipper * ptr);
 void ig_CImGuiListClipper_Begin(CImGuiListClipper * ptr, int items_count, float items_height);
 void ig_CImGuiListClipper_End(CImGuiListClipper * ptr);
+void ig_CImGuiListClipper_ForceDisplayRangeByIndices(CImGuiListClipper * ptr, int item_min, int item_max);
 
 
 struct CImGuiOnceUponAFrame {
@@ -1453,6 +1700,16 @@ bool ig_CImGuiPayload_IsPreview(const CImGuiPayload * ptr);
 bool ig_CImGuiPayload_IsDelivery(const CImGuiPayload * ptr);
 
 
+struct CImGuiPlatformImeData {
+    bool WantVisible;
+    CImVec2 InputPos;
+    float InputLineHeight;
+};
+
+CImGuiPlatformImeData * ig_CImGuiPlatformImeData_init();
+void ig_CImGuiPlatformImeData_deinit(const CImGuiPlatformImeData * ptr);
+
+
 struct CImGuiPlatformIO {
     void (*Platform_CreateWindow)(ImGuiViewport * vp);
     void (*Platform_DestroyWindow)(ImGuiViewport * vp);
@@ -1471,7 +1728,6 @@ struct CImGuiPlatformIO {
     void (*Platform_SwapBuffers)(ImGuiViewport * vp, void * render_arg);
     float (*Platform_GetWindowDpiScale)(ImGuiViewport * vp);
     void (*Platform_OnChangedViewport)(ImGuiViewport * vp);
-    void (*Platform_SetImeInputPos)(ImGuiViewport * vp, ImVec2 pos);
     int (*Platform_CreateVkSurface)(ImGuiViewport * vp, CImU64 vk_inst, const void * vk_allocators, CImU64 * out_vk_surface);
     void (*Renderer_CreateWindow)(ImGuiViewport * vp);
     void (*Renderer_DestroyWindow)(ImGuiViewport * vp);
@@ -1480,7 +1736,6 @@ struct CImGuiPlatformIO {
     void (*Renderer_SwapBuffers)(ImGuiViewport * vp, void * render_arg);
     
     CImVector_CImGuiPlatformMonitor Monitors;
-    CImGuiViewport * MainViewport;
     CImVector_CImGuiViewportPtr Viewports;
 };
 
@@ -1537,6 +1792,7 @@ void ig_CImGuiStorage_BuildSortByKey(CImGuiStorage * ptr);
 
 struct CImGuiStyle {
     float Alpha;
+    float DisabledAlpha;
     CImVec2 WindowPadding;
     float WindowRounding;
     float WindowBorderSize;
@@ -1552,6 +1808,7 @@ struct CImGuiStyle {
     float FrameBorderSize;
     CImVec2 ItemSpacing;
     CImVec2 ItemInnerSpacing;
+    CImVec2 CellPadding;
     CImVec2 TouchExtraPadding;
     float IndentSpacing;
     float ColumnsMinSpacing;
@@ -1573,13 +1830,34 @@ struct CImGuiStyle {
     bool AntiAliasedLinesUseTex;
     bool AntiAliasedFill;
     float CurveTessellationTol;
-    float CircleSegmentMaxError;
+    float CircleTessellationMaxError;
     CImVec4 Colors[CImGuiCol_COUNT];
 };
 
 CImGuiStyle * ig_CImGuiStyle_init();
 void ig_CImGuiStyle_deinit(const CImGuiStyle * ptr);
 void ig_CImGuiStyle_ScaleAllSizes(CImGuiStyle * ptr, float scale_factor);
+
+
+struct CImGuiTableColumnSortSpecs {
+    CImGuiID ColumnUserID;
+    CImS16 ColumnIndex;
+    CImS16 SortOrder;
+    CImGuiSortDirection SortDirection : 8;
+};
+
+CImGuiTableColumnSortSpecs * ig_CImGuiTableColumnSortSpecs_init();
+void ig_CImGuiTableColumnSortSpecs_deinit(const CImGuiTableColumnSortSpecs * ptr);
+
+
+struct CImGuiTableSortSpecs {
+    const CImGuiTableColumnSortSpecs * Specs;
+    int SpecsCount;
+    bool SpecsDirty;
+};
+
+CImGuiTableSortSpecs * ig_CImGuiTableSortSpecs_init();
+void ig_CImGuiTableSortSpecs_deinit(const CImGuiTableSortSpecs * ptr);
 
 
 struct CImGuiTextBuffer {
@@ -1622,11 +1900,11 @@ struct CImGuiViewport {
     CImGuiViewportFlags Flags;
     CImVec2 Pos;
     CImVec2 Size;
-    CImVec2 WorkOffsetMin;
-    CImVec2 WorkOffsetMax;
+    CImVec2 WorkPos;
+    CImVec2 WorkSize;
     float DpiScale;
-    CImDrawData * DrawData;
     CImGuiID ParentViewportId;
+    CImDrawData * DrawData;
     void * RendererUserData;
     void * PlatformUserData;
     void * PlatformHandle;
@@ -1638,8 +1916,8 @@ struct CImGuiViewport {
 
 CImGuiViewport * ig_CImGuiViewport_init();
 void ig_CImGuiViewport_deinit(const CImGuiViewport * ptr);
-CImVec2 ig_CImGuiViewport_GetWorkPos(CImGuiViewport * ptr);
-CImVec2 ig_CImGuiViewport_GetWorkSize(CImGuiViewport * ptr);
+CImVec2 ig_CImGuiViewport_GetCenter(const CImGuiViewport * ptr);
+CImVec2 ig_CImGuiViewport_GetWorkCenter(const CImGuiViewport * ptr);
 
 
 struct CImGuiWindowClass {
@@ -1647,8 +1925,8 @@ struct CImGuiWindowClass {
     CImGuiID ParentViewportId;
     CImGuiViewportFlags ViewportFlagsOverrideSet;
     CImGuiViewportFlags ViewportFlagsOverrideClear;
+    CImGuiTabItemFlags TabItemFlagsOverrideSet;
     CImGuiDockNodeFlags DockNodeFlagsOverrideSet;
-    CImGuiDockNodeFlags DockNodeFlagsOverrideClear;
     bool DockingAlwaysTabBar;
     bool DockingAllowUnclassed;
 };

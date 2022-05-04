@@ -1,6 +1,5 @@
 import XCTest
 @testable import ImGui
-@testable import ImGuiInternal
 
 final class ImGuiTests: XCTestCase {
     func testExample() {
@@ -9,7 +8,7 @@ final class ImGuiTests: XCTestCase {
         // results.
         let version = ImGui.getVersion()
         
-        XCTAssertEqual(version, "1.79")
+        XCTAssertEqual(version, "1.88 WIP")
     }
 
     static var allTests = [

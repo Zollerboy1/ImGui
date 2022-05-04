@@ -47,10 +47,10 @@ void igImplOpenGL_RenderDrawData(CImDrawData * draw_data) {
 
 
 bool igImplOpenGL_CreateFontsTexture() {
-    return ImGui_ImplOpenGL3_CreateFontsTexture()
+    return ImGui_ImplOpenGL3_CreateFontsTexture();
 }
 
 void igImplOpenGL_DestroyFontsTexture() {
-    ImGui_ImplOpenGL3_DestroyFontsTexture()
+    ImGui_ImplOpenGL3_DestroyFontsTexture();
 }
 

@@ -8,7 +8,7 @@
 #ifndef cppimgui_impl_Metal_hpp
 #define cppimgui_impl_Metal_hpp
 
-#include "../imgui/examples/imgui_impl_glfw.h"
-#include "../imgui/examples/imgui_impl_metal.h"
+#include "../imgui/backends/imgui_impl_glfw.h"
+#include "../imgui/backends/imgui_impl_metal.h"
 
 #endif //cppimgui_impl_Metal_hpp

@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -16,9 +16,6 @@ let package = Package(
         .library(
             name: "ImGui",
             targets: ["ImGui"]),
-        .library(
-            name: "ImGuiInternal",
-            targets: ["ImGuiInternal"]),
         .library(
             name: "ImGuiImplOpenGL",
             targets: ["ImGuiImplOpenGL"]),
@@ -38,7 +35,7 @@ let package = Package(
         .target(
             name: "cppImGui",
             dependencies: ["glad", "GLFW"],
-            sources: ["imgui/imgui_demo.cpp", "imgui/imgui_draw.cpp", "imgui/imgui_widgets.cpp", "imgui/imgui.cpp", "imgui/examples/imgui_impl_glfw.cpp", "imgui/examples/imgui_impl_opengl3.cpp", "imgui/examples/imgui_impl_metal.mm"],
+            sources: ["imgui/imgui_demo.cpp", "imgui/imgui_draw.cpp", "imgui/imgui_tables.cpp", "imgui/imgui_widgets.cpp", "imgui/imgui.cpp", "imgui/backends/imgui_impl_glfw.cpp", "imgui/backends/imgui_impl_opengl3.cpp", "imgui/backends/imgui_impl_metal.mm"],
             cxxSettings: [.headerSearchPath("imgui")]),
         .target(
             name: "cImGui",
@@ -52,15 +49,8 @@ let package = Package(
             dependencies: ["cImGui", "cppImGui"],
             cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
         .target(
-            name: "cImGuiInternal",
-            dependencies: ["cImGui", "cppImGui"],
-            cxxSettings: [.headerSearchPath("../cppImGui/imgui")]),
-        .target(
             name: "ImGui",
             dependencies: ["cImGui"]),
-        .target(
-            name: "ImGuiInternal",
-            dependencies: ["cImGuiInternal", "ImGui"]),
         .target(
             name: "ImGuiImplOpenGL",
             dependencies: ["cImGuiImplOpenGL", "ImGui"]),
@@ -69,8 +59,8 @@ let package = Package(
             dependencies: ["cImGuiImplMetal", "ImGui"]),
         .testTarget(
             name: "ImGuiTests",
-            dependencies: ["ImGui", "ImGuiInternal"]),
+            dependencies: ["ImGui"])
     ],
     cLanguageStandard: .c11,
-    cxxLanguageStandard: .cxx11
+    cxxLanguageStandard: .cxx20
 )

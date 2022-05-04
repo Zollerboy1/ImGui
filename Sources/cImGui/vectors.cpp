@@ -58,6 +58,12 @@ void ig_CImVector_float_deinit(const CImVector_float * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_float_Clear(CImVector_float * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_float_Empty(const CImVector_float * ptr) {
     return toIm(ptr)->empty();
 }
@@ -82,10 +88,6 @@ float * ig_CImVector_float_subscriptPointer(CImVector_float * ptr, int i) {
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_float_Clear(CImVector_float * ptr) {
-    toIm(ptr)->clear();
-}
 
 float * ig_CImVector_float_Begin(CImVector_float * ptr) {
     return toIm(ptr)->begin();
@@ -183,6 +185,12 @@ void ig_CImVector_CImWchar_deinit(const CImVector_CImWchar * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImWchar_Clear(CImVector_CImWchar * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImWchar_Empty(const CImVector_CImWchar * ptr) {
     return toIm(ptr)->empty();
 }
@@ -207,10 +215,6 @@ CImWchar * ig_CImVector_CImWchar_subscriptPointer(CImVector_CImWchar * ptr, int 
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_CImWchar_Clear(CImVector_CImWchar * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImWchar * ig_CImVector_CImWchar_Begin(CImVector_CImWchar * ptr) {
     return toIm(ptr)->begin();
@@ -308,6 +312,12 @@ void ig_CImVector_CImDrawVert_deinit(const CImVector_CImDrawVert * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImDrawVert_Clear(CImVector_CImDrawVert * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImDrawVert_Empty(const CImVector_CImDrawVert * ptr) {
     return toIm(ptr)->empty();
 }
@@ -332,10 +342,6 @@ CImDrawVert * ig_CImVector_CImDrawVert_subscript(CImVector_CImDrawVert * ptr, in
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImDrawVert_Clear(CImVector_CImDrawVert * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImDrawVert * ig_CImVector_CImDrawVert_Begin(CImVector_CImDrawVert * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -425,6 +431,12 @@ void ig_CImVector_CImFontGlyph_deinit(const CImVector_CImFontGlyph * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImFontGlyph_Clear(CImVector_CImFontGlyph * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImFontGlyph_Empty(const CImVector_CImFontGlyph * ptr) {
     return toIm(ptr)->empty();
 }
@@ -449,10 +461,6 @@ CImFontGlyph * ig_CImVector_CImFontGlyph_subscript(CImVector_CImFontGlyph * ptr,
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImFontGlyph_Clear(CImVector_CImFontGlyph * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImFontGlyph * ig_CImVector_CImFontGlyph_Begin(CImVector_CImFontGlyph * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -542,6 +550,12 @@ void ig_CImVector_CImGuiTextRange_deinit(const CImVector_CImGuiTextRange * ptr) 
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImGuiTextRange_Clear(CImVector_CImGuiTextRange * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImGuiTextRange_Empty(const CImVector_CImGuiTextRange * ptr) {
     return toIm(ptr)->empty();
 }
@@ -554,10 +568,6 @@ int ig_CImVector_CImGuiTextRange_Capacity(const CImVector_CImGuiTextRange * ptr)
     return toIm(ptr)->capacity();
 }
 
-
-void ig_CImVector_CImGuiTextRange_Clear(CImVector_CImGuiTextRange * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImGuiTextRange * ig_CImVector_CImGuiTextRange_Begin(CImVector_CImGuiTextRange * ptr) {
     return toIm(ptr)->begin();
@@ -591,6 +601,12 @@ void ig_CImVector_CImGuiStoragePair_deinit(const CImVector_CImGuiStoragePair * p
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImGuiStoragePair_Clear(CImVector_CImGuiStoragePair * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImGuiStoragePair_Empty(const CImVector_CImGuiStoragePair * ptr) {
     return toIm(ptr)->empty();
 }
@@ -603,10 +619,6 @@ int ig_CImVector_CImGuiStoragePair_Capacity(const CImVector_CImGuiStoragePair * 
     return toIm(ptr)->capacity();
 }
 
-
-void ig_CImVector_CImGuiStoragePair_Clear(CImVector_CImGuiStoragePair * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImGuiStoragePair * ig_CImVector_CImGuiStoragePair_Begin(CImVector_CImGuiStoragePair * ptr) {
     return toIm(ptr)->begin();
@@ -639,6 +651,12 @@ void ig_CImVector_CImDrawChannel_deinit(const CImVector_CImDrawChannel * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImDrawChannel_Clear(CImVector_CImDrawChannel * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImDrawChannel_Empty(const CImVector_CImDrawChannel * ptr) {
     return toIm(ptr)->empty();
 }
@@ -663,10 +681,6 @@ CImDrawChannel * ig_CImVector_CImDrawChannel_subscript(CImVector_CImDrawChannel 
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImDrawChannel_Clear(CImVector_CImDrawChannel * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImDrawChannel * ig_CImVector_CImDrawChannel_Begin(CImVector_CImDrawChannel * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -756,6 +770,12 @@ void ig_CImVector_char_deinit(const CImVector_char * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_char_Clear(CImVector_char * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_char_Empty(const CImVector_char * ptr) {
     return toIm(ptr)->empty();
 }
@@ -780,10 +800,6 @@ char * ig_CImVector_char_subscriptPointer(CImVector_char * ptr, int i) {
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_char_Clear(CImVector_char * ptr) {
-    toIm(ptr)->clear();
-}
 
 char * ig_CImVector_char_Begin(CImVector_char * ptr) {
     return toIm(ptr)->begin();
@@ -881,6 +897,12 @@ void ig_CImVector_CImU32_deinit(const CImVector_CImU32 * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImU32_Clear(CImVector_CImU32 * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImU32_Empty(const CImVector_CImU32 * ptr) {
     return toIm(ptr)->empty();
 }
@@ -905,10 +927,6 @@ CImU32 * ig_CImVector_CImU32_subscriptPointer(CImVector_CImU32 * ptr, int i) {
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_CImU32_Clear(CImVector_CImU32 * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImU32 * ig_CImVector_CImU32_Begin(CImVector_CImU32 * ptr) {
     return toIm(ptr)->begin();
@@ -1006,6 +1024,12 @@ void ig_CImVector_CImFontAtlasCustomRect_deinit(const CImVector_CImFontAtlasCust
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImFontAtlasCustomRect_Clear(CImVector_CImFontAtlasCustomRect * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImFontAtlasCustomRect_Empty(const CImVector_CImFontAtlasCustomRect * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1030,10 +1054,6 @@ CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_subscript(CImVector
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImFontAtlasCustomRect_Clear(CImVector_CImFontAtlasCustomRect * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_Begin(CImVector_CImFontAtlasCustomRect * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1123,6 +1143,12 @@ void ig_CImVector_CImTextureID_deinit(const CImVector_CImTextureID * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImTextureID_Clear(CImVector_CImTextureID * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImTextureID_Empty(const CImVector_CImTextureID * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1147,10 +1173,6 @@ CImTextureID * ig_CImVector_CImTextureID_subscriptPointer(CImVector_CImTextureID
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_CImTextureID_Clear(CImVector_CImTextureID * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImTextureID * ig_CImVector_CImTextureID_Begin(CImVector_CImTextureID * ptr) {
     return toIm(ptr)->begin();
@@ -1248,6 +1270,12 @@ void ig_CImVector_CImFontConfig_deinit(const CImVector_CImFontConfig * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImFontConfig_Clear(CImVector_CImFontConfig * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImFontConfig_Empty(const CImVector_CImFontConfig * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1272,10 +1300,6 @@ CImFontConfig * ig_CImVector_CImFontConfig_subscript(CImVector_CImFontConfig * p
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImFontConfig_Clear(CImVector_CImFontConfig * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImFontConfig * ig_CImVector_CImFontConfig_Begin(CImVector_CImFontConfig * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1365,6 +1389,12 @@ void ig_CImVector_CImGuiPlatformMonitor_deinit(const CImVector_CImGuiPlatformMon
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImGuiPlatformMonitor_Clear(CImVector_CImGuiPlatformMonitor * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImGuiPlatformMonitor_Empty(const CImVector_CImGuiPlatformMonitor * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1389,10 +1419,6 @@ CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_subscript(CImVector_C
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImGuiPlatformMonitor_Clear(CImVector_CImGuiPlatformMonitor * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_Begin(CImVector_CImGuiPlatformMonitor * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1482,6 +1508,20 @@ void ig_CImVector_CImGuiViewportPtr_deinit(const CImVector_CImGuiViewportPtr * p
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImGuiViewportPtr_Clear(CImVector_CImGuiViewportPtr * ptr) {
+    toIm(ptr)->clear();
+}
+
+void ig_CImVector_CImGuiViewportPtr_ClearDelete(CImVector_CImGuiViewportPtr * ptr) {
+    toIm(ptr)->clear_delete();
+}
+
+void ig_CImVector_CImGuiViewportPtr_ClearDestruct(CImVector_CImGuiViewportPtr * ptr) {
+    toIm(ptr)->clear_destruct();
+}
+
+
 bool ig_CImVector_CImGuiViewportPtr_Empty(const CImVector_CImGuiViewportPtr * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1506,10 +1546,6 @@ CImGuiViewport ** ig_CImVector_CImGuiViewportPtr_subscriptPointer(CImVector_CImG
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImGuiViewportPtr_Clear(CImVector_CImGuiViewportPtr * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImGuiViewport ** ig_CImVector_CImGuiViewportPtr_Begin(CImVector_CImGuiViewportPtr * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1607,6 +1643,20 @@ void ig_CImVector_CImFontPtr_deinit(const CImVector_CImFontPtr * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImFontPtr_Clear(CImVector_CImFontPtr * ptr) {
+    toIm(ptr)->clear();
+}
+
+void ig_CImVector_CImFontPtr_ClearDelete(CImVector_CImFontPtr * ptr) {
+    toIm(ptr)->clear_delete();
+}
+
+void ig_CImVector_CImFontPtr_ClearDestruct(CImVector_CImFontPtr * ptr) {
+    toIm(ptr)->clear_destruct();
+}
+
+
 bool ig_CImVector_CImFontPtr_Empty(const CImVector_CImFontPtr * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1631,10 +1681,6 @@ CImFont ** ig_CImVector_CImFontPtr_subscriptPointer(CImVector_CImFontPtr * ptr, 
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImFontPtr_Clear(CImVector_CImFontPtr * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImFont ** ig_CImVector_CImFontPtr_Begin(CImVector_CImFontPtr * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1732,6 +1778,12 @@ void ig_CImVector_CImDrawCmd_deinit(const CImVector_CImDrawCmd * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImDrawCmd_Clear(CImVector_CImDrawCmd * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImDrawCmd_Empty(const CImVector_CImDrawCmd * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1756,10 +1808,6 @@ CImDrawCmd * ig_CImVector_CImDrawCmd_subscript(CImVector_CImDrawCmd * ptr, int i
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImDrawCmd_Clear(CImVector_CImDrawCmd * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImDrawCmd * ig_CImVector_CImDrawCmd_Begin(CImVector_CImDrawCmd * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1849,6 +1897,12 @@ void ig_CImVector_CImVec4_deinit(const CImVector_CImVec4 * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImVec4_Clear(CImVector_CImVec4 * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImVec4_Empty(const CImVector_CImVec4 * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1873,10 +1927,6 @@ CImVec4 * ig_CImVector_CImVec4_subscript(CImVector_CImVec4 * ptr, int i) {
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImVec4_Clear(CImVector_CImVec4 * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImVec4 * ig_CImVector_CImVec4_Begin(CImVector_CImVec4 * ptr) {
     return toCIm(toIm(ptr)->begin());
@@ -1966,6 +2016,12 @@ void ig_CImVector_CImDrawIdx_deinit(const CImVector_CImDrawIdx * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImDrawIdx_Clear(CImVector_CImDrawIdx * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImDrawIdx_Empty(const CImVector_CImDrawIdx * ptr) {
     return toIm(ptr)->empty();
 }
@@ -1990,10 +2046,6 @@ CImDrawIdx * ig_CImVector_CImDrawIdx_subscriptPointer(CImVector_CImDrawIdx * ptr
     return &(*toIm(ptr))[i];
 }
 
-
-void ig_CImVector_CImDrawIdx_Clear(CImVector_CImDrawIdx * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImDrawIdx * ig_CImVector_CImDrawIdx_Begin(CImVector_CImDrawIdx * ptr) {
     return toIm(ptr)->begin();
@@ -2091,6 +2143,12 @@ void ig_CImVector_CImVec2_deinit(const CImVector_CImVec2 * ptr) {
     delete toIm(ptr);
 }
 
+
+void ig_CImVector_CImVec2_Clear(CImVector_CImVec2 * ptr) {
+    toIm(ptr)->clear();
+}
+
+
 bool ig_CImVector_CImVec2_Empty(const CImVector_CImVec2 * ptr) {
     return toIm(ptr)->empty();
 }
@@ -2115,10 +2173,6 @@ CImVec2 * ig_CImVector_CImVec2_subscript(CImVector_CImVec2 * ptr, int i) {
     return toCIm(&(*toIm(ptr))[i]);
 }
 
-
-void ig_CImVector_CImVec2_Clear(CImVector_CImVec2 * ptr) {
-    toIm(ptr)->clear();
-}
 
 CImVec2 * ig_CImVector_CImVec2_Begin(CImVector_CImVec2 * ptr) {
     return toCIm(toIm(ptr)->begin());

@@ -45,6 +45,22 @@ inline const ImDrawCmd * toIm(const CImDrawCmd * cIm) {
     return cIm ? reinterpret_cast<const ImDrawCmd *>(cIm) : NULL;
 }
 
+inline CImDrawCmdHeader * toCIm(ImDrawCmdHeader * im) {
+    return im ? reinterpret_cast<CImDrawCmdHeader *>(im) : NULL;
+}
+
+inline const CImDrawCmdHeader * toCIm(const ImDrawCmdHeader * im) {
+    return im ? reinterpret_cast<const CImDrawCmdHeader *>(im) : NULL;
+}
+
+inline ImDrawCmdHeader * toIm(CImDrawCmdHeader * cIm) {
+    return cIm ? reinterpret_cast<ImDrawCmdHeader *>(cIm) : NULL;
+}
+
+inline const ImDrawCmdHeader * toIm(const CImDrawCmdHeader * cIm) {
+    return cIm ? reinterpret_cast<const ImDrawCmdHeader *>(cIm) : NULL;
+}
+
 inline CImDrawData * toCIm(ImDrawData * im) {
     return im ? reinterpret_cast<CImDrawData *>(im) : NULL;
 }
@@ -173,6 +189,22 @@ inline const ImFontAtlas * toIm(const CImFontAtlas * cIm) {
     return cIm ? reinterpret_cast<const ImFontAtlas *>(cIm) : NULL;
 }
 
+inline CImFontBuilderIO * toCIm(ImFontBuilderIO * im) {
+    return im ? reinterpret_cast<CImFontBuilderIO *>(im) : NULL;
+}
+
+inline const CImFontBuilderIO * toCIm(const ImFontBuilderIO * im) {
+    return im ? reinterpret_cast<const CImFontBuilderIO *>(im) : NULL;
+}
+
+inline ImFontBuilderIO * toIm(CImFontBuilderIO * cIm) {
+    return cIm ? reinterpret_cast<ImFontBuilderIO *>(cIm) : NULL;
+}
+
+inline const ImFontBuilderIO * toIm(const CImFontBuilderIO * cIm) {
+    return cIm ? reinterpret_cast<const ImFontBuilderIO *>(cIm) : NULL;
+}
+
 inline CImFontConfig * toCIm(ImFontConfig * im) {
     return im ? reinterpret_cast<CImFontConfig *>(im) : NULL;
 }
@@ -267,6 +299,22 @@ inline ImGuiInputTextCallbackData * toIm(CImGuiInputTextCallbackData * cIm) {
 
 inline const ImGuiInputTextCallbackData * toIm(const CImGuiInputTextCallbackData * cIm) {
     return cIm ? reinterpret_cast<const ImGuiInputTextCallbackData *>(cIm) : NULL;
+}
+
+inline CImGuiKeyData * toCIm(ImGuiKeyData * im) {
+    return im ? reinterpret_cast<CImGuiKeyData *>(im) : NULL;
+}
+
+inline const CImGuiKeyData * toCIm(const ImGuiKeyData * im) {
+    return im ? reinterpret_cast<const CImGuiKeyData *>(im) : NULL;
+}
+
+inline ImGuiKeyData * toIm(CImGuiKeyData * cIm) {
+    return cIm ? reinterpret_cast<ImGuiKeyData *>(cIm) : NULL;
+}
+
+inline const ImGuiKeyData * toIm(const CImGuiKeyData * cIm) {
+    return cIm ? reinterpret_cast<const ImGuiKeyData *>(cIm) : NULL;
 }
 
 inline CImGuiListClipper * toCIm(ImGuiListClipper * im) {
@@ -365,6 +413,22 @@ inline ImGuiPlatformMonitor * const * toIm(CImGuiPlatformMonitor * const * cIm) 
     return cIm ? reinterpret_cast<ImGuiPlatformMonitor * const *>(cIm) : NULL;
 }
 
+inline CImGuiPlatformImeData * toCIm(ImGuiPlatformImeData * im) {
+    return im ? reinterpret_cast<CImGuiPlatformImeData *>(im) : NULL;
+}
+
+inline const CImGuiPlatformImeData * toCIm(const ImGuiPlatformImeData * im) {
+    return im ? reinterpret_cast<const CImGuiPlatformImeData *>(im) : NULL;
+}
+
+inline ImGuiPlatformImeData * toIm(CImGuiPlatformImeData * cIm) {
+    return cIm ? reinterpret_cast<ImGuiPlatformImeData *>(cIm) : NULL;
+}
+
+inline const ImGuiPlatformImeData * toIm(const CImGuiPlatformImeData * cIm) {
+    return cIm ? reinterpret_cast<const ImGuiPlatformImeData *>(cIm) : NULL;
+}
+
 inline CImGuiSizeCallbackData * toCIm(ImGuiSizeCallbackData * im) {
     return im ? reinterpret_cast<CImGuiSizeCallbackData *>(im) : NULL;
 }
@@ -411,6 +475,38 @@ inline ImGuiStyle * toIm(CImGuiStyle * cIm) {
 
 inline const ImGuiStyle * toIm(const CImGuiStyle * cIm) {
     return cIm ? reinterpret_cast<const ImGuiStyle *>(cIm) : NULL;
+}
+
+inline CImGuiTableSortSpecs * toCIm(ImGuiTableSortSpecs * im) {
+    return im ? reinterpret_cast<CImGuiTableSortSpecs *>(im) : NULL;
+}
+
+inline const CImGuiTableSortSpecs * toCIm(const ImGuiTableSortSpecs * im) {
+    return im ? reinterpret_cast<const CImGuiTableSortSpecs *>(im) : NULL;
+}
+
+inline ImGuiTableSortSpecs * toIm(CImGuiTableSortSpecs * cIm) {
+    return cIm ? reinterpret_cast<ImGuiTableSortSpecs *>(cIm) : NULL;
+}
+
+inline const ImGuiTableSortSpecs * toIm(const CImGuiTableSortSpecs * cIm) {
+    return cIm ? reinterpret_cast<const ImGuiTableSortSpecs *>(cIm) : NULL;
+}
+
+inline CImGuiTableColumnSortSpecs * toCIm(ImGuiTableColumnSortSpecs * im) {
+    return im ? reinterpret_cast<CImGuiTableColumnSortSpecs *>(im) : NULL;
+}
+
+inline const CImGuiTableColumnSortSpecs * toCIm(const ImGuiTableColumnSortSpecs * im) {
+    return im ? reinterpret_cast<const CImGuiTableColumnSortSpecs *>(im) : NULL;
+}
+
+inline ImGuiTableColumnSortSpecs * toIm(CImGuiTableColumnSortSpecs * cIm) {
+    return cIm ? reinterpret_cast<ImGuiTableColumnSortSpecs *>(cIm) : NULL;
+}
+
+inline const ImGuiTableColumnSortSpecs * toIm(const CImGuiTableColumnSortSpecs * cIm) {
+    return cIm ? reinterpret_cast<const ImGuiTableColumnSortSpecs *>(cIm) : NULL;
 }
 
 inline CImGuiTextBuffer * toCIm(ImGuiTextBuffer * im) {

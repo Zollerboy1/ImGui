@@ -18,6 +18,7 @@
 
 typedef struct CImDrawChannel CImDrawChannel;
 typedef struct CImDrawCmd CImDrawCmd;
+typedef struct CImDrawCmdHeader CImDrawCmdHeader;
 typedef struct CImDrawData CImDrawData;
 typedef struct CImDrawList CImDrawList;
 typedef struct CImDrawListSharedData CImDrawListSharedData;
@@ -25,20 +26,25 @@ typedef struct CImDrawListSplitter CImDrawListSplitter;
 typedef struct CImDrawVert CImDrawVert;
 typedef struct CImFont CImFont;
 typedef struct CImFontAtlas CImFontAtlas;
+typedef struct CImFontBuilderIO CImFontBuilderIO;
 typedef struct CImFontConfig CImFontConfig;
 typedef struct CImFontGlyph CImFontGlyph;
 typedef struct CImFontGlyphRangesBuilder CImFontGlyphRangesBuilder;
 typedef struct CImColor CImColor;
 typedef struct CImGuiIO CImGuiIO;
 typedef struct CImGuiInputTextCallbackData CImGuiInputTextCallbackData;
+typedef struct CImGuiKeyData CImGuiKeyData;
 typedef struct CImGuiListClipper CImGuiListClipper;
 typedef struct CImGuiOnceUponAFrame CImGuiOnceUponAFrame;
 typedef struct CImGuiPayload CImGuiPayload;
 typedef struct CImGuiPlatformIO CImGuiPlatformIO;
 typedef struct CImGuiPlatformMonitor CImGuiPlatformMonitor;
+typedef struct CImGuiPlatformImeData CImGuiPlatformImeData;
 typedef struct CImGuiSizeCallbackData CImGuiSizeCallbackData;
 typedef struct CImGuiStorage CImGuiStorage;
 typedef struct CImGuiStyle CImGuiStyle;
+typedef struct CImGuiTableSortSpecs CImGuiTableSortSpecs;
+typedef struct CImGuiTableColumnSortSpecs CImGuiTableColumnSortSpecs;
 typedef struct CImGuiTextBuffer CImGuiTextBuffer;
 typedef struct CImGuiTextFilter CImGuiTextFilter;
 typedef struct CImGuiViewport CImGuiViewport;
@@ -53,17 +59,10 @@ typedef struct ImGuiTextRange CImGuiTextRange;
 //For callbacks
 typedef struct ImVec2 ImVec2;
 typedef struct ImDrawData ImDrawData;
+typedef struct ImFontAtlas ImFontAtlas;
 typedef struct ImGuiViewport ImGuiViewport;
+typedef struct ImGuiPlatformImeData ImGuiPlatformImeData;
 
-typedef void * CImTextureID;
-typedef unsigned int CImGuiID;
-typedef unsigned short CImWchar16;
-typedef unsigned int CImWchar32;
-#ifdef CIMGUI_USE_WCHAR32
-typedef CImWchar32 CImWchar;
-#else
-typedef CImWchar16 CImWchar;
-#endif
 typedef int CImGuiCol;
 typedef int CImGuiCond;
 typedef int CImGuiDataType;
@@ -72,8 +71,10 @@ typedef int CImGuiKey;
 typedef int CImGuiNavInput;
 typedef int CImGuiMouseButton;
 typedef int CImGuiMouseCursor;
+typedef int CImGuiSortDirection;
 typedef int CImGuiStyleVar;
-typedef int CImDrawCornerFlags;
+typedef int CImGuiTableBgTarget;
+typedef int CImDrawFlags;
 typedef int CImDrawListFlags;
 typedef int CImFontAtlasFlags;
 typedef int CImGuiBackendFlags;
@@ -87,34 +88,44 @@ typedef int CImGuiFocusedFlags;
 typedef int CImGuiHoveredFlags;
 typedef int CImGuiInputTextFlags;
 typedef int CImGuiPopupFlags;
-typedef int CImGuiKeyModFlags;
+typedef int CImGuiModFlags;
 typedef int CImGuiSelectableFlags;
 typedef int CImGuiSliderFlags;
 typedef int CImGuiTabBarFlags;
 typedef int CImGuiTabItemFlags;
+typedef int CImGuiTableFlags;
+typedef int CImGuiTableColumnFlags;
+typedef int CImGuiTableRowFlags;
 typedef int CImGuiTreeNodeFlags;
 typedef int CImGuiViewportFlags;
 typedef int CImGuiWindowFlags;
-typedef int (*CImGuiInputTextCallback)(CImGuiInputTextCallbackData * data);
-typedef void (*CImGuiSizeCallback)(CImGuiSizeCallbackData * data);
+
+typedef void * CImTextureID;
+typedef unsigned short CImDrawIdx;
+typedef unsigned int CImGuiID;
+
 typedef signed char CImS8;
 typedef unsigned char CImU8;
 typedef signed short CImS16;
 typedef unsigned short CImU16;
 typedef signed int CImS32;
 typedef unsigned int CImU32;
-#if defined(_MSC_VER) && !defined(__clang__)
-typedef signed __int64 CImS64;
-typedef unsigned __int64 CImU64;
-#elif (defined(__clang__) || defined(__GNUC__)) && (__cplusplus < 201100)
-typedef int64_t CImS64;
-typedef uint64_t CImU64;
-#else
 typedef signed long long CImS64;
 typedef unsigned long long CImU64;
+
+typedef unsigned short CImWchar16;
+typedef unsigned int CImWchar32;
+#ifdef CIMGUI_USE_WCHAR32
+typedef CImWchar32 CImWchar;
+#else
+typedef CImWchar16 CImWchar;
 #endif
+
+typedef int (*CImGuiInputTextCallback)(CImGuiInputTextCallbackData * data);
+typedef void (*CImGuiSizeCallback)(CImGuiSizeCallbackData * data);
+typedef void * (*CImGuiMemAllocFunc)(size_t sz, void * userData);
+typedef void (*CImGuiMemFreeFunc)(void * ptr, void * userData);
 typedef void (*CImDrawCallback)(const CImDrawList * parent_list, const CImDrawCmd * cmd);
-typedef unsigned short CImDrawIdx;
 
 #define CIM_UNICODE_CODEPOINT_INVALID 0xFFFD
 #ifdef CIMGUI_USE_WCHAR32

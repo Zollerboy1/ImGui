@@ -160,6 +160,9 @@ void ig_CImVec4_deinit(const CImVec4 * ptr);
 
 CImVector_float * ig_CImVector_float_init();
 void ig_CImVector_float_deinit(const CImVector_float * ptr);
+
+void ig_CImVector_float_Clear(CImVector_float * ptr);
+
 bool ig_CImVector_float_Empty(const CImVector_float * ptr);
 int ig_CImVector_float_Size(const CImVector_float * ptr);
 int ig_CImVector_float_Size_in_bytes(const CImVector_float * ptr);
@@ -167,7 +170,6 @@ int ig_CImVector_float_Capacity(const CImVector_float * ptr);
 float ig_CImVector_float_subscript(const CImVector_float * ptr, int i);
 float * ig_CImVector_float_subscriptPointer(CImVector_float * ptr, int i);
 
-void ig_CImVector_float_Clear(CImVector_float * ptr);
 float * ig_CImVector_float_Begin(CImVector_float * ptr);
 const float * ig_CImVector_float_BeginConst(const CImVector_float * ptr);
 float * ig_CImVector_float_End(CImVector_float * ptr);
@@ -195,6 +197,9 @@ bool ig_CImVector_float_FindErase(CImVector_float * ptr, float v);
 
 CImVector_CImWchar * ig_CImVector_CImWchar_init();
 void ig_CImVector_CImWchar_deinit(const CImVector_CImWchar * ptr);
+
+void ig_CImVector_CImWchar_Clear(CImVector_CImWchar * ptr);
+
 bool ig_CImVector_CImWchar_Empty(const CImVector_CImWchar * ptr);
 int ig_CImVector_CImWchar_Size(const CImVector_CImWchar * ptr);
 int ig_CImVector_CImWchar_Size_in_bytes(const CImVector_CImWchar * ptr);
@@ -202,7 +207,6 @@ int ig_CImVector_CImWchar_Capacity(const CImVector_CImWchar * ptr);
 CImWchar ig_CImVector_CImWchar_subscript(const CImVector_CImWchar * ptr, int i);
 CImWchar * ig_CImVector_CImWchar_subscriptPointer(CImVector_CImWchar * ptr, int i);
 
-void ig_CImVector_CImWchar_Clear(CImVector_CImWchar * ptr);
 CImWchar * ig_CImVector_CImWchar_Begin(CImVector_CImWchar * ptr);
 const CImWchar * ig_CImVector_CImWchar_BeginConst(const CImVector_CImWchar * ptr);
 CImWchar * ig_CImVector_CImWchar_End(CImVector_CImWchar * ptr);
@@ -230,6 +234,9 @@ bool ig_CImVector_CImWchar_FindErase(CImVector_CImWchar * ptr, CImWchar v);
 
 CImVector_CImDrawVert * ig_CImVector_CImDrawVert_init();
 void ig_CImVector_CImDrawVert_deinit(const CImVector_CImDrawVert * ptr);
+
+void ig_CImVector_CImDrawVert_Clear(CImVector_CImDrawVert * ptr);
+
 bool ig_CImVector_CImDrawVert_Empty(const CImVector_CImDrawVert * ptr);
 int ig_CImVector_CImDrawVert_Size(const CImVector_CImDrawVert * ptr);
 int ig_CImVector_CImDrawVert_Size_in_bytes(const CImVector_CImDrawVert * ptr);
@@ -237,7 +244,6 @@ int ig_CImVector_CImDrawVert_Capacity(const CImVector_CImDrawVert * ptr);
 const CImDrawVert * ig_CImVector_CImDrawVert_subscriptConst(const CImVector_CImDrawVert * ptr, int i);
 CImDrawVert * ig_CImVector_CImDrawVert_subscript(CImVector_CImDrawVert * ptr, int i);
 
-void ig_CImVector_CImDrawVert_Clear(CImVector_CImDrawVert * ptr);
 CImDrawVert * ig_CImVector_CImDrawVert_Begin(CImVector_CImDrawVert * ptr);
 const CImDrawVert * ig_CImVector_CImDrawVert_BeginConst(const CImVector_CImDrawVert * ptr);
 CImDrawVert * ig_CImVector_CImDrawVert_End(CImVector_CImDrawVert * ptr);
@@ -263,6 +269,9 @@ CImDrawVert * ig_CImVector_CImDrawVert_Insert(CImVector_CImDrawVert * ptr, const
 
 CImVector_CImFontGlyph * ig_CImVector_CImFontGlyph_init();
 void ig_CImVector_CImFontGlyph_deinit(const CImVector_CImFontGlyph * ptr);
+
+void ig_CImVector_CImFontGlyph_Clear(CImVector_CImFontGlyph * ptr);
+
 bool ig_CImVector_CImFontGlyph_Empty(const CImVector_CImFontGlyph * ptr);
 int ig_CImVector_CImFontGlyph_Size(const CImVector_CImFontGlyph * ptr);
 int ig_CImVector_CImFontGlyph_Size_in_bytes(const CImVector_CImFontGlyph * ptr);
@@ -270,7 +279,6 @@ int ig_CImVector_CImFontGlyph_Capacity(const CImVector_CImFontGlyph * ptr);
 const CImFontGlyph * ig_CImVector_CImFontGlyph_subscriptConst(const CImVector_CImFontGlyph * ptr, int i);
 CImFontGlyph * ig_CImVector_CImFontGlyph_subscript(CImVector_CImFontGlyph * ptr, int i);
 
-void ig_CImVector_CImFontGlyph_Clear(CImVector_CImFontGlyph * ptr);
 CImFontGlyph * ig_CImVector_CImFontGlyph_Begin(CImVector_CImFontGlyph * ptr);
 const CImFontGlyph * ig_CImVector_CImFontGlyph_BeginConst(const CImVector_CImFontGlyph * ptr);
 CImFontGlyph * ig_CImVector_CImFontGlyph_End(CImVector_CImFontGlyph * ptr);
@@ -296,11 +304,13 @@ CImFontGlyph * ig_CImVector_CImFontGlyph_Insert(CImVector_CImFontGlyph * ptr, co
 
 CImVector_CImGuiTextRange * ig_CImVector_CImGuiTextRange_init();
 void ig_CImVector_CImGuiTextRange_deinit(const CImVector_CImGuiTextRange * ptr);
+
+void ig_CImVector_CImGuiTextRange_Clear(CImVector_CImGuiTextRange * ptr);
+
 bool ig_CImVector_CImGuiTextRange_Empty(const CImVector_CImGuiTextRange * ptr);
 int ig_CImVector_CImGuiTextRange_Size(const CImVector_CImGuiTextRange * ptr);
 int ig_CImVector_CImGuiTextRange_Capacity(const CImVector_CImGuiTextRange * ptr);
 
-void ig_CImVector_CImGuiTextRange_Clear(CImVector_CImGuiTextRange * ptr);
 CImGuiTextRange * ig_CImVector_CImGuiTextRange_Begin(CImVector_CImGuiTextRange * ptr);
 const CImGuiTextRange * ig_CImVector_CImGuiTextRange_BeginConst(const CImVector_CImGuiTextRange * ptr);
 void ig_CImVector_CImGuiTextRange_Swap(CImVector_CImGuiTextRange * ptr, CImVector_CImGuiTextRange * other);
@@ -311,11 +321,13 @@ void ig_CImVector_CImGuiTextRange_PopBack(CImVector_CImGuiTextRange * ptr);
 
 CImVector_CImGuiStoragePair * ig_CImVector_CImGuiStoragePair_init();
 void ig_CImVector_CImGuiStoragePair_deinit(const CImVector_CImGuiStoragePair * ptr);
+
+void ig_CImVector_CImGuiStoragePair_Clear(CImVector_CImGuiStoragePair * ptr);
+
 bool ig_CImVector_CImGuiStoragePair_Empty(const CImVector_CImGuiStoragePair * ptr);
 int ig_CImVector_CImGuiStoragePair_Size(const CImVector_CImGuiStoragePair * ptr);
 int ig_CImVector_CImGuiStoragePair_Capacity(const CImVector_CImGuiStoragePair * ptr);
 
-void ig_CImVector_CImGuiStoragePair_Clear(CImVector_CImGuiStoragePair * ptr);
 CImGuiStoragePair * ig_CImVector_CImGuiStoragePair_Begin(CImVector_CImGuiStoragePair * ptr);
 const CImGuiStoragePair * ig_CImVector_CImGuiStoragePair_BeginConst(const CImVector_CImGuiStoragePair * ptr);
 void ig_CImVector_CImGuiStoragePair_Swap(CImVector_CImGuiStoragePair * ptr, CImVector_CImGuiStoragePair * other);
@@ -326,6 +338,9 @@ void ig_CImVector_CImGuiStoragePair_PopBack(CImVector_CImGuiStoragePair * ptr);
 
 CImVector_CImDrawChannel * ig_CImVector_CImDrawChannel_init();
 void ig_CImVector_CImDrawChannel_deinit(const CImVector_CImDrawChannel * ptr);
+
+void ig_CImVector_CImDrawChannel_Clear(CImVector_CImDrawChannel * ptr);
+
 bool ig_CImVector_CImDrawChannel_Empty(const CImVector_CImDrawChannel * ptr);
 int ig_CImVector_CImDrawChannel_Size(const CImVector_CImDrawChannel * ptr);
 int ig_CImVector_CImDrawChannel_Size_in_bytes(const CImVector_CImDrawChannel * ptr);
@@ -333,7 +348,6 @@ int ig_CImVector_CImDrawChannel_Capacity(const CImVector_CImDrawChannel * ptr);
 const CImDrawChannel * ig_CImVector_CImDrawChannel_subscriptConst(const CImVector_CImDrawChannel * ptr, int i);
 CImDrawChannel * ig_CImVector_CImDrawChannel_subscript(CImVector_CImDrawChannel * ptr, int i);
 
-void ig_CImVector_CImDrawChannel_Clear(CImVector_CImDrawChannel * ptr);
 CImDrawChannel * ig_CImVector_CImDrawChannel_Begin(CImVector_CImDrawChannel * ptr);
 const CImDrawChannel * ig_CImVector_CImDrawChannel_BeginConst(const CImVector_CImDrawChannel * ptr);
 CImDrawChannel * ig_CImVector_CImDrawChannel_End(CImVector_CImDrawChannel * ptr);
@@ -359,6 +373,9 @@ CImDrawChannel * ig_CImVector_CImDrawChannel_Insert(CImVector_CImDrawChannel * p
 
 CImVector_char * ig_CImVector_char_init();
 void ig_CImVector_char_deinit(const CImVector_char * ptr);
+
+void ig_CImVector_char_Clear(CImVector_char * ptr);
+
 bool ig_CImVector_char_Empty(const CImVector_char * ptr);
 int ig_CImVector_char_Size(const CImVector_char * ptr);
 int ig_CImVector_char_Size_in_bytes(const CImVector_char * ptr);
@@ -366,7 +383,6 @@ int ig_CImVector_char_Capacity(const CImVector_char * ptr);
 char ig_CImVector_char_subscript(const CImVector_char * ptr, int i);
 char * ig_CImVector_char_subscriptPointer(CImVector_char * ptr, int i);
 
-void ig_CImVector_char_Clear(CImVector_char * ptr);
 char * ig_CImVector_char_Begin(CImVector_char * ptr);
 const char * ig_CImVector_char_BeginConst(const CImVector_char * ptr);
 char * ig_CImVector_char_End(CImVector_char * ptr);
@@ -394,6 +410,9 @@ bool ig_CImVector_char_FindErase(CImVector_char * ptr, char v);
 
 CImVector_CImU32 * ig_CImVector_CImU32_init();
 void ig_CImVector_CImU32_deinit(const CImVector_CImU32 * ptr);
+
+void ig_CImVector_CImU32_Clear(CImVector_CImU32 * ptr);
+
 bool ig_CImVector_CImU32_Empty(const CImVector_CImU32 * ptr);
 int ig_CImVector_CImU32_Size(const CImVector_CImU32 * ptr);
 int ig_CImVector_CImU32_Size_in_bytes(const CImVector_CImU32 * ptr);
@@ -401,7 +420,6 @@ int ig_CImVector_CImU32_Capacity(const CImVector_CImU32 * ptr);
 CImU32 ig_CImVector_CImU32_subscript(const CImVector_CImU32 * ptr, int i);
 CImU32 * ig_CImVector_CImU32_subscriptPointer(CImVector_CImU32 * ptr, int i);
 
-void ig_CImVector_CImU32_Clear(CImVector_CImU32 * ptr);
 CImU32 * ig_CImVector_CImU32_Begin(CImVector_CImU32 * ptr);
 const CImU32 * ig_CImVector_CImU32_BeginConst(const CImVector_CImU32 * ptr);
 CImU32 * ig_CImVector_CImU32_End(CImVector_CImU32 * ptr);
@@ -429,6 +447,9 @@ bool ig_CImVector_CImU32_FindErase(CImVector_CImU32 * ptr, CImU32 v);
 
 CImVector_CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_init();
 void ig_CImVector_CImFontAtlasCustomRect_deinit(const CImVector_CImFontAtlasCustomRect * ptr);
+
+void ig_CImVector_CImFontAtlasCustomRect_Clear(CImVector_CImFontAtlasCustomRect * ptr);
+
 bool ig_CImVector_CImFontAtlasCustomRect_Empty(const CImVector_CImFontAtlasCustomRect * ptr);
 int ig_CImVector_CImFontAtlasCustomRect_Size(const CImVector_CImFontAtlasCustomRect * ptr);
 int ig_CImVector_CImFontAtlasCustomRect_Size_in_bytes(const CImVector_CImFontAtlasCustomRect * ptr);
@@ -436,7 +457,6 @@ int ig_CImVector_CImFontAtlasCustomRect_Capacity(const CImVector_CImFontAtlasCus
 const CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_subscriptConst(const CImVector_CImFontAtlasCustomRect * ptr, int i);
 CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_subscript(CImVector_CImFontAtlasCustomRect * ptr, int i);
 
-void ig_CImVector_CImFontAtlasCustomRect_Clear(CImVector_CImFontAtlasCustomRect * ptr);
 CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_Begin(CImVector_CImFontAtlasCustomRect * ptr);
 const CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_BeginConst(const CImVector_CImFontAtlasCustomRect * ptr);
 CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_End(CImVector_CImFontAtlasCustomRect * ptr);
@@ -462,6 +482,9 @@ CImFontAtlasCustomRect * ig_CImVector_CImFontAtlasCustomRect_Insert(CImVector_CI
 
 CImVector_CImTextureID * ig_CImVector_CImTextureID_init();
 void ig_CImVector_CImTextureID_deinit(const CImVector_CImTextureID * ptr);
+
+void ig_CImVector_CImTextureID_Clear(CImVector_CImTextureID * ptr);
+
 bool ig_CImVector_CImTextureID_Empty(const CImVector_CImTextureID * ptr);
 int ig_CImVector_CImTextureID_Size(const CImVector_CImTextureID * ptr);
 int ig_CImVector_CImTextureID_Size_in_bytes(const CImVector_CImTextureID * ptr);
@@ -469,7 +492,6 @@ int ig_CImVector_CImTextureID_Capacity(const CImVector_CImTextureID * ptr);
 CImTextureID ig_CImVector_CImTextureID_subscript(const CImVector_CImTextureID * ptr, int i);
 CImTextureID * ig_CImVector_CImTextureID_subscriptPointer(CImVector_CImTextureID * ptr, int i);
 
-void ig_CImVector_CImTextureID_Clear(CImVector_CImTextureID * ptr);
 CImTextureID * ig_CImVector_CImTextureID_Begin(CImVector_CImTextureID * ptr);
 const CImTextureID * ig_CImVector_CImTextureID_BeginConst(const CImVector_CImTextureID * ptr);
 CImTextureID * ig_CImVector_CImTextureID_End(CImVector_CImTextureID * ptr);
@@ -497,6 +519,9 @@ bool ig_CImVector_CImTextureID_FindErase(CImVector_CImTextureID * ptr, CImTextur
 
 CImVector_CImFontConfig * ig_CImVector_CImFontConfig_init();
 void ig_CImVector_CImFontConfig_deinit(const CImVector_CImFontConfig * ptr);
+
+void ig_CImVector_CImFontConfig_Clear(CImVector_CImFontConfig * ptr);
+
 bool ig_CImVector_CImFontConfig_Empty(const CImVector_CImFontConfig * ptr);
 int ig_CImVector_CImFontConfig_Size(const CImVector_CImFontConfig * ptr);
 int ig_CImVector_CImFontConfig_Size_in_bytes(const CImVector_CImFontConfig * ptr);
@@ -504,7 +529,6 @@ int ig_CImVector_CImFontConfig_Capacity(const CImVector_CImFontConfig * ptr);
 const CImFontConfig * ig_CImVector_CImFontConfig_subscriptConst(const CImVector_CImFontConfig * ptr, int i);
 CImFontConfig * ig_CImVector_CImFontConfig_subscript(CImVector_CImFontConfig * ptr, int i);
 
-void ig_CImVector_CImFontConfig_Clear(CImVector_CImFontConfig * ptr);
 CImFontConfig * ig_CImVector_CImFontConfig_Begin(CImVector_CImFontConfig * ptr);
 const CImFontConfig * ig_CImVector_CImFontConfig_BeginConst(const CImVector_CImFontConfig * ptr);
 CImFontConfig * ig_CImVector_CImFontConfig_End(CImVector_CImFontConfig * ptr);
@@ -530,6 +554,9 @@ CImFontConfig * ig_CImVector_CImFontConfig_Insert(CImVector_CImFontConfig * ptr,
 
 CImVector_CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_init();
 void ig_CImVector_CImGuiPlatformMonitor_deinit(const CImVector_CImGuiPlatformMonitor * ptr);
+
+void ig_CImVector_CImGuiPlatformMonitor_Clear(CImVector_CImGuiPlatformMonitor * ptr);
+
 bool ig_CImVector_CImGuiPlatformMonitor_Empty(const CImVector_CImGuiPlatformMonitor * ptr);
 int ig_CImVector_CImGuiPlatformMonitor_Size(const CImVector_CImGuiPlatformMonitor * ptr);
 int ig_CImVector_CImGuiPlatformMonitor_Size_in_bytes(const CImVector_CImGuiPlatformMonitor * ptr);
@@ -537,7 +564,6 @@ int ig_CImVector_CImGuiPlatformMonitor_Capacity(const CImVector_CImGuiPlatformMo
 const CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_subscriptConst(const CImVector_CImGuiPlatformMonitor * ptr, int i);
 CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_subscript(CImVector_CImGuiPlatformMonitor * ptr, int i);
 
-void ig_CImVector_CImGuiPlatformMonitor_Clear(CImVector_CImGuiPlatformMonitor * ptr);
 CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_Begin(CImVector_CImGuiPlatformMonitor * ptr);
 const CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_BeginConst(const CImVector_CImGuiPlatformMonitor * ptr);
 CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_End(CImVector_CImGuiPlatformMonitor * ptr);
@@ -563,6 +589,11 @@ CImGuiPlatformMonitor * ig_CImVector_CImGuiPlatformMonitor_Insert(CImVector_CImG
 
 CImVector_CImGuiViewportPtr * ig_CImVector_CImGuiViewportPtr_init();
 void ig_CImVector_CImGuiViewportPtr_deinit(const CImVector_CImGuiViewportPtr * ptr);
+
+void ig_CImVector_CImGuiViewportPtr_Clear(CImVector_CImGuiViewportPtr * ptr);
+void ig_CImVector_CImGuiViewportPtr_ClearDelete(CImVector_CImGuiViewportPtr * ptr);
+void ig_CImVector_CImGuiViewportPtr_ClearDestruct(CImVector_CImGuiViewportPtr * ptr);
+
 bool ig_CImVector_CImGuiViewportPtr_Empty(const CImVector_CImGuiViewportPtr * ptr);
 int ig_CImVector_CImGuiViewportPtr_Size(const CImVector_CImGuiViewportPtr * ptr);
 int ig_CImVector_CImGuiViewportPtr_Size_in_bytes(const CImVector_CImGuiViewportPtr * ptr);
@@ -570,7 +601,6 @@ int ig_CImVector_CImGuiViewportPtr_Capacity(const CImVector_CImGuiViewportPtr * 
 const CImGuiViewport * ig_CImVector_CImGuiViewportPtr_subscript(const CImVector_CImGuiViewportPtr * ptr, int i);
 CImGuiViewport ** ig_CImVector_CImGuiViewportPtr_subscriptPointer(CImVector_CImGuiViewportPtr * ptr, int i);
 
-void ig_CImVector_CImGuiViewportPtr_Clear(CImVector_CImGuiViewportPtr * ptr);
 CImGuiViewport ** ig_CImVector_CImGuiViewportPtr_Begin(CImVector_CImGuiViewportPtr * ptr);
 CImGuiViewport * const * ig_CImVector_CImGuiViewportPtr_BeginConst(const CImVector_CImGuiViewportPtr * ptr);
 CImGuiViewport ** ig_CImVector_CImGuiViewportPtr_End(CImVector_CImGuiViewportPtr * ptr);
@@ -598,6 +628,11 @@ bool ig_CImVector_CImGuiViewportPtr_FindErase(CImVector_CImGuiViewportPtr * ptr,
 
 CImVector_CImFontPtr * ig_CImVector_CImFontPtr_init();
 void ig_CImVector_CImFontPtr_deinit(const CImVector_CImFontPtr * ptr);
+
+void ig_CImVector_CImFontPtr_Clear(CImVector_CImFontPtr * ptr);
+void ig_CImVector_CImFontPtr_ClearDelete(CImVector_CImFontPtr * ptr);
+void ig_CImVector_CImFontPtr_ClearDestruct(CImVector_CImFontPtr * ptr);
+
 bool ig_CImVector_CImFontPtr_Empty(const CImVector_CImFontPtr * ptr);
 int ig_CImVector_CImFontPtr_Size(const CImVector_CImFontPtr * ptr);
 int ig_CImVector_CImFontPtr_Size_in_bytes(const CImVector_CImFontPtr * ptr);
@@ -605,7 +640,6 @@ int ig_CImVector_CImFontPtr_Capacity(const CImVector_CImFontPtr * ptr);
 const CImFont * ig_CImVector_CImFontPtr_subscript(const CImVector_CImFontPtr * ptr, int i);
 CImFont ** ig_CImVector_CImFontPtr_subscriptPointer(CImVector_CImFontPtr * ptr, int i);
 
-void ig_CImVector_CImFontPtr_Clear(CImVector_CImFontPtr * ptr);
 CImFont ** ig_CImVector_CImFontPtr_Begin(CImVector_CImFontPtr * ptr);
 CImFont * const * ig_CImVector_CImFontPtr_BeginConst(const CImVector_CImFontPtr * ptr);
 CImFont ** ig_CImVector_CImFontPtr_End(CImVector_CImFontPtr * ptr);
@@ -633,6 +667,9 @@ bool ig_CImVector_CImFontPtr_FindErase(CImVector_CImFontPtr * ptr, CImFont * v);
 
 CImVector_CImDrawCmd * ig_CImVector_CImDrawCmd_init();
 void ig_CImVector_CImDrawCmd_deinit(const CImVector_CImDrawCmd * ptr);
+
+void ig_CImVector_CImDrawCmd_Clear(CImVector_CImDrawCmd * ptr);
+
 bool ig_CImVector_CImDrawCmd_Empty(const CImVector_CImDrawCmd * ptr);
 int ig_CImVector_CImDrawCmd_Size(const CImVector_CImDrawCmd * ptr);
 int ig_CImVector_CImDrawCmd_Size_in_bytes(const CImVector_CImDrawCmd * ptr);
@@ -640,7 +677,6 @@ int ig_CImVector_CImDrawCmd_Capacity(const CImVector_CImDrawCmd * ptr);
 const CImDrawCmd * ig_CImVector_CImDrawCmd_subscriptConst(const CImVector_CImDrawCmd * ptr, int i);
 CImDrawCmd * ig_CImVector_CImDrawCmd_subscript(CImVector_CImDrawCmd * ptr, int i);
 
-void ig_CImVector_CImDrawCmd_Clear(CImVector_CImDrawCmd * ptr);
 CImDrawCmd * ig_CImVector_CImDrawCmd_Begin(CImVector_CImDrawCmd * ptr);
 const CImDrawCmd * ig_CImVector_CImDrawCmd_BeginConst(const CImVector_CImDrawCmd * ptr);
 CImDrawCmd * ig_CImVector_CImDrawCmd_End(CImVector_CImDrawCmd * ptr);
@@ -666,6 +702,9 @@ CImDrawCmd * ig_CImVector_CImDrawCmd_Insert(CImVector_CImDrawCmd * ptr, const CI
 
 CImVector_CImVec4 * ig_CImVector_CImVec4_init();
 void ig_CImVector_CImVec4_deinit(const CImVector_CImVec4 * ptr);
+
+void ig_CImVector_CImVec4_Clear(CImVector_CImVec4 * ptr);
+
 bool ig_CImVector_CImVec4_Empty(const CImVector_CImVec4 * ptr);
 int ig_CImVector_CImVec4_Size(const CImVector_CImVec4 * ptr);
 int ig_CImVector_CImVec4_Size_in_bytes(const CImVector_CImVec4 * ptr);
@@ -673,7 +712,6 @@ int ig_CImVector_CImVec4_Capacity(const CImVector_CImVec4 * ptr);
 const CImVec4 * ig_CImVector_CImVec4_subscriptConst(const CImVector_CImVec4 * ptr, int i);
 CImVec4 * ig_CImVector_CImVec4_subscript(CImVector_CImVec4 * ptr, int i);
 
-void ig_CImVector_CImVec4_Clear(CImVector_CImVec4 * ptr);
 CImVec4 * ig_CImVector_CImVec4_Begin(CImVector_CImVec4 * ptr);
 const CImVec4 * ig_CImVector_CImVec4_BeginConst(const CImVector_CImVec4 * ptr);
 CImVec4 * ig_CImVector_CImVec4_End(CImVector_CImVec4 * ptr);
@@ -699,6 +737,9 @@ CImVec4 * ig_CImVector_CImVec4_Insert(CImVector_CImVec4 * ptr, const CImVec4 * i
 
 CImVector_CImDrawIdx * ig_CImVector_CImDrawIdx_init();
 void ig_CImVector_CImDrawIdx_deinit(const CImVector_CImDrawIdx * ptr);
+
+void ig_CImVector_CImDrawIdx_Clear(CImVector_CImDrawIdx * ptr);
+
 bool ig_CImVector_CImDrawIdx_Empty(const CImVector_CImDrawIdx * ptr);
 int ig_CImVector_CImDrawIdx_Size(const CImVector_CImDrawIdx * ptr);
 int ig_CImVector_CImDrawIdx_Size_in_bytes(const CImVector_CImDrawIdx * ptr);
@@ -706,7 +747,6 @@ int ig_CImVector_CImDrawIdx_Capacity(const CImVector_CImDrawIdx * ptr);
 CImDrawIdx ig_CImVector_CImDrawIdx_subscript(const CImVector_CImDrawIdx * ptr, int i);
 CImDrawIdx * ig_CImVector_CImDrawIdx_subscriptPointer(CImVector_CImDrawIdx * ptr, int i);
 
-void ig_CImVector_CImDrawIdx_Clear(CImVector_CImDrawIdx * ptr);
 CImDrawIdx * ig_CImVector_CImDrawIdx_Begin(CImVector_CImDrawIdx * ptr);
 const CImDrawIdx * ig_CImVector_CImDrawIdx_BeginConst(const CImVector_CImDrawIdx * ptr);
 CImDrawIdx * ig_CImVector_CImDrawIdx_End(CImVector_CImDrawIdx * ptr);
@@ -734,6 +774,9 @@ bool ig_CImVector_CImDrawIdx_FindErase(CImVector_CImDrawIdx * ptr, CImDrawIdx v)
 
 CImVector_CImVec2 * ig_CImVector_CImVec2_init();
 void ig_CImVector_CImVec2_deinit(const CImVector_CImVec2 * ptr);
+
+void ig_CImVector_CImVec2_Clear(CImVector_CImVec2 * ptr);
+
 bool ig_CImVector_CImVec2_Empty(const CImVector_CImVec2 * ptr);
 int ig_CImVector_CImVec2_Size(const CImVector_CImVec2 * ptr);
 int ig_CImVector_CImVec2_Size_in_bytes(const CImVector_CImVec2 * ptr);
@@ -741,7 +784,6 @@ int ig_CImVector_CImVec2_Capacity(const CImVector_CImVec2 * ptr);
 const CImVec2 * ig_CImVector_CImVec2_subscriptConst(const CImVector_CImVec2 * ptr, int i);
 CImVec2 * ig_CImVector_CImVec2_subscript(CImVector_CImVec2 * ptr, int i);
 
-void ig_CImVector_CImVec2_Clear(CImVector_CImVec2 * ptr);
 CImVec2 * ig_CImVector_CImVec2_Begin(CImVector_CImVec2 * ptr);
 const CImVec2 * ig_CImVector_CImVec2_BeginConst(const CImVector_CImVec2 * ptr);
 CImVec2 * ig_CImVector_CImVec2_End(CImVector_CImVec2 * ptr);

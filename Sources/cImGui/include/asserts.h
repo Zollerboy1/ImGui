@@ -18,7 +18,7 @@
 static_assert((uint8_t)CImGuiCol_COUNT == (uint8_t)ImGuiCol_COUNT, "CImGuiCol_ and ImGuiCol_ are not compatible!");
 static_assert((uint8_t)CImGuiDataType_COUNT == (uint8_t)ImGuiDataType_COUNT, "CImGuiDataType_ and ImGuiDataType_ are not compatible!");
 static_assert((uint8_t)CImGuiDir_COUNT == (uint8_t)ImGuiDir_COUNT, "CImGuiDir_ and ImGuiDir_ are not compatible!");
-static_assert((uint8_t)CImGuiKey_COUNT == (uint8_t)ImGuiKey_COUNT, "CImGuiKey_ and ImGuiKey_ are not compatible!");
+static_assert((uint8_t)CImGuiKey_COUNT == (uint8_t)ImGuiKey_COUNT && (uint8_t)CImGuiKey_NamedKey_COUNT == (uint8_t)ImGuiKey_NamedKey_COUNT, "CImGuiKey_ and ImGuiKey_ are not compatible!");
 static_assert((uint8_t)CImGuiNavInput_COUNT == (uint8_t)ImGuiNavInput_COUNT, "CImGuiNavInput_ and ImGuiNavInput_ are not compatible!");
 static_assert((uint8_t)CImGuiMouseButton_COUNT == (uint8_t)ImGuiMouseButton_COUNT, "CImGuiMouseButton_ and ImGuiMouseButton_ are not compatible!");
 static_assert((uint8_t)CImGuiMouseCursor_COUNT == (uint8_t)ImGuiMouseCursor_COUNT, "CImGuiMouseCursor_ and ImGuiMouseCursor_ are not compatible!");
@@ -27,6 +27,7 @@ static_assert((uint8_t)CImGuiStyleVar_COUNT == (uint8_t)ImGuiStyleVar_COUNT, "CI
 
 static_assert(sizeof(CImDrawChannel) == sizeof(ImDrawChannel), "CImDrawChannel and ImDrawChannel are not compatible!");
 static_assert(sizeof(CImDrawCmd) == sizeof(ImDrawCmd), "CImDrawCmd and ImDrawCmd are not compatible!");
+static_assert(sizeof(CImDrawCmdHeader) == sizeof(ImDrawCmdHeader), "CImDrawCmdHeader and ImDrawCmdHeader are not compatible!");
 static_assert(sizeof(CImDrawData) == sizeof(ImDrawData), "CImDrawData and ImDrawData are not compatible!");
 static_assert(sizeof(CImDrawListSplitter) == sizeof(ImDrawListSplitter), "CImDrawListSplitter and ImDrawListSplitter are not compatible!");
 static_assert(sizeof(CImDrawList) == sizeof(ImDrawList), "CImDrawList and ImDrawList are not compatible!");
@@ -34,20 +35,25 @@ static_assert(sizeof(CImDrawListSharedData) == sizeof(ImDrawListSharedData), "CI
 static_assert(sizeof(CImDrawVert) == sizeof(ImDrawVert), "CImDrawVert and ImDrawVert are not compatible!");
 static_assert(sizeof(CImFont) == sizeof(ImFont), "CImFont and ImFont are not compatible!");
 static_assert(sizeof(CImFontAtlas) == sizeof(ImFontAtlas), "CImFontAtlas and ImFontAtlas are not compatible!");
+static_assert(sizeof(CImFontBuilderIO) == sizeof(ImFontBuilderIO), "CImFontBuilderIO and ImFontBuilderIO are not compatible!");
 static_assert(sizeof(CImFontConfig) == sizeof(ImFontConfig), "CImFontConfig and ImFontConfig are not compatible!");
 static_assert(sizeof(CImFontGlyph) == sizeof(ImFontGlyph), "CImFontGlyph and ImFontGlyph are not compatible!");
 static_assert(sizeof(CImFontGlyphRangesBuilder) == sizeof(ImFontGlyphRangesBuilder), "CImFontGlyphRangesBuilder and ImFontGlyphRangesBuilder are not compatible!");
 static_assert(sizeof(CImColor) == sizeof(ImColor), "CImColor and ImColor are not compatible!");
 static_assert(sizeof(CImGuiIO) == sizeof(ImGuiIO), "CImGuiIO and ImGuiIO are not compatible!");
 static_assert(sizeof(CImGuiInputTextCallbackData) == sizeof(ImGuiInputTextCallbackData), "CImGuiInputTextCallbackData and ImGuiInputTextCallbackData are not compatible!");
+static_assert(sizeof(CImGuiKeyData) == sizeof(ImGuiKeyData), "CImGuiKeyData and ImGuiKeyData are not compatible!");
 static_assert(sizeof(CImGuiListClipper) == sizeof(ImGuiListClipper), "CImGuiListClipper and ImGuiListClipper are not compatible!");
 static_assert(sizeof(CImGuiOnceUponAFrame) == sizeof(ImGuiOnceUponAFrame), "CImGuiOnceUponAFrame and ImGuiOnceUponAFrame are not compatible!");
 static_assert(sizeof(CImGuiPayload) == sizeof(ImGuiPayload), "CImGuiPayload and ImGuiPayload are not compatible!");
 static_assert(sizeof(CImGuiPlatformIO) == sizeof(ImGuiPlatformIO), "CImGuiPlatformIO and ImGuiPlatformIO are not compatible!");
 static_assert(sizeof(CImGuiPlatformMonitor) == sizeof(ImGuiPlatformMonitor), "CImGuiPlatformMonitor and ImGuiPlatformMonitor are not compatible!");
+static_assert(sizeof(CImGuiPlatformImeData) == sizeof(ImGuiPlatformImeData), "CImGuiPlatformImeData and ImGuiPlatformImeData are not compatible!");
 static_assert(sizeof(CImGuiSizeCallbackData) == sizeof(ImGuiSizeCallbackData), "CImGuiSizeCallbackData and ImGuiSizeCallbackData are not compatible!");
 static_assert(sizeof(CImGuiStorage) == sizeof(ImGuiStorage), "CImGuiStorage and ImGuiStorage are not compatible!");
 static_assert(sizeof(CImGuiStyle) == sizeof(ImGuiStyle), "CImGuiStyle and ImGuiStyle are not compatible!");
+static_assert(sizeof(CImGuiTableSortSpecs) == sizeof(ImGuiTableSortSpecs), "CImGuiTableSortSpecs and ImGuiTableSortSpecs are not compatible!");
+static_assert(sizeof(CImGuiTableColumnSortSpecs) == sizeof(ImGuiTableColumnSortSpecs), "CImGuiTableColumnSortSpecs and ImGuiTableColumnSortSpecs are not compatible!");
 static_assert(sizeof(CImGuiTextBuffer) == sizeof(ImGuiTextBuffer), "CImGuiTextBuffer and ImGuiTextBuffer are not compatible!");
 static_assert(sizeof(CImGuiTextFilter) == sizeof(ImGuiTextFilter), "CImGuiTextFilter and ImGuiTextFilter are not compatible!");
 static_assert(sizeof(CImGuiViewport) == sizeof(ImGuiViewport), "CImGuiViewport and ImGuiViewport are not compatible!");
