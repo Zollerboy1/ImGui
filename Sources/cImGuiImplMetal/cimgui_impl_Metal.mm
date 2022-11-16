@@ -1,6 +1,6 @@
 //
 //  cimgui_impl_Metal.mm
-//  
+//
 //
 //  Created by Josef Zoller on 06.03.20.
 //
@@ -15,7 +15,7 @@
 
 
 bool igImplGLFW_Init(GLFWwindow * window, bool install_callbacks) {
-    return ImGui_ImplGlfw_InitForOpenGL(window, install_callbacks);
+    return ImGui_ImplGlfw_InitForOther(window, install_callbacks);
 }
 
 void igImplGLFW_Shutdown() {
