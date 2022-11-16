@@ -1,6 +1,6 @@
 //
 //  cimgui.c
-//  
+//
 //
 //  Created by Josef Zoller on 06.03.20.
 //
@@ -65,6 +65,10 @@ void igShowDemoWindow(bool * p_open) {
 
 void igShowMetricsWindow(bool * p_open) {
     ImGui::ShowMetricsWindow(p_open);
+}
+
+void igShowDebugLogWindow(bool * p_open) {
+    ImGui::ShowDebugLogWindow(p_open);
 }
 
 void igShowStackToolWindow(bool * p_open) {
@@ -201,6 +205,10 @@ void igSetNextWindowCollapsed(bool collapsed, CImGuiCond cond) {
 
 void igSetNextWindowFocus() {
     ImGui::SetNextWindowFocus();
+}
+
+void igSetNextWindowScroll(CImVec2 scroll) {
+    ImGui::SetNextWindowScroll(toIm(scroll));
 }
 
 void igSetNextWindowBgAlpha(float alpha) {
@@ -603,14 +611,6 @@ bool igArrowButton(const char * str_id, CImGuiDir dir) {
     return ImGui::ArrowButton(str_id, dir);
 }
 
-void igImage(CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, CImVec4 tint_col, CImVec4 border_col) {
-    ImGui::Image(user_texture_id, toIm(size), toIm(uv0), toIm(uv1), toIm(tint_col), toIm(border_col));
-}
-
-bool igImageButton(CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, int frame_padding, CImVec4 bg_col, CImVec4 tint_col) {
-    return ImGui::ImageButton(user_texture_id, toIm(size), toIm(uv0), toIm(uv1), frame_padding, toIm(bg_col), toIm(tint_col));
-}
-
 bool igCheckbox(const char * label, bool * v) {
     return ImGui::Checkbox(label, v);
 }
@@ -637,6 +637,15 @@ void igProgressBar(float fraction, CImVec2 size_arg, const char * overlay) {
 
 void igBullet() {
     ImGui::Bullet();
+}
+
+
+void igImage(CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, CImVec4 tint_col, CImVec4 border_col) {
+    ImGui::Image(user_texture_id, toIm(size), toIm(uv0), toIm(uv1), toIm(tint_col), toIm(border_col));
+}
+
+bool igImageButton(const char * str_id, CImTextureID user_texture_id, CImVec2 size, CImVec2 uv0, CImVec2 uv1, CImVec4 bg_col, CImVec4 tint_col) {
+    return ImGui::ImageButton(str_id, user_texture_id, toIm(size), toIm(uv0), toIm(uv1), toIm(bg_col), toIm(tint_col));
 }
 
 
@@ -1481,27 +1490,27 @@ void igColorConvertHSVtoRGB(float h, float s, float v, float * out_r, float * ou
 
 
 bool igIsKeyDown(CImGuiKey key) {
-    return ImGui::IsKeyDown(key);
+    return ImGui::IsKeyDown((ImGuiKey)key);
 }
 
 bool igIsKeyPressed(CImGuiKey key, bool repeat) {
-    return ImGui::IsKeyPressed(key, repeat);
+    return ImGui::IsKeyPressed((ImGuiKey)key, repeat);
 }
 
 bool igIsKeyReleased(CImGuiKey key) {
-    return ImGui::IsKeyReleased(key);
+    return ImGui::IsKeyReleased((ImGuiKey)key);
 }
 
 int igGetKeyPressedAmount(CImGuiKey key, float repeat_delay, float rate) {
-    return ImGui::GetKeyPressedAmount(key, repeat_delay, rate);
+    return ImGui::GetKeyPressedAmount((ImGuiKey)key, repeat_delay, rate);
 }
 
 const char * igGetKeyName(CImGuiKey key) {
-    return ImGui::GetKeyName(key);
+    return ImGui::GetKeyName((ImGuiKey)key);
 }
 
-void igCaptureKeyboardFromApp(bool want_capture_keyboard_value) {
-    ImGui::CaptureKeyboardFromApp(want_capture_keyboard_value);
+void igSetNextFrameWantCaptureKeyboard(bool want_capture_keyboard) {
+    ImGui::SetNextFrameWantCaptureKeyboard(want_capture_keyboard);
 }
 
 
@@ -1565,8 +1574,8 @@ void igSetMouseCursor(CImGuiMouseCursor cursor_type) {
     ImGui::SetMouseCursor(cursor_type);
 }
 
-void igCaptureMouseFromApp(bool want_capture_mouse_value) {
-    ImGui::CaptureMouseFromApp(want_capture_mouse_value);
+void igSetNextFrameWantCaptureMouse(bool want_capture_mouse) {
+    ImGui::SetNextFrameWantCaptureMouse(want_capture_mouse);
 }
 
 
@@ -1595,6 +1604,10 @@ const char * igSaveIniSettingsToMemory(size_t * out_ini_size) {
     return ImGui::SaveIniSettingsToMemory(out_ini_size);
 }
 
+
+void igDebugTextEncoding(const char * text) {
+    ImGui::DebugTextEncoding(text);
+}
 
 bool igDebugCheckVersionAndDataLayout(const char * version_str, size_t sz_io, size_t sz_style, size_t sz_vec2, size_t sz_vec4, size_t sz_drawvert, size_t sz_drawidx) {
     return ImGui::DebugCheckVersionAndDataLayout(version_str, sz_io, sz_style, sz_vec2, sz_vec4, sz_drawvert, sz_drawidx);
@@ -1727,7 +1740,7 @@ void ig_CImDrawListSplitter_SetCurrentChannel(CImDrawListSplitter * ptr, CImDraw
 
 
 
-CImDrawList * ig_CImDrawList_init(const CImDrawListSharedData * shared_data) {
+CImDrawList * ig_CImDrawList_init(CImDrawListSharedData * shared_data) {
     return toCIm(new ImDrawList(toIm(shared_data)));
 }
 
@@ -2097,6 +2110,10 @@ const CImWchar * ig_CImFontAtlas_GetGlyphRangesDefault(CImFontAtlas * ptr) {
     return toIm(ptr)->GetGlyphRangesDefault();
 }
 
+const CImWchar * ig_CImFontAtlas_GetGlyphRangesGreek(CImFontAtlas * ptr) {
+    return toIm(ptr)->GetGlyphRangesGreek();
+}
+
 const CImWchar * ig_CImFontAtlas_GetGlyphRangesKorean(CImFontAtlas * ptr) {
     return toIm(ptr)->GetGlyphRangesKorean();
 }
@@ -2242,11 +2259,11 @@ void ig_CImGuiIO_deinit(CImGuiIO * ptr) {
 
 
 void ig_CImGuiIO_AddKeyEvent(CImGuiIO * ptr, CImGuiKey key, bool down) {
-    toIm(ptr)->AddKeyEvent(key, down);
+    toIm(ptr)->AddKeyEvent((ImGuiKey)key, down);
 }
 
 void ig_CImGuiIO_AddKeyAnalogEvent(CImGuiIO * ptr, CImGuiKey key, bool down, float v) {
-    toIm(ptr)->AddKeyAnalogEvent(key, down, v);
+    toIm(ptr)->AddKeyAnalogEvent((ImGuiKey)key, down, v);
 }
 
 void ig_CImGuiIO_AddMousePosEvent(CImGuiIO * ptr, float x, float y) {
@@ -2279,6 +2296,14 @@ void ig_CImGuiIO_AddInputCharacterUTF16(CImGuiIO * ptr, ImWchar16 c) {
 
 void ig_CImGuiIO_AddInputCharactersUTF8(CImGuiIO * ptr, const char * str) {
     toIm(ptr)->AddInputCharactersUTF8(str);
+}
+
+void ig_CImGuiIO_SetKeyEventNativeData(CImGuiIO * ptr, CImGuiKey key, int native_keycode, int native_scancode, int native_legacy_index) {
+    toIm(ptr)->SetKeyEventNativeData((ImGuiKey)key, native_keycode, native_legacy_index);
+}
+
+void ig_CImGuiIO_SetAppAcceptingEvents(CImGuiIO * ptr, bool accepting_events) {
+    toIm(ptr)->SetAppAcceptingEvents(accepting_events);
 }
 
 void ig_CImGuiIO_ClearInputCharacters(CImGuiIO * ptr) {

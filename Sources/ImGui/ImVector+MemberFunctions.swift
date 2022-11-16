@@ -105,6 +105,18 @@ public extension ImVectorProtocol {
         capacity = newCapacity
     }
 
+    mutating func reserveDiscard(capacity newCapacity: Int) {
+        guard newCapacity > Capacity else { return }
+
+        if Data != nil {
+            igMemFree(Data)
+        }
+
+        Data = igMemAlloc(newCapacity * MemoryLayout<Element>.size)!.assumingMemoryBound(to: Element.self)
+
+        capacity = newCapacity
+    }
+
     // NB: It is illegal to call push_back/push_front/insert with a reference pointing inside the ImVector data itself! e.g. v.push_back(v[10]) is forbidden.
     mutating func pushBack(_ value: Element) {
         if Size == Capacity {

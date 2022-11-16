@@ -7,8 +7,8 @@ final class ImGuiTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
         let version = ImGui.getVersion()
-        
-        XCTAssertEqual(version, "1.88 WIP")
+
+        XCTAssertEqual(version, "1.89")
     }
 
     static var allTests = [

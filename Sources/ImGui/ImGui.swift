@@ -76,7 +76,7 @@ public enum ImGui {
     public static func showDemoWindow() {
         igShowDemoWindow(nil)
     }
-    
+
     /// create Debug/Metrics window. display Dear ImGui internals: draw commands (with individual draw calls and vertices), window list, basic internal state, etc.
     @inlinable
     public static func showMetricsWindow(isOpen: inout Bool) {
@@ -88,7 +88,19 @@ public enum ImGui {
     public static func showMetricsWindow() {
         igShowMetricsWindow(nil)
     }
-    
+
+    /// create Debug Log window. display a simplified log of important dear imgui events.
+    @inlinable
+    public static func showDebugLogWindow(isOpen: inout Bool) {
+        igShowDebugLogWindow(&isOpen)
+    }
+
+    /// create Debug Log window. display a simplified log of important dear imgui events.
+    @inlinable
+    public static func showDebugLogWindow() {
+        igShowDebugLogWindow(nil)
+    }
+
     /// create Stack Tool window. hover items with mouse to query information about the source of their unique ID.
     @inlinable
     public static func showStackToolWindow(isOpen: inout Bool) {
@@ -157,7 +169,7 @@ public enum ImGui {
     public static func styleColorsLight(of style: UnsafeMutablePointer<CImGuiStyle>? = nil) {
         igStyleColorsLight(style)
     }
-    
+
     /// classic imgui style
     @inlinable
     public static func styleColorsClassic(of style: UnsafeMutablePointer<CImGuiStyle>? = nil) {
@@ -368,6 +380,12 @@ public enum ImGui {
         igSetNextWindowFocus()
     }
 
+    /// set next window scrolling value (use < 0.0f to not affect a given axis).
+    @inlinable
+    public static func setNextWindowScroll(to scroll: CImVec2) {
+        igSetNextWindowScroll(scroll)
+    }
+
     /// Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
     /// set next window background color alpha. helper to easily override the Alpha component of ImGuiCol_WindowBg/ChildBg/PopupBg. you may also use ImGuiWindowFlags_NoBackground.
     @inlinable
@@ -444,7 +462,7 @@ public enum ImGui {
     public static func getContentRegionAvail() -> CImVec2 {
         igGetContentRegionAvail()
     }
-    
+
     /// current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
     @inlinable
     public static func getContentRegionMax() -> CImVec2 {
@@ -487,7 +505,7 @@ public enum ImGui {
     public static func setScrollY(to scrollY: Float) {
         igSetScrollY(scrollY)
     }
-    
+
     /// get maximum scrolling amount ~~ ContentSize.x - WindowSize.x
     @inlinable
     public static func getScrollMaxX() -> Float {
@@ -566,7 +584,7 @@ public enum ImGui {
     public static func popStyleVar(count: Int = 1) {
         igPopStyleVar(Int32(count))
     }
-    
+
     /// allow focusing using TAB/Shift-TAB, enabled by default but you can disable it for certain widgets
     @inlinable
     public static func pushAllowKeyboardFocus(_ allow: Bool) {
@@ -660,7 +678,7 @@ public enum ImGui {
     public static func getColorU32(from color: CImU32) -> CImU32 {
         igGetColorU32(color)
     }
-    
+
     /// retrieve style color as stored in ImGuiStyle structure. use to feed back into PushStyleColor(), otherwise use GetColorU32() to get style color with style alpha baked in.
     @inlinable
     public static func getStyleColorVec4(withIndex index: ImGuiColor) -> CImVec4 {
@@ -943,23 +961,12 @@ public enum ImGui {
         igArrowButton(stringID, direction.rawValue)
     }
 
-    @inlinable
-    public static func image(withTextureID textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0), uv1: CImVec2 = CImVec2(x: 1, y: 1), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1), borderColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0)) {
-        igImage(textureID, size, uv0, uv1, tintColor, borderColor)
-    }
-
-    /// <0 frame_padding uses default frame padding settings. 0 for no padding
-    @inlinable
-    public static func imageButton(withTextureID textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0),  uv1: CImVec2 = CImVec2(x: 1, y: 1), framePadding: Int = -1, backgroundColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1)) -> Bool {
-        igImageButton(textureID, size, uv0, uv1, Int32(framePadding), backgroundColor, tintColor)
-    }
-
     @discardableResult
     @inlinable
     public static func checkbox(withLabel label: String, isChecked: inout Bool) -> Bool {
         igCheckbox(label, &isChecked)
     }
-    
+
     @discardableResult
     @inlinable
     public static func checkboxFlags(withLabel label: String, flags: inout Int32, flagValue: Int32) -> Bool {
@@ -995,6 +1002,17 @@ public enum ImGui {
     @inlinable
     public static func bullet() {
         igBullet()
+    }
+
+
+    @inlinable
+    public static func image(withTextureID textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0), uv1: CImVec2 = CImVec2(x: 1, y: 1), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1), borderColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0)) {
+        igImage(textureID, size, uv0, uv1, tintColor, borderColor)
+    }
+
+    @inlinable
+    public static func imageButton(withStringID stringID: String, textureID: CImTextureID?, size: CImVec2, uv0: CImVec2 = CImVec2(x: 0, y: 0),  uv1: CImVec2 = CImVec2(x: 1, y: 1), backgroundColor: CImVec4 = CImVec4(x: 0, y: 0, z: 0, w: 0), tintColor: CImVec4 = CImVec4(x: 1, y: 1, z: 1, w: 1)) -> Bool {
+        igImageButton(stringID, textureID, size, uv0, uv1, backgroundColor, tintColor)
     }
 
 
@@ -1826,7 +1844,7 @@ extension ImGui {
 
     /// "
     @inlinable
-    public static func treePush(withID id: UnsafeRawPointer? = nil) {
+    public static func treePush(withID id: UnsafeRawPointer?) {
         igTreePushPointer(id)
     }
 
@@ -1877,7 +1895,7 @@ extension ImGui {
     public static func selectable(withLabel label: String, isSelected: inout Bool, flags: ImGuiSelectableFlags = [], size: CImVec2 = CImVec2(x: 0, y: 0)) -> Bool {
         igSelectablePointer(label, &isSelected, flags.rawValue, size)
     }
-    
+
 
     // Widgets: List Boxes
     /// open a framed scrolling region
@@ -1885,13 +1903,13 @@ extension ImGui {
     public static func beginListBox(withLabel label: String, size: CImVec2 = .init(x: 0, y: 0)) -> Bool {
         igBeginListBox(label, size)
     }
-    
+
     /// only call EndListBox() if BeginListBox() returned true!
     @inlinable
     public static func endListBox() {
         igEndListBox()
     }
-    
+
     /// height in items
     @discardableResult
     @inlinable
@@ -2059,7 +2077,7 @@ extension ImGui {
     public static func openPopup(withID id: String, flags: ImGuiPopupFlags = []) {
         igOpenPopup(id, flags.rawValue)
     }
-    
+
     /// call to mark popup as open (don't call every frame!).
     @inlinable
     public static func openPopup(withID id: CImGuiID, flags: ImGuiPopupFlags = []) {
@@ -2110,56 +2128,56 @@ extension ImGui {
     public static func isPopupOpen(withID id: String, flags: ImGuiPopupFlags = []) -> Bool {
         igIsPopupOpen(id, flags.rawValue)
     }
-    
-    
+
+
     // Tables
     @inlinable
     public static func beginTable(withID id: String, column: Int, flags: ImGuiTableFlags = [], outerSize: CImVec2 = .init(x: 0, y: 0), innerWidth: Float = 0) -> Bool {
         igBeginTable(id, Int32(column), flags.rawValue, outerSize, innerWidth)
     }
-    
+
     /// only call EndTable() if BeginTable() returns true!
     @inlinable
     public static func endTable() {
         igEndTable()
     }
-    
+
     /// append into the first cell of a new row.
     @inlinable
     public static func tableNextRow(withFlags rowFlags: ImGuiTableRowFlags = [], minimumHeight: Float = 0) {
         igTableNextRow(rowFlags.rawValue, minimumHeight)
     }
-    
+
     /// append into the next column (or first column of next row if currently in last column). Return true when column is visible.
     @inlinable
     public static func tableNextColumn() -> Bool {
         igTableNextColumn()
     }
-    
+
     /// append into the specified column. Return true when column is visible.
     @inlinable
     public static func tableSetColumnIndex(to index: Int) -> Bool {
         igTableSetColumnIndex(Int32(index))
     }
 
-    
+
     @inlinable
     public static func tableSetupColumn(withLabel label: String, flags: ImGuiTableColumnFlags = [], initialWidthOrWeight: Float = 0, userID: CImGuiID = 0) {
         igTableSetupColumn(label, flags.rawValue, initialWidthOrWeight, userID)
     }
-    
+
     /// lock columns/rows so they stay visible when scrolled.
     @inlinable
     public static func tableSetupScrollFreeze(numberOfColumns: Int, numberOfRows: Int) {
         igTableSetupScrollFreeze(Int32(numberOfColumns), Int32(numberOfRows))
     }
-    
+
     /// submit all headers cells based on data provided to TableSetupColumn() + submit context menu
     @inlinable
     public static func tableHeadersRow() {
         igTableHeadersRow()
     }
-    
+
     /// submit one header cell manually (rarely used)
     @inlinable
     public static func tableHeader(withLabel label: String) {
@@ -2171,43 +2189,43 @@ extension ImGui {
     public static func tableGetSortSpecs() -> UnsafeMutablePointer<CImGuiTableSortSpecs> {
         igTableGetSortSpecs()
     }
-    
+
     /// return number of columns (value passed to BeginTable)
     @inlinable
     public static func tableGetColumnCount() -> Int {
         Int(igTableGetColumnCount())
     }
-    
+
     /// return current column index.
     @inlinable
     public static func tableGetColumnIndex() -> Int {
         Int(igTableGetColumnIndex())
     }
-    
+
     /// return current row index.
     @inlinable
     public static func tableGetRowIndex() -> Int {
         Int(igTableGetRowIndex())
     }
-    
+
     /// return "" if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
     @inlinable
     public static func tableGetColumnName(forIndex index: Int = -1) -> String {
         .init(cString: igTableGetColumnName(Int32(index)))
     }
-    
+
     /// return column flags so you can query their Enabled/Visible/Sorted/Hovered status flags. Pass -1 to use current column.
     @inlinable
     public static func tableGetColumnFlags(forIndex index: Int = -1) -> ImGuiTableColumnFlags {
         .init(rawValue: igTableGetColumnFlags(Int32(index)))
     }
-    
+
     /// change user accessible enabled/disabled state of a column. Set to false to hide the column. User can use the context menu to change this themselves (right-click in headers, or right-click in columns body with ImGuiTableFlags_ContextMenuInBody)
     @inlinable
     public static func tableSetColumnEnabled(forIndex index: Int, enabled: Bool) {
         igTableSetColumnEnabled(Int32(index), enabled)
     }
-    
+
     /// change the color of a cell, row, or column. See ImGuiTableBgTarget_ flags for details.
     @inlinable
     public static func tableSetBackgroundColor(target: ImGuiTableBackgroundTarget, color: CImU32, columnIndex: Int = -1) {
@@ -2326,7 +2344,7 @@ extension ImGui {
     public static func dockSpace(withID id: CImGuiID, size: CImVec2 = CImVec2(x: 0, y: 0), flags: ImGuiDockNodeFlags = [], windowClass: UnsafePointer<CImGuiWindowClass>? = nil) -> CImGuiID {
         igDockSpace(id, size, flags.rawValue, windowClass)
     }
-    
+
     @discardableResult
     @inlinable
     public static func dockSpaceOverViewport(viewport: UnsafePointer<CImGuiViewport>? = nil, flags: ImGuiDockNodeFlags = [], windowClass: UnsafePointer<CImGuiWindowClass>? = nil) -> CImGuiID {
@@ -2437,13 +2455,13 @@ extension ImGui {
     public static func getDragDropPayload() -> UnsafePointer<CImGuiPayload>? {
         igGetDragDropPayload()
     }
-    
-    
+
+
     @inlinable
     public static func beginDisabled(isDisabled: Bool = true) {
         igBeginDisabled(isDisabled)
     }
-    
+
     @inlinable
     public static func endDisabled() {
         igEndDisabled()
@@ -2581,7 +2599,7 @@ extension ImGui {
     public static func setItemAllowOverlap() {
         igSetItemAllowOverlap()
     }
-    
+
 
     /// main viewport. same as GetPlatformIO().MainViewport == GetPlatformIO().Viewports[0].
     @inlinable
@@ -2738,17 +2756,17 @@ extension ImGui {
     public static func getKeyPressedAmount(_ key: ImGuiKey, repeatDelay: Float, rate: Float) -> Int {
         Int(igGetKeyPressedAmount(key.rawValue, repeatDelay, rate))
     }
-    
+
     /// [DEBUG] returns English name of the key. Those names a provided for debugging purpose and are not meant to be saved persistently not compared.
     @inlinable
     public static func getKeyName(_ key: ImGuiKey) -> String {
         .init(cString: igGetKeyName(key.rawValue))
     }
 
-    /// attention: misleading name! manually override io.WantCaptureKeyboard flag next frame (said flag is entirely left for your application to handle). e.g. force capture keyboard when your widget is being hovered. This is equivalent to setting "io.WantCaptureKeyboard = want_capture_keyboard_value"; after the next NewFrame() call.
+    /// Override io.WantCaptureKeyboard flag next frame (said flag is left for your application to handle, typically when true it instructs your app to ignore inputs). e.g. force capture keyboard when your widget is being hovered. This is equivalent to setting "io.WantCaptureKeyboard = want_capture_keyboard"; after the next NewFrame() call.
     @inlinable
-    public static func captureKeyboardFromApp(wantCaptureKeyboard: Bool = true) {
-        igCaptureKeyboardFromApp(wantCaptureKeyboard)
+    public static func setNextFrame(wantCaptureKeyboard: Bool) {
+        igSetNextFrameWantCaptureKeyboard(wantCaptureKeyboard)
     }
 
 
@@ -2779,7 +2797,7 @@ extension ImGui {
     public static func isMouseDoubleClicked(withButton button: ImGuiMouseButton) -> Bool {
         igIsMouseDoubleClicked(button.rawValue)
     }
-    
+
     /// return the number of successive mouse-clicks at the time where a click happen (otherwise 0).
     @inlinable
     public static func getMouseClickedCount(forButton button: ImGuiMouseButton) -> Int {
@@ -2847,8 +2865,8 @@ extension ImGui {
 
     /// attention: misleading name! manually override io.WantCaptureMouse flag next frame (said flag is entirely left for your application to handle). This is equivalent to setting "io.WantCaptureMouse = want_capture_mouse_value;" after the next NewFrame() call.
     @inlinable
-    public static func captureMouseFromApp(wantCaptureMouse: Bool = true) {
-        igCaptureMouseFromApp(wantCaptureMouse)
+    public static func setNextFrame(wantCaptureMouse: Bool) {
+        igSetNextFrameWantCaptureMouse(wantCaptureMouse)
     }
 
 

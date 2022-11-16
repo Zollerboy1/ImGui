@@ -1,6 +1,6 @@
 //
 //  vectors.cpp
-//  
+//
 //
 //  Created by Josef Zoller on 11.03.20.
 //
@@ -134,6 +134,10 @@ void ig_CImVector_float_Reserve(CImVector_float * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_float_Reserve_discard(CImVector_float * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_float_PushBack(CImVector_float * ptr, float v) {
     toIm(ptr)->push_back(v);
@@ -259,6 +263,10 @@ void ig_CImVector_CImWchar_Shrink(CImVector_CImWchar * ptr, int new_size) {
 
 void ig_CImVector_CImWchar_Reserve(CImVector_CImWchar * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImWchar_Reserve_discard(CImVector_CImWchar * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -396,6 +404,10 @@ void ig_CImVector_CImDrawVert_Reserve(CImVector_CImDrawVert * ptr, int new_capac
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImDrawVert_Reserve_discard(CImVector_CImDrawVert * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImDrawVert_PushBack(CImVector_CImDrawVert * ptr, const CImDrawVert * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -513,6 +525,10 @@ void ig_CImVector_CImFontGlyph_Shrink(CImVector_CImFontGlyph * ptr, int new_size
 
 void ig_CImVector_CImFontGlyph_Reserve(CImVector_CImFontGlyph * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImFontGlyph_Reserve_discard(CImVector_CImFontGlyph * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -735,6 +751,10 @@ void ig_CImVector_CImDrawChannel_Reserve(CImVector_CImDrawChannel * ptr, int new
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImDrawChannel_Reserve_discard(CImVector_CImDrawChannel * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImDrawChannel_PushBack(CImVector_CImDrawChannel * ptr, const CImDrawChannel * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -844,6 +864,10 @@ void ig_CImVector_char_Shrink(CImVector_char * ptr, int new_size) {
 
 void ig_CImVector_char_Reserve(CImVector_char * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_char_Reserve_discard(CImVector_char * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -971,6 +995,10 @@ void ig_CImVector_CImU32_Shrink(CImVector_CImU32 * ptr, int new_size) {
 
 void ig_CImVector_CImU32_Reserve(CImVector_CImU32 * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImU32_Reserve_discard(CImVector_CImU32 * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -1108,6 +1136,10 @@ void ig_CImVector_CImFontAtlasCustomRect_Reserve(CImVector_CImFontAtlasCustomRec
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImFontAtlasCustomRect_Reserve_discard(CImVector_CImFontAtlasCustomRect * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImFontAtlasCustomRect_PushBack(CImVector_CImFontAtlasCustomRect * ptr, const CImFontAtlasCustomRect * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -1217,6 +1249,10 @@ void ig_CImVector_CImTextureID_Shrink(CImVector_CImTextureID * ptr, int new_size
 
 void ig_CImVector_CImTextureID_Reserve(CImVector_CImTextureID * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImTextureID_Reserve_discard(CImVector_CImTextureID * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -1354,6 +1390,10 @@ void ig_CImVector_CImFontConfig_Reserve(CImVector_CImFontConfig * ptr, int new_c
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImFontConfig_Reserve_discard(CImVector_CImFontConfig * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImFontConfig_PushBack(CImVector_CImFontConfig * ptr, const CImFontConfig * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -1473,6 +1513,10 @@ void ig_CImVector_CImGuiPlatformMonitor_Reserve(CImVector_CImGuiPlatformMonitor 
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImGuiPlatformMonitor_Reserve_discard(CImVector_CImGuiPlatformMonitor * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImGuiPlatformMonitor_PushBack(CImVector_CImGuiPlatformMonitor * ptr, const CImGuiPlatformMonitor * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -1590,6 +1634,10 @@ void ig_CImVector_CImGuiViewportPtr_Shrink(CImVector_CImGuiViewportPtr * ptr, in
 
 void ig_CImVector_CImGuiViewportPtr_Reserve(CImVector_CImGuiViewportPtr * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImGuiViewportPtr_Reserve_discard(CImVector_CImGuiViewportPtr * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -1727,6 +1775,10 @@ void ig_CImVector_CImFontPtr_Reserve(CImVector_CImFontPtr * ptr, int new_capacit
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImFontPtr_Reserve_discard(CImVector_CImFontPtr * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImFontPtr_PushBack(CImVector_CImFontPtr * ptr, CImFont * v) {
     toIm(ptr)->push_back(toIm(v));
@@ -1862,6 +1914,10 @@ void ig_CImVector_CImDrawCmd_Reserve(CImVector_CImDrawCmd * ptr, int new_capacit
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImDrawCmd_Reserve_discard(CImVector_CImDrawCmd * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImDrawCmd_PushBack(CImVector_CImDrawCmd * ptr, const CImDrawCmd * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -1981,6 +2037,10 @@ void ig_CImVector_CImVec4_Reserve(CImVector_CImVec4 * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
 }
 
+void ig_CImVector_CImVec4_Reserve_discard(CImVector_CImVec4 * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
+}
+
 
 void ig_CImVector_CImVec4_PushBack(CImVector_CImVec4 * ptr, const CImVec4 * v) {
     toIm(ptr)->push_back(*toIm(v));
@@ -2090,6 +2150,10 @@ void ig_CImVector_CImDrawIdx_Shrink(CImVector_CImDrawIdx * ptr, int new_size) {
 
 void ig_CImVector_CImDrawIdx_Reserve(CImVector_CImDrawIdx * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImDrawIdx_Reserve_discard(CImVector_CImDrawIdx * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 
@@ -2225,6 +2289,10 @@ void ig_CImVector_CImVec2_Shrink(CImVector_CImVec2 * ptr, int new_size) {
 
 void ig_CImVector_CImVec2_Reserve(CImVector_CImVec2 * ptr, int new_capacity) {
     toIm(ptr)->reserve(new_capacity);
+}
+
+void ig_CImVector_CImVec2_Reserve_discard(CImVector_CImVec2 * ptr, int new_capacity) {
+    toIm(ptr)->reserve_discard(new_capacity);
 }
 
 

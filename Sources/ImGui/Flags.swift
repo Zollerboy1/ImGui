@@ -223,6 +223,10 @@ public struct ImGuiHoveredFlags: OptionSet {
 
     public static let rectOnly: Self = [.allowWhenBlockedByPopup, .allowWhenBlockedByActiveItem, .allowWhenOverlapped]
     public static let rootAndChildWindows: Self = [.rootWindow, .childWindows]
+
+    public static let normalDelay = ImGuiHoveredFlags(rawValue: 1 << 11)
+    public static let shortDelay = ImGuiHoveredFlags(rawValue: 1 << 12)
+    public static let noSharedDelay = ImGuiHoveredFlags(rawValue: 1 << 13)
 }
 
 public struct ImGuiInputTextFlags: OptionSet {
@@ -252,6 +256,7 @@ public struct ImGuiInputTextFlags: OptionSet {
     public static let charsScientific = ImGuiInputTextFlags(rawValue: 1 << 17)
     public static let callbackResize = ImGuiInputTextFlags(rawValue: 1 << 18)
     public static let callbackEdit = ImGuiInputTextFlags(rawValue: 1 << 19)
+    public static let escapeClearsAll = ImGuiInputTextFlags(rawValue: 1 << 20)
 }
 
 public struct ImGuiModFlags: OptionSet {
@@ -369,7 +374,7 @@ public struct ImGuiTableFlags: OptionSet {
     public static let noSavedSettings = ImGuiTableFlags(rawValue: 1 << 4)
     public static let contextMenuInBody = ImGuiTableFlags(rawValue: 1 << 5)
     public static let rowBackground = ImGuiTableFlags(rawValue: 1 << 6)
-    
+
     public static let bordersInnerHorizontal = ImGuiTableFlags(rawValue: 1 << 7)
     public static let bordersOuterHorizontal = ImGuiTableFlags(rawValue: 1 << 8)
     public static let bordersInnerVertical = ImGuiTableFlags(rawValue: 1 << 9)
@@ -378,7 +383,7 @@ public struct ImGuiTableFlags: OptionSet {
     public static let bordersVertical: Self = [.bordersInnerVertical, .bordersOuterVertical]
     public static let bordersInner: Self = [.bordersInnerHorizontal, .bordersInnerVertical]
     public static let bordersOuter: Self = [.bordersOuterHorizontal, .bordersOuterVertical]
-    
+
     public static let noBordersInBody = ImGuiTableFlags(rawValue: 1 << 11)
     public static let noBordersInBodyUntilResize = ImGuiTableFlags(rawValue: 1 << 12)
     public static let sizingFixedFit = ImGuiTableFlags(rawValue: 1 << 13)

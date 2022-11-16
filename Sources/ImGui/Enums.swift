@@ -136,55 +136,32 @@ public enum ImGuiKey: Int32 {
     case keypadEqual
     case gamepadStart
     case gamepadBack
-    case gamepadFaceUp
-    case gamepadFaceDown
     case gamepadFaceLeft
     case gamepadFaceRight
-    case gamepadDpadUp
-    case gamepadDpadDown
+    case gamepadFaceUp
+    case gamepadFaceDown
     case gamepadDpadLeft
     case gamepadDpadRight
+    case gamepadDpadUp
+    case gamepadDpadDown
     case gamepadL1
     case gamepadR1
     case gamepadL2
     case gamepadR2
     case gamepadL3
     case gamepadR3
-    case gamepadLStickUp
-    case gamepadLStickDown
     case gamepadLStickLeft
     case gamepadLStickRight
-    case gamepadRStickUp
-    case gamepadRStickDown
+    case gamepadLStickUp
+    case gamepadLStickDown
     case gamepadRStickLeft
     case gamepadRStickRight
-    case modCtrl, modShift, modAlt, modSuper
-    case COUNT
-}
+    case gamepadRStickUp
+    case gamepadRStickDown
 
-public enum ImGuiNavInput: Int32 {
-    case activate
-    case cancel
-    case input
-    case menu
-    case dpadLeft
-    case dpadRight
-    case dpadUp
-    case dpadDown
-    case lStickLeft
-    case lStickRight
-    case lStickUp
-    case lStickDown
-    case focusPrev
-    case focusNext
-    case tweakSlow
-    case tweakFast
+    case mouseLeft, mouseRight, mouseMiddle, mouseX1, mouseX2, mouseWheelX, mouseWheelY
 
-    //Internal
-    case _keyLeft
-    case _keyRight
-    case _keyUp
-    case _keyDown
+    case reservedForModCtrl, reservedForModShift, reservedForModAlt, reservedForModSuper
     case COUNT
 }
 

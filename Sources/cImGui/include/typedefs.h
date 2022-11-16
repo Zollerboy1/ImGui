@@ -1,6 +1,6 @@
 //
 //  typedefs.h
-//  
+//
 //
 //  Created by Josef Zoller on 11.03.20.
 //
@@ -63,12 +63,11 @@ typedef struct ImFontAtlas ImFontAtlas;
 typedef struct ImGuiViewport ImGuiViewport;
 typedef struct ImGuiPlatformImeData ImGuiPlatformImeData;
 
+typedef int CImGuiKey;
 typedef int CImGuiCol;
 typedef int CImGuiCond;
 typedef int CImGuiDataType;
 typedef int CImGuiDir;
-typedef int CImGuiKey;
-typedef int CImGuiNavInput;
 typedef int CImGuiMouseButton;
 typedef int CImGuiMouseCursor;
 typedef int CImGuiSortDirection;
@@ -88,7 +87,7 @@ typedef int CImGuiFocusedFlags;
 typedef int CImGuiHoveredFlags;
 typedef int CImGuiInputTextFlags;
 typedef int CImGuiPopupFlags;
-typedef int CImGuiModFlags;
+typedef int CImGuiKeyChord;
 typedef int CImGuiSelectableFlags;
 typedef int CImGuiSliderFlags;
 typedef int CImGuiTabBarFlags;
